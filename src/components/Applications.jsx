@@ -13,7 +13,7 @@ function Applications() {
           <li>
             <Link to="/math">SimplyMathHW</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/to-do-list">To Do List</Link>
           </li>
           <li>
@@ -24,7 +24,7 @@ function Applications() {
           </li>
           <li>
             <Link to="/store">E-Commerce Store</Link>
-          </li>
+          </li> */}
         </div>
         </div>
     </>
