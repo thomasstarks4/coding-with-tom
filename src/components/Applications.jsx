@@ -13,6 +13,9 @@ function Applications() {
           <li>
             <Link to="/math">SimplyMathHW</Link>
           </li>
+          <li>
+            <a target="_blank" rel="noreferrer" href="http://www.myrepbro.com">MyRepBro</a>
+          </li>
           {/* <li>
             <Link to="/to-do-list">To Do List</Link>
           </li>
