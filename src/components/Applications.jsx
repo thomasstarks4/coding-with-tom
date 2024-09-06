@@ -14,6 +14,9 @@ function Applications() {
             <Link to="/math">SimplyMathHW</Link>
           </li>
           <li>
+            <Link to="/sentence-starters">Tom's Learning Hub</Link>
+          </li>
+          <li>
             <a target="_blank" rel="noreferrer" href="http://www.myrepbro.com">MyRepBro</a>
           </li>
           {/* <li>
