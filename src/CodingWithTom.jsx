@@ -71,10 +71,11 @@ const [startersSelected, setStartersSelected] = useState(initialStarters);
 
   // Determine which navbar to display based on the current route
   const isLearningHubRoute = location.pathname.startsWith('/sentence-starters') || location.pathname.startsWith('/starter') || location.pathname.startsWith('/tuner');
-
+  const isPortfolioSite = isLearningHubRoute === false;
   return (
-    <div className="main-container">
-      {/* Conditionally render the navbar based on the route */}
+    
+    <div className={`main-container ${isLearningHubRoute ? "bg-learning-hub" : ""} ${isPortfolioSite ? "bg-main" : ""}`}> 
+      {/* Conditionally render the navbar and backgrounds change based on the route */}
       {isLearningHubRoute ? (
         <LearningHubNavbar />
       ) : (

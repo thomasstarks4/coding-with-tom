@@ -1,5 +1,5 @@
 import "../styles/Home.css";
-
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div className="home-container">
@@ -29,11 +29,11 @@ const Home = () => {
         </div>
 
         <div className="cta-section">
-            <a href="/starter">
+            <Link to={'/starter'}>
           <button className="three-d-button">
             Click here to generate some sentences for some light learning material to go over with your children.
           </button>
-            </a>
+          </Link>
         </div>
       </div>
 

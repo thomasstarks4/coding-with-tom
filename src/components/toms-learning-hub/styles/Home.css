@@ -4,8 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    height: 100%;
     text-align: center;
     overflow: hidden;
     position: relative;
@@ -14,6 +13,8 @@
   .welcome-section {
     z-index: 2;
     color: #333;
+    flex-grow: 1;
+    align-content: center;
   }
   
   .welcome-title {
