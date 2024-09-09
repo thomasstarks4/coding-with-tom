@@ -8,8 +8,15 @@
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     text-align: center;
+    overflow-y: scroll;
   }
-  
+
+  @media print {
+    .starter-container {
+        overflow: visible; /* Removes scroll behavior when printing */
+    }
+}
+
   .title {
     font-size: 2rem;
     color: #333;

@@ -50,7 +50,7 @@ function MathGenerator() {
   };
 
   const onInputChange = (e) => {
-    setNumProblems(parseInt(e.target.value));
+    setNumProblems(parseInt(e.target.value)); //Update the state with the number of problems to be generated
   };
 
   return (

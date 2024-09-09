@@ -1,13 +1,14 @@
 /* Navbar.css */
-
 .navbar-header {
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: #4a90e2; /* Navbar background color */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
+  display: block;
+  width: 100%;
+  position: relative;
+  top: 0;
+  z-index: 1000;
+  background: #4a90e2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Add bottom margin to create space below */
+}
   
   .navbar {
     display: flex;
