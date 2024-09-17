@@ -23,31 +23,32 @@ function Home(props) {
           <div className="image-container">
             <img src={gifPath} alt="Animated gif" />
             <div>
-            <button
-              type="button"
-              className="learn-more"
-              onClick={props.onButtonClick}
-            >
-              Learn more!
-            </button>
-            <Link to="/apps">
-              <button type="button" className="learn-more">
-                Check out some applications I've made!
+              <button
+                type="button"
+                className="learn-more"
+                onClick={props.onButtonClick}
+              >
+                Learn more!
               </button>
-            </Link>
+              <Link to="/apps">
+                <button type="button" className="learn-more">
+                  Check out some applications I've made!
+                </button>
+              </Link>
             </div>
           </div>
         )}
         {!props.intro && (
           <>
             <div className="introduction">
-              Hi, I'm Thomas- a veteran and passionate application developer with three
-              years of experience in creating dynamic web applications and
-              building robust websites optimized for any platform. As a full stack web developer, I
-              specialize in using HTML, CSS, and JavaScript to craft engaging
-              front-end experiences, and C# and SQL to develop powerful APIs and
-              database solutions. I also have experience in game development using gdscript and Aseprite
-              to bring beautiful pixel art games to life!  <br />
+              Hi, I'm Thomas- a veteran and passionate application developer
+              with three years of experience in creating dynamic web
+              applications and building robust websites optimized for any
+              platform. As a full stack web developer, I specialize in using
+              HTML, CSS, and JavaScript to craft engaging front-end experiences,
+              and C# and SQL to develop powerful APIs and database solutions. I
+              also have experience in game development using gdscript and
+              Aseprite to bring beautiful pixel art games to life! <br />
               <br />
               Throughout my career, I've had the pleasure of working with
               various clients and companies. I designed a captivating landing

@@ -1,14 +1,16 @@
-html, body {
+html,
+body {
   height: 100vh;
   margin: auto;
   justify-content: center;
   align-items: center;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   color: white;
 }
 
 .bg-main {
-  background-color:rgb(13, 14, 13);
+  background-color: rgb(13, 14, 13);
 }
 
 .bg-learning-hub {
@@ -24,7 +26,6 @@ html, body {
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
-
 }
 .center {
   text-align: center;
@@ -65,7 +66,7 @@ nav {
 .main-image {
   margin: auto;
   max-height: 45vh;
-  border-radius: 50px 50px 50px 50px; 
+  border-radius: 50px 50px 50px 50px;
   transition: 500ms;
   margin-bottom: 1%;
 }
@@ -78,7 +79,7 @@ nav {
   margin: 0;
   align-items: center;
   padding: 1%;
-  transition: .3s ease;
+  transition: 0.3s ease;
 }
 
 .introduction {
@@ -97,9 +98,9 @@ nav {
   transition: 0.4s ease;
   padding: 2%;
 }
-  .learn-more:hover {
-    transform: scale(1.2);
-  }
+.learn-more:hover {
+  transform: scale(1.2);
+}
 
 .d-false {
   display: none;
@@ -125,9 +126,9 @@ nav {
 .trifecta span:nth-child(3):hover {
   background: rgb(13, 218, 218);
 }
-/* Menu */ 
+/* Menu */
 .off-screen-menu {
-  background-color:  rgb(24, 25, 29);
+  background-color: rgb(24, 25, 29);
   height: 100vh;
   width: 50%;
   max-width: 450px;
@@ -137,16 +138,15 @@ nav {
   opacity: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;    
+  align-items: center;
   justify-content: center;
   text-align: center;
   font-size: 3rem;
-  transition: .3s ease;
+  transition: 0.3s ease;
   z-index: 0;
 }
 
-@media (max-height: 1000px)
-{
+@media (max-height: 1000px) {
   .off-screen-menu {
     height: auto;
   }
@@ -154,7 +154,7 @@ nav {
 .off-screen-menu.active {
   opacity: 1;
 }
-.off-screen-menu.active ul{
+.off-screen-menu.active ul {
   align-items: center;
 }
 
@@ -167,39 +167,39 @@ nav {
   transition: 250ms;
   z-index: 1;
   background: rgb(24, 25, 29);
-  border-radius: 25% 25% 25% 25%; 
+  border-radius: 25% 25% 25% 25%;
 }
-  .ham-menu span {
-    height: 3px;
-    width: 80%;
-    background-color: #6F86FF;
-    border-radius: 25px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transition: 300ms ease;
-  }
-  .ham-menu span:nth-child(1) {
-    top: 25%;
-  }
-  .ham-menu span:nth-child(3) {
-    top: 75%;
-  }
-  .ham-menu.active span {
-    background-color: white;
-  }
-  .ham-menu.active span:nth-child(1) {
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-  .ham-menu.active span:nth-child(2) {
-    opacity: 0;
-  }
-  .ham-menu.active span:nth-child(3) {
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
+.ham-menu span {
+  height: 3px;
+  width: 80%;
+  background-color: #6f86ff;
+  border-radius: 25px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: 300ms ease;
+}
+.ham-menu span:nth-child(1) {
+  top: 25%;
+}
+.ham-menu span:nth-child(3) {
+  top: 75%;
+}
+.ham-menu.active span {
+  background-color: white;
+}
+.ham-menu.active span:nth-child(1) {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ham-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+.ham-menu.active span:nth-child(3) {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
 .off-screen-menu ul {
   list-style-type: none;
   margin-top: 5%;
@@ -211,15 +211,15 @@ nav {
   display: inline-block;
   color: white;
 }
-  .off-screen-menu ul a:hover {
-    /* background:#1431c2;   */
-    font-weight: bold;
-  }
+.off-screen-menu ul a:hover {
+  /* background:#1431c2;   */
+  font-weight: bold;
+}
 
 .off-screen-menu li:hover {
   transform: scale(1.25);
   transition: 0.3s ease;
-  background-color:  rgba(60, 62, 69, 0.603);
+  background-color: rgba(60, 62, 69, 0.603);
 }
 
 div.container.f-col h1 {
@@ -242,7 +242,6 @@ button {
 }
 
 .logo-holder {
-
   list-style: none;
   width: 50%;
   border-radius: 2%;
@@ -254,14 +253,12 @@ button {
 
 .logo-holder li img {
   transition: 300ms;
-
 }
 .logo-holder li:hover {
   background-color: rgb(44, 43, 43);
 }
 .logo-holder li img:hover {
   transform: scale(1.2);
-
 }
 
 .app-list {
@@ -292,7 +289,7 @@ button {
   flex-direction: column;
 }
 
-a{
+a {
   text-decoration: none;
   color: white;
 }
@@ -319,10 +316,9 @@ a{
   text-align: center;
 }
 
-
 /* #2 */
 .startProblems {
-  background-color: #008CBA;
+  background-color: #008cba;
   color: white;
   padding: 10px 20px;
   font-size: 16px;
@@ -343,7 +339,7 @@ a{
   transform: translateY(5px);
 }
 
-form{
+form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -351,7 +347,7 @@ form{
 }
 
 @media print {
-  .noPrint {
+  .noprint {
     display: none;
   }
 }

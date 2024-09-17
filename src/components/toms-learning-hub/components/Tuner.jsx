@@ -1,6 +1,6 @@
 import "../styles/Tuner.css";
 import { useState } from "react";
-import { toast } from 'react-toastify'; // Import toast
+import { toast } from "react-toastify"; // Import toast
 
 const Tuner = ({ startersSelected, setStartersSelected }) => {
   // Local state to manage changes
@@ -20,7 +20,7 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
   // Function to save changes to the parent state and show a toast notification
   const saveChanges = () => {
     setStartersSelected(localStarters); // Update parent state with local state
-    toast.success('Tuner settings saved successfully!'); // Show success toast
+    toast.success("Tuner settings saved successfully!"); // Show success toast
   };
 
   return (
@@ -41,7 +41,9 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
                 id={`checkbox-${key}`}
               />
               {/* Display text next to the checkbox */}
-              <label htmlFor={`checkbox-${key}`} className="starter-label">{starter.text}</label>
+              <label htmlFor={`checkbox-${key}`} className="starter-label">
+                {starter.text}
+              </label>
               {/* Display partner type */}
               <span className="partner-type">({starter.partnerType})</span>
             </div>

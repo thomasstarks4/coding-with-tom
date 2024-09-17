@@ -14,33 +14,23 @@ function Contact() {
   };
   return (
     <div className="center f-col container">
-          <h1>Contact</h1>
+      <h1>Contact</h1>
       <ul className="logo-holder">
         {/* <li>
           <img className="contact-logo" src={phoneIcon} alt="Phone icon" />
         </li> */}
-        <li
-          onClick={onLinkedInButtonClick}
-        >
+        <li onClick={onLinkedInButtonClick}>
           <img
             className="contact-logo"
             src={linkedInLogo}
             alt="Linkedin Logo"
           />
         </li>
-        <li
-          onClick={onGithubButtonClick}
-        >
-          <img
-            className="contact-logo"
-            src={githubLogo}
-            alt="Linkedin Logo"
-          />
+        <li onClick={onGithubButtonClick}>
+          <img className="contact-logo" src={githubLogo} alt="Linkedin Logo" />
         </li>
         <li onClick={onScheduleButtonClick} className="p-1">
-          <button className="hover" >
-            Schedule a meeting with me!
-          </button>
+          <button className="hover">Schedule a meeting with me!</button>
         </li>
       </ul>
     </div>

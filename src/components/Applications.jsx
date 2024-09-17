@@ -3,12 +3,11 @@ import attackingKnight from "../media/animations/knight-attack.gif";
 function Applications() {
   return (
     <>
-      <div className="container col" >
+      <div className="container col">
         <img src={attackingKnight} alt="Attacking Knight" />
         <h1 className="center apps-header">Applications</h1>
       </div>
       <div className=" center container">
-
         <div className="app-list">
           <li>
             <Link to="/math">SimplyMathHW</Link>
@@ -17,7 +16,9 @@ function Applications() {
             <Link to="/sentence-starters">Tom's Learning Hub</Link>
           </li>
           <li>
-            <a target="_blank" rel="noreferrer" href="http://www.myrepbro.com">MyRepBro</a>
+            <a target="_blank" rel="noreferrer" href="http://www.myrepbro.com">
+              MyRepBro
+            </a>
           </li>
           {/* <li>
             <Link to="/to-do-list">To Do List</Link>
@@ -32,7 +33,7 @@ function Applications() {
             <Link to="/store">E-Commerce Store</Link>
           </li> */}
         </div>
-        </div>
+      </div>
     </>
   );
 }
