@@ -7,7 +7,7 @@ import HamburgerButton from "./components/HamburgerButton";
 import Contact from "./components/Contact";
 import About from "./components/About";
 import Applications from "./components/Applications";
-import MathGenerator from "./components/MathGenerator";
+import MathGenerator from "./components/toms-learning-hub/components/MathGenerator";
 import Starter from "./components/toms-learning-hub/components/Starter";
 import Tuner from "./components/toms-learning-hub/components/Tuner";
 import Writer from "./components/toms-learning-hub/components/Writer";

@@ -26,6 +26,7 @@ body {
   flex-direction: column;
   flex-grow: 1;
   height: 100%;
+  overflow-y: auto;
 }
 .center {
   text-align: center;
@@ -94,7 +95,7 @@ nav {
   border: 2px solid rgb(255, 255, 255);
   border-radius: 5px;
   font-size: 1.5rem;
-  margin-top: 1%;
+  margin-top: 3%;
   transition: 0.4s ease;
   padding: 2%;
 }
@@ -144,6 +145,7 @@ nav {
   font-size: 3rem;
   transition: 0.3s ease;
   z-index: 0;
+  outline: 10px solid rgba(218, 203, 203, 0.1);
 }
 
 @media (max-height: 1000px) {
@@ -168,6 +170,11 @@ nav {
   z-index: 1;
   background: rgb(24, 25, 29);
   border-radius: 25% 25% 25% 25%;
+}
+.ham-menu:hover {
+  background-color: rgb(65, 68, 81);
+  height: 80px;
+  width: 68px;
 }
 .ham-menu span {
   height: 3px;

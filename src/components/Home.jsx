@@ -1,6 +1,5 @@
 import runningKnight from "../media/animations/knight-run.gif";
 import gifPath from "../media/animations/knight-idle.gif";
-import { Link } from "react-router-dom";
 function Home(props) {
   return (
     <>
@@ -30,11 +29,11 @@ function Home(props) {
               >
                 Learn more!
               </button>
-              <Link to="/apps">
-                <button type="button" className="learn-more">
+                <button type="button" 
+                className="learn-more"
+                onClick={function(){window.location.href = "/apps";}}>
                   Check out some applications I've made!
                 </button>
-              </Link>
             </div>
           </div>
         )}
