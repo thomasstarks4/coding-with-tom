@@ -13,7 +13,7 @@ const Home = () => {
           <strong>common, everyday words</strong>.
         </p>
 
-        <div className="content-section">
+        <div className="content-section sec-1">
           <h2 className="section-title">How It Works:</h2>
           <ul className="feature-list">
             <li>
@@ -38,7 +38,7 @@ const Home = () => {
           </ul>
         </div>
 
-        <div className="content-section">
+        <div className="content-section sec-2">
           <h2 className="section-title">Why Choose Us?</h2>
           <ul className="feature-list">
             <li>

@@ -29,6 +29,12 @@
   animation: fadeInUp 1s ease-out;
 }
 
+.sec-1 {
+  animation: fadeInDown 1s ease-out;
+}
+.sec-2 {
+  animation: fadeInUp 1s ease-out;
+}
 .animated-elements {
   position: absolute;
   top: 0;

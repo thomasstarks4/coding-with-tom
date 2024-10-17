@@ -1,9 +1,10 @@
 import runningKnight from "../media/animations/knight-run.gif";
 import gifPath from "../media/animations/knight-idle.gif";
+import "./styles/Home.css"
 function Home(props) {
   return (
     <>
-      <div className="container f-col content-cork">
+      <div className="container teal f-col content-cork">
         {props.intro && (
           <h1 className="trifecta">
             <span>Eat.</span> <span>Sleep.</span> <span>Code.</span> With me,

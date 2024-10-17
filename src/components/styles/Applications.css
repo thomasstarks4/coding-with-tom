@@ -1,0 +1,71 @@
+/* Sweeping fade-in for the entire application container */
+.app-container {
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  /* Interactive link styles */
+  .interactive-link {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #3498db;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .interactive-link:hover {
+    color: #e74c3c;
+    transform: scale(1.1);
+  }
+  
+  /* Slow background color change */
+  body {
+    background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a18cd1);
+    background-size: 200% 200%;
+    animation: backgroundAnimation 15s ease infinite;
+  }
+  
+  @keyframes backgroundAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Centering the elements */
+  .center {
+    text-align: center;
+  }
+  
+  /* Container and image adjustments */
+  .container {
+    margin: 20px auto;
+    max-width: 600px;
+  }
+  
+  .app-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .app-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
