@@ -18,10 +18,15 @@ function Applications() {
       <div className="center container">
         <ul className="app-list">
           <li>
-            <Link to="/math" className="interactive-link">SimplyMathHW</Link>
+            <Link to="/math" className="interactive-link">SimplyMathHW (Math Problem generator for Grades 1-2)</Link>
           </li>
           <li>
-            <Link to="/sentence-starters" className="interactive-link">Tom's Learning Hub</Link>
+            <Link to="/sentence-starters" className="interactive-link">Tom's Learning Hub (Reading and Writing reserouces for Grades 1-2)</Link>
+          </li>
+          <li >
+            <Link to={'/JavaScriptIDE'} className="interactive-link">
+            JavaScript Code Compiler (IDE)
+            </Link>
           </li>
           <li>
             <a
@@ -30,7 +35,7 @@ function Applications() {
               href="http://www.myrepbro.com"
               className="interactive-link"
             >
-              MyRepBro
+              MyRepBro (Workout/Fitness Tracker)
             </a>
           </li>
         </ul>
