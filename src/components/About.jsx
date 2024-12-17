@@ -1,6 +1,4 @@
-// import { useEffect } from "react";
-
-function About(props) {
+function About() {
   // useEffect(()=>{props.theThing()}, [props])
   return (
     <>

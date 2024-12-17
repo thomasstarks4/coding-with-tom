@@ -35,9 +35,14 @@ const Navbar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/" className="nav-link">
-              Back To My Portfolio
+            <Link to="/highlighter" className="nav-link">
+              Word Highlighter
             </Link>
+            <li className="nav-item">
+              <Link to="/" className="nav-link">
+                Back To My Portfolio
+              </Link>
+            </li>
           </li>
         </ul>
       </nav>

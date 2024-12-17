@@ -15,6 +15,7 @@ import LearningHubNavbar from "./components/toms-learning-hub/components/Navbar"
 import { ToastContainer } from "react-toastify"; // Import ToastContainer
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 import JavaScriptIDE from "./components/JavaScriptIDE";
+import WordHighlighter from "./components/toms-learning-hub/components/WordHighLighter";
 
 function CodingWithTom() {
   const [hideIntro, setHideIntro] = useState(true);
@@ -144,6 +145,7 @@ function CodingWithTom() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/apps" element={<Applications />} />
         <Route path="/math" element={<MathGenerator />} />
+        <Route path="/highlighter" element={<WordHighlighter />} />
         <Route path="/sentence-starters" element={<Home2 />} />
         <Route
           path="/starter"
@@ -159,10 +161,7 @@ function CodingWithTom() {
           }
         />
         <Route path="/writer" element={<Writer />} />
-        <Route path="/JavaScriptIDE"
-        element={<JavaScriptIDE />}>
-
-        </Route>
+        <Route path="/JavaScriptIDE" element={<JavaScriptIDE />}></Route>
       </Routes>
 
       {/* Add ToastContainer to render toasts */}
