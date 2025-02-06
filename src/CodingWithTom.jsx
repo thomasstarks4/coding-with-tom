@@ -117,13 +117,17 @@ function CodingWithTom() {
     location.pathname.startsWith("/sentence-starters") ||
     location.pathname.startsWith("/starter") ||
     location.pathname.startsWith("/tuner") ||
+    location.pathname.startsWith("/highlighter") ||
     location.pathname.startsWith("/writer");
   const isPortfolioSite = isLearningHubRoute === false;
   return (
     <div
-      className={`main-container ${
-        isLearningHubRoute ? "bg-learning-hub" : ""
-      } ${isPortfolioSite ? "bg-main" : ""}`}
+      onClick={() => {
+        if (showMenu) setShowMenu(false); //hide menu if user clicks anywhere on the screen
+      }}
+      className={`min-h-screen ${isLearningHubRoute ? "bg-learning-hub" : ""} ${
+        isPortfolioSite ? "bg-main" : ""
+      }`}
     >
       {/* Conditionally render the navbar and backgrounds change based on the route */}
       {isLearningHubRoute ? (
@@ -168,20 +172,22 @@ function CodingWithTom() {
       <ToastContainer autoClose={3000} position="top-right" />
 
       <div className={showMenu ? "off-screen-menu active" : "off-screen-menu"}>
-        <ul>
-          <Link to="/" onClick={hamburgerMenuClick2}>
-            Home
-          </Link>
-          <Link to="/about" onClick={hamburgerMenuClick2}>
-            About
-          </Link>
-          <Link to="/contact" onClick={hamburgerMenuClick2}>
-            Contact
-          </Link>
-          <Link to="/apps" onClick={hamburgerMenuClick2}>
-            Apps
-          </Link>
-        </ul>
+        {showMenu && (
+          <ul>
+            <Link to="/" onClick={hamburgerMenuClick2}>
+              Home
+            </Link>
+            <Link to="/about" onClick={hamburgerMenuClick2}>
+              About
+            </Link>
+            <Link to="/contact" onClick={hamburgerMenuClick2}>
+              Contact
+            </Link>
+            <Link to="/apps" onClick={hamburgerMenuClick2}>
+              Apps
+            </Link>
+          </ul>
+        )}
       </div>
     </div>
   );

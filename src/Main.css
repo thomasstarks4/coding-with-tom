@@ -83,12 +83,6 @@ nav {
   transition: 0.3s ease;
 }
 
-.introduction {
-  color: white;
-  margin: auto;
-  width: 80%;
-}
-
 .learn-more {
   color: white;
   background-color: #1431c2;
@@ -234,35 +228,48 @@ div.container.f-col h1 {
 }
 
 button {
-  border: 4px solid rgb(139, 29, 29);
-  color: blue;
-  background-color: orange;
+  /* Vibrant gradient background */
+  background: linear-gradient(45deg, #ff002b, #2400f3);
+  /* No default border; we'll rely on box-shadow for a "soft edge" */
+  border: none;
+  /* Rounded corners */
+  border-radius: 0.5rem;
+  /* Make the text bold and white for contrast */
+  color: #fff;
+  font-weight: bold;
+  /* Comfortable padding */
+  padding: 0.75rem 1.25rem;
+  /* Subtle shadow behind the button */
+  box-shadow: 0 5px 10px rgba(255, 58, 85, 0.3);
+  /* Cursor pointer on hover */
+  cursor: pointer;
+  /* Smooth transitions on hover */
+  transition: 0.3s ease all;
 }
 
-.contact-logo {
-  max-width: 10%;
-  max-height: 5%;
-  height: auto;
-  padding: 1%;
-  transition: 250ms;
-  margin-bottom: 1%;
+button:hover {
+  /* Slight color shift on hover to add dynamic feel */
+  background: linear-gradient(45deg, #2400f3, #ff002b);
+  /* Raise the button a bit */
+  transform: translateY(-2px);
+  /* Darken the shadow for a more pronounced "lifted" look */
+  box-shadow: 0 8px 15px rgba(255, 58, 85, 0.4);
+}
+
+button:active {
+  /* Press effect: move it down a bit */
+  transform: translateY(1px);
+  /* Lessen the shadow for a “pressed in” look */
+  box-shadow: 0 3px 8px rgba(255, 58, 85, 0.2);
 }
 
 .logo-holder {
   list-style: none;
-  width: 50%;
   border-radius: 2%;
-}
-
-.logo-holder li {
-  background-color: rgb(28, 27, 27);
 }
 
 .logo-holder li img {
   transition: 300ms;
-}
-.logo-holder li:hover {
-  background-color: rgb(44, 43, 43);
 }
 .logo-holder li img:hover {
   transform: scale(1.2);

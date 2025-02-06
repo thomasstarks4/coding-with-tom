@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../styles/WordHighlighter.css";
 
 const WordHighlighter = () => {
-  const [text, setText] = useState("");
+  const [text, setText] = useState("The chicken crossed the road.");
   const [highlightedWords, setHighlightedWords] = useState([]);
 
   const handleInputChange = (e) => {
@@ -20,12 +20,12 @@ const WordHighlighter = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Word Highlighter</h1>
+    <div className="text-black font-extrabold bg-slate-500 text-center highlighter-container">
+      <h1 className="text-black text-2xl mb-4">Word Highlighter</h1>
       <p>Enter text in the box below and see each word highlighted:</p>
       <textarea
-        className="text-input"
-        placeholder="Type your text here..."
+        className="text-input rounded-lg p-2"
+        placeholder="Enter a sentence..."
         value={text}
         onChange={handleInputChange}
       ></textarea>
@@ -37,7 +37,7 @@ const WordHighlighter = () => {
         {highlightedWords.map((word, index) => (
           <span
             key={index}
-            className="highlight"
+            className="highlight text-black"
             onMouseOver={(e) => e.target.classList.add("hover-highlight")}
             onMouseOut={(e) => e.target.classList.remove("hover-highlight")}
           >

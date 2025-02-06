@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
 function MathGenerator() {
-  const [numProblems, setNumProblems] = useState(0);
+  // Store as a string so user can type freely
+  const [numProblems, setNumProblems] = useState("1");
   const [problems, setProblems] = useState([]);
 
   const generateProblems = (e) => {
@@ -16,32 +17,19 @@ function MathGenerator() {
     const getOperator = (num1, num2) =>
       num1 < num2 ? "+" : Math.random() < 0.5 ? "+" : "-";
 
-    // Helper function to create the space string based on the length
-    // Keeps odd behavior from occuring on the print screen
-    for (let i = 0; i < numProblems; i++) {
+    // Create the problems
+    for (let i = 0; i < parseInt(numProblems, 10); i++) {
       const num1 = getRandomNumber();
       const num2 = getRandomNumber();
       const operator = getOperator(num1, num2);
-      let space = "";
-      switch (num1.toString().length + num2.toString().length) {
-        case 2:
-          space = "_____";
-          break;
 
-        case 3:
-          space = "____";
-          break;
+      // Non‑breaking space in JS is \u00A0
+      // We'll also add newlines for the stacked layout
+      const problemText =
+        `   ${num1}\n` + // First line, just the top number
+        `${operator}\u00A0${num2}\n` + // Second line, operator + second number
+        `_______`; // Third line, underscores for the answer
 
-        case 4:
-          space = "___";
-          break;
-
-        default:
-          space = "";
-          break;
-      }
-
-      const problemText = `${num1} ${operator} ${num2} = ${space}`;
       generatedProblems.push(problemText);
     }
 
@@ -49,16 +37,18 @@ function MathGenerator() {
   };
 
   const onInputChange = (e) => {
-    setNumProblems(parseInt(e.target.value)); //Update the state with the number of problems to be generated
+    // Keep the value as a string in state
+    setNumProblems(e.target.value);
   };
 
   return (
-    <div className="container col">
-      <h1 className="p-1">Math Problem Generator</h1>
+    <div className="col bg-black">
+      <h1 className="p-1 text-2xl text-white">Math Problem Generator</h1>
       <div className="noprint">
-        <form id="problem-form" onSubmit={generateProblems}>
+        <form className="m-4" id="problem-form" onSubmit={generateProblems}>
           <label htmlFor="numProblems">Number of Problems:</label>
           <input
+            className="text-black"
             type="number"
             id="numProblems"
             value={numProblems}
@@ -72,7 +62,16 @@ function MathGenerator() {
           </button>
         </form>
       </div>
-      <div id="problems" className="problems-container">
+
+      {/* 
+        The key piece: using "whiteSpace: 'pre'" to preserve
+        newlines and spacing from the problemText strings.
+      */}
+      <div
+        id="problems"
+        className="problems-container font-extrabold text-lg"
+        style={{ whiteSpace: "pre" }}
+      >
         {problems.map((problem, index) => (
           <div key={index} className="problem">
             {problem}

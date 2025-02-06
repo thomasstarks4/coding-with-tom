@@ -1,11 +1,15 @@
-.container {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  text-align: center;
-}
-
 h1 {
   color: #333;
+}
+.highlighter-container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+  background: linear-gradient(135deg, #f5f7fa, #e4e5e6);
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  overflow-y: auto;
 }
 
 .text-input {
