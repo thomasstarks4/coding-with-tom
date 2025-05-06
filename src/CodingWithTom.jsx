@@ -2,7 +2,7 @@ import "./Main.css";
 import Home from "./components/Home";
 import Home2 from "./components/toms-learning-hub/components/Home";
 import { useState } from "react";
-import { Route, Routes, Link, useLocation } from "react-router-dom"; // Import useLocation
+import { Route, Routes, Link, useLocation } from "react-router-dom";
 import HamburgerButton from "./components/HamburgerButton";
 import Contact from "./components/Contact";
 import About from "./components/About";
@@ -11,11 +11,13 @@ import MathGenerator from "./components/toms-learning-hub/components/MathGenerat
 import Starter from "./components/toms-learning-hub/components/Starter";
 import Tuner from "./components/toms-learning-hub/components/Tuner";
 import Writer from "./components/toms-learning-hub/components/Writer";
-import LearningHubNavbar from "./components/toms-learning-hub/components/Navbar"; // Import your learning hub navbar
-import { ToastContainer } from "react-toastify"; // Import ToastContainer
-import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+import LearningHubNavbar from "./components/toms-learning-hub/components/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import JavaScriptIDE from "./components/JavaScriptIDE";
 import WordHighlighter from "./components/toms-learning-hub/components/WordHighLighter";
+import MealTracker from "./components/MealTrackingGuru";
+import ErrorPage from "./components/ErrorPage";
 
 function CodingWithTom() {
   const [hideIntro, setHideIntro] = useState(true);
@@ -123,7 +125,7 @@ function CodingWithTom() {
   return (
     <div
       onClick={() => {
-        if (showMenu) setShowMenu(false); //hide menu if user clicks anywhere on the screen
+        if (showMenu) setShowMenu(false); // Hide menu if user clicks anywhere on the screen
       }}
       className={`min-h-screen ${isLearningHubRoute ? "bg-learning-hub" : ""} ${
         isPortfolioSite ? "bg-main" : ""
@@ -166,6 +168,8 @@ function CodingWithTom() {
         />
         <Route path="/writer" element={<Writer />} />
         <Route path="/JavaScriptIDE" element={<JavaScriptIDE />}></Route>
+        <Route path="*" element={<ErrorPage />} />
+        <Route path="/meal-tracker" element={<MealTracker />}></Route>
       </Routes>
 
       {/* Add ToastContainer to render toasts */}
