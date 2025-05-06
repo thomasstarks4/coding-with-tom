@@ -36,6 +36,11 @@ function Applications() {
       label: "MyRepBro (Workout/Fitness Tracker)",
       external: true,
     },
+    {
+      to: "/meal-tracker",
+      label: "Meal Tracking Guru (Calorie Tracker)",
+      external: false,
+    },
   ];
 
   return (
