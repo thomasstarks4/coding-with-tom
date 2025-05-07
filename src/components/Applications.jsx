@@ -41,6 +41,11 @@ function Applications() {
       label: "Meal Tracking Guru (Calorie Tracker)",
       external: false,
     },
+    {
+      to: "/tpc/home",
+      label: "Truly Private Chat (Peer-to-Peer Chat App)",
+      external: false,
+    },
   ];
 
   return (
