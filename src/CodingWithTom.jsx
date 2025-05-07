@@ -1,6 +1,7 @@
 import "./Main.css";
 import Home from "./components/Home";
 import Home2 from "./components/toms-learning-hub/components/Home";
+import Home3 from "./components/truly-private-chat/Home";
 import { useState } from "react";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
 import HamburgerButton from "./components/HamburgerButton";
@@ -18,6 +19,8 @@ import JavaScriptIDE from "./components/JavaScriptIDE";
 import WordHighlighter from "./components/toms-learning-hub/components/WordHighLighter";
 import MealTracker from "./components/MealTrackingGuru";
 import ErrorPage from "./components/ErrorPage";
+import Chat from "./components/truly-private-chat/Chat";
+import TPCAbout from "./components/truly-private-chat/About";
 
 function CodingWithTom() {
   const [hideIntro, setHideIntro] = useState(true);
@@ -153,6 +156,9 @@ function CodingWithTom() {
         <Route path="/math" element={<MathGenerator />} />
         <Route path="/highlighter" element={<WordHighlighter />} />
         <Route path="/sentence-starters" element={<Home2 />} />
+        <Route path="/tpc/home" element={<Home3 />} />
+        <Route path="/tpc/chat" element={<Chat />} />
+        <Route path="/tpc/about" element={<TPCAbout />} />
         <Route
           path="/starter"
           element={<Starter startersSelected={startersSelected} />}
