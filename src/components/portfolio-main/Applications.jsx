@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import attackingKnight from "./media/animations/knight-attack.gif";
 import "./styles/Applications.css";
 
 function Applications() {
+  const navigate = useNavigate();
   // Use a ref to avoid direct document.querySelector
   const containerRef = useRef(null);
 
@@ -49,39 +50,54 @@ function Applications() {
   ];
 
   return (
-    <div className="app-container bg-slate-900 p-4" ref={containerRef}>
-      <div className=" col">
+    <div
+      className="bg-slate-900 flex-1 flex flex-col justify-center items-center"
+      ref={containerRef}
+    >
+      <div className=" flex flex-col justify-center items-center">
         <img
           src={attackingKnight}
           alt="Attacking Knight"
           className="app-image"
         />
-        <h1 className="text-center text-white font-extrabold apps-header text-2xl mb-4">
+        <h1 className="flex justify-center items-center text-white font-extrabold apps-header text-2xl mb-4">
           Applications
         </h1>
       </div>
 
-      <div className="center font-bold">
-        <ul className="app-list">
+      <div className="center font-bold border-2 border-slate-500 bg-slate-800 p-4 rounded-lg mb-4">
+        <div className="flex flex-col items-center gap-2">
           {apps.map((app, idx) => (
-            <li key={idx}>
+            <span key={idx}>
               {app.external ? (
-                <a
-                  href={app.to}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="interactive-link"
-                >
-                  {app.label}
-                </a>
+                <div className="hover:py-4 transition-all duration-300 ease-in-out  hover:bg-slate-700 rounded-lg bg-none">
+                  <a
+                    href={app.to}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-teal-600 text-xl hover:text-teal-400 hover:py-4 hover:bg-slate-700 rounded-lg p-2 bg-none transition-all duration-300 ease-in-out "
+                  >
+                    {app.label}
+                  </a>
+                </div>
               ) : (
-                <Link to={app.to} className="interactive-link">
-                  {app.label}
-                </Link>
+                <div
+                  onClick={() => {
+                    navigate(app.to);
+                  }}
+                  className="hover:py-4 hover:bg-slate-700 rounded-lg p-2 bg-none transition-all duration-300 ease-in-out "
+                >
+                  <Link
+                    to={app.to}
+                    className="text-teal-600 text-xl hover:text-teal-400 hover:py-4 hover:bg-slate-700 rounded-lg p-2 bg-none transition-all duration-300 ease-in-out "
+                  >
+                    {app.label}
+                  </Link>
+                </div>
               )}
-            </li>
+            </span>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
