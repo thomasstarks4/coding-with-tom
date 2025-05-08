@@ -1,6 +1,7 @@
 import React from "react";
 import runningKnight from "../media/animations/knight-run.gif";
 import gifPath from "../media/animations/knight-idle.gif";
+import { Link } from "react-router-dom";
 import "./styles/Home.css";
 
 function Home({ intro, onButtonClick }) {
@@ -17,7 +18,7 @@ function Home({ intro, onButtonClick }) {
 
 function IntroView({ onButtonClick }) {
   return (
-    <>
+    <div>
       <h1 className="text-3xl text-white font-extrabold text-center mb-6">
         <span>Eat.</span> <span>Sleep.</span> <span>Code.</span> With me,
         Thomas!
@@ -29,22 +30,22 @@ function IntroView({ onButtonClick }) {
           alt="Idle Knight Animation"
           className="w-40 md:w-52"
         />
-        <div className="flex flex-col space-y-2">
-          <button type="button" className="learn-more" onClick={onButtonClick}>
-            Learn more!
-          </button>
-          <button
-            type="button"
-            className="learn-more"
-            onClick={() => {
-              window.location.href = "/apps";
-            }}
+        <div className="flex flex-col space-y-2 ">
+          <Link
+            to="/about"
+            className="text-center p-2 bg-green-700 hover:bg-green-800 hover:p-3 text-white font-bold rounded transition-all duration-300"
           >
-            Check out some applications I've made!
-          </button>
+            Learn more!
+          </Link>
+          <Link
+            to="/apps"
+            className="text-center p-2 bg-yellow-500 hover:bg-yellow-600 hover:p-3 text-white font-bold rounded transition-all duration-300"
+          >
+            Check out some of my work!
+          </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
