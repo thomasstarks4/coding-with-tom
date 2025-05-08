@@ -30,9 +30,12 @@ const WordHighlighter = () => {
         onChange={handleInputChange}
       ></textarea>
       <br />
-      <button className="highlight-button" onClick={highlightWords}>
+      <button className="three-d-button" onClick={highlightWords}>
         Highlight Words
       </button>
+      <div className="text-center mt-4">
+        Your highlighted words will show up below:
+      </div>
       <div className="output">
         {highlightedWords.map((word, index) => (
           <span
