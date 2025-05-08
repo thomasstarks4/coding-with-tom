@@ -1,5 +1,5 @@
-import linkedInLogo from "../media/logos/LI-Logo.png";
-import githubLogo from "../media/logos/github-mark-white.png";
+import linkedInLogo from "./media/logos/LI-Logo.png";
+import githubLogo from "./media/logos/github-mark-white.png";
 // import phoneIcon from "../media/logos/mobile-phone.png";
 
 function Contact() {

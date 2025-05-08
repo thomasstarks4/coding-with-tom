@@ -1,13 +1,13 @@
 import "./Main.css";
-import Home from "./components/Home";
+import Home from "./components/portfolio-main/Home";
 import Home2 from "./components/toms-learning-hub/components/Home";
-import Home3 from "./components/truly-private-chat/Home";
+import Home3 from "./components/truly-private-chat/components/Home";
 import { useState } from "react";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
-import HamburgerButton from "./components/HamburgerButton";
-import Contact from "./components/Contact";
-import About from "./components/About";
-import Applications from "./components/Applications";
+import HamburgerButton from "./components/portfolio-main/HamburgerButton";
+import Contact from "./components/portfolio-main/Contact";
+import About from "./components/portfolio-main/About";
+import Applications from "./components/portfolio-main/Applications";
 import MathGenerator from "./components/toms-learning-hub/components/MathGenerator";
 import Starter from "./components/toms-learning-hub/components/Starter";
 import Tuner from "./components/toms-learning-hub/components/Tuner";
@@ -15,12 +15,12 @@ import Writer from "./components/toms-learning-hub/components/Writer";
 import LearningHubNavbar from "./components/toms-learning-hub/components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import JavaScriptIDE from "./components/JavaScriptIDE";
+import JavaScriptIDE from "./components/portfolio-main/JavaScriptIDE";
 import WordHighlighter from "./components/toms-learning-hub/components/WordHighLighter";
-import MealTracker from "./components/MealTrackingGuru";
-import ErrorPage from "./components/ErrorPage";
-import Chat from "./components/truly-private-chat/Chat";
-import TPCAbout from "./components/truly-private-chat/About";
+import MealTracker from "./components/portfolio-main/MealTrackingGuru";
+import ErrorPage from "./components/portfolio-main/ErrorPage";
+import Chat from "./components/truly-private-chat/components/Chat";
+import TPCAbout from "./components/truly-private-chat/components/About";
 
 function CodingWithTom() {
   const [hideIntro, setHideIntro] = useState(true);

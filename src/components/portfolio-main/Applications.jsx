@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import attackingKnight from "../media/animations/knight-attack.gif";
+import attackingKnight from "./media/animations/knight-attack.gif";
 import "./styles/Applications.css";
 
 function Applications() {

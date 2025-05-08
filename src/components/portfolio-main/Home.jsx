@@ -1,6 +1,6 @@
 import React from "react";
-import runningKnight from "../media/animations/knight-run.gif";
-import gifPath from "../media/animations/knight-idle.gif";
+import runningKnight from "./media/animations/knight-run.gif";
+import gifPath from "./media/animations/knight-idle.gif";
 import { Link } from "react-router-dom";
 import "./styles/Home.css";
 

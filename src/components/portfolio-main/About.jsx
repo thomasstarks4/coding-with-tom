@@ -1,4 +1,4 @@
-import runningKnight from "../media/animations/knight-run.gif";
+import runningKnight from "./media/animations/knight-run.gif";
 import { Link } from "react-router-dom";
 function About() {
   return (
