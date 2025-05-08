@@ -23,7 +23,6 @@ import Chat from "./components/truly-private-chat/components/Chat";
 import TPCAbout from "./components/truly-private-chat/components/About";
 
 function CodingWithTom() {
-  const [hideIntro, setHideIntro] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const location = useLocation(); // Get the current route location
 
@@ -38,10 +37,6 @@ function CodingWithTom() {
     containers.forEach((container) => {
       container.classList.toggle("reduced", !showMenu);
     });
-  };
-
-  const learnMoreButtonClick = () => {
-    setHideIntro(!hideIntro);
   };
 
   const initialStarters = {
@@ -144,12 +139,7 @@ function CodingWithTom() {
       )}
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Home onButtonClick={learnMoreButtonClick} intro={hideIntro} />
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/apps" element={<Applications />} />
