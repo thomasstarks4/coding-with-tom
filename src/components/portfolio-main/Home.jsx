@@ -14,10 +14,10 @@ function Home() {
 function IntroView() {
   return (
     <div>
-      <div className="flex flex-col items-center space-y-4 border border-xl-gray-400 shadow-2xl rounded-lg p-4 bg-gray-700">
+      <div className="flex flex-col items-center space-y-4 shadow-2xl rounded-lg p-4 bg-slate-800">
         <h1 className="text-3xl text-white font-extrabold text-center mb-6">
-          <span>Eat.</span> <span>Sleep.</span> <span>Code.</span> With me,
-          Thomas!
+          <span className="hover:text-">Eat.</span> <span>Sleep.</span>{" "}
+          <span>Code.</span> With me, Thomas!
         </h1>
         <img
           src={gifPath}
@@ -27,13 +27,13 @@ function IntroView() {
         <div className="flex flex-row space-x-2 ">
           <Link
             to="/about"
-            className="text-center px-2 py-4 bg-green-700 hover:bg-green-800 hover:px-4 text-white font-bold rounded transition-all duration-300"
+            className="text-center px-2 py-4 bg-blue-700 hover:bg-blue-800 hover:px-4 hover:shadow-2xl text-white font-bold rounded transition-all duration-300"
           >
             Learn some more about me!
           </Link>
           <Link
             to="/apps"
-            className="text-center px-2 py-4 bg-yellow-500 hover:bg-yellow-600 hover:px-4 text-white font-bold rounded transition-all duration-300"
+            className="text-center px-2 py-4 bg-green-700 hover:bg-green-800 hover:px-4 hover:shadow-2xl text-white font-bold rounded transition-all duration-300"
           >
             Check out some of my work!
           </Link>
