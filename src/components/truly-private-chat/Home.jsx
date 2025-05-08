@@ -1,9 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
       <div className="max-w-2xl w-full bg-gray-800 rounded-xl shadow-lg p-6">
@@ -48,18 +46,18 @@ const Home = () => {
         </p>
 
         <div className="flex gap-4 justify-center">
-          <button
-            onClick={() => navigate("/tpc/chat")}
-            className="bg-teal-600 text-white font-semibold py-2 px-6 rounded-md hover:bg-teal-700 transition"
+          <Link
+            to="/tpc/chat"
+            className="bg-teal-600 text-white font-semibold py-4 px-2 hover:p-4 rounded-md hover:bg-teal-800 transition-all duration-200"
           >
             Start Chatting
-          </button>
-          <a
-            href="/tpc/about"
-            className="text-teal-400 hover:underline flex items-center"
+          </Link>
+          <Link
+            to="/tpc/about"
+            className="bg-teal-600 text-white font-semibold py-4 px-2 hover:p-4 rounded-md hover:bg-teal-800 transition-all duration-200"
           >
             Learn More About Privacy
-          </a>
+          </Link>
         </div>
       </div>
     </div>

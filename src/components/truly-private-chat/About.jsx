@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const About = () => {
   return (
@@ -91,12 +92,15 @@ const About = () => {
           fancier features later—just say the word!
         </p>
 
-        <button
-          onClick={() => (window.location.href = "/")} // Adjust based on your routing
-          className="w-full bg-teal-600 text-white font-semibold py-2 rounded-md hover:bg-teal-700 transition"
-        >
-          Back to Home
-        </button>
+        <div class="flex justify-center">
+          <Link
+            to="/tpc/home"
+            className="bg-teal-600 text-white font-semibold py-4 px-2 hover:p-4 rounded-md hover:bg-teal-800 transition-all duration-200"
+          >
+            {" "}
+            Back to Home
+          </Link>
+        </div>
       </div>
     </div>
   );
