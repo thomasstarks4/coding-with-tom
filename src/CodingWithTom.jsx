@@ -21,6 +21,7 @@ import MealTracker from "./components/portfolio-main/MealTrackingGuru";
 import ErrorPage from "./components/portfolio-main/ErrorPage";
 import Chat from "./components/truly-private-chat/components/Chat";
 import TPCAbout from "./components/truly-private-chat/components/About";
+import BirthdayInvMaker from "./components/portfolio-main/BirthdayInvMaker";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
@@ -149,6 +150,10 @@ function CodingWithTom() {
         <Route path="/tpc/home" element={<Home3 />} />
         <Route path="/tpc/chat" element={<Chat />} />
         <Route path="/tpc/about" element={<TPCAbout />} />
+        <Route
+          path="/birthday-invitation-maker"
+          element={<BirthdayInvMaker />}
+        />
         <Route
           path="/starter"
           element={<Starter startersSelected={startersSelected} />}
