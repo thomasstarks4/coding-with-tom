@@ -47,6 +47,11 @@ function Applications() {
       label: "Truly Private Chat (Peer-to-Peer Chat App)",
       external: false,
     },
+    {
+      to: "/birthday-invitation-maker",
+      label: "Birthday Invitation Maker (Web App)",
+      external: false,
+    },
   ];
 
   return (
