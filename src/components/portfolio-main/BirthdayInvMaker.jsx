@@ -90,13 +90,15 @@ export default function BirthdayInvMaker() {
         <div class="invitation bg-${bgColor}-300 rounded-lg shadow-lg p-6 flex flex-col items-center justify-center text-center ${textColor}">
           ${
             personImage
-              ? `<img src="${personImage}" alt="Birthday Person" class="w-48 h-48 object-cover rounded-full mb-4 border-4 border-white" />`
+              ? `<img src="${personImage}" alt="Birthday Person" class="w-48 h-48 object-cover rounded-full mb-4 border-4 border-white mt-20" />`
               : '<div class="w-48 h-48 bg-gray-200 rounded-full mb-4 border-4 border-white"></div>'
           }
           <h1 class="text-4xl font-bold mb-2">${name || "Name"}</h1>
           <p class="text-lg mb-2">${address || "Address"}</p>
           <p class="text-lg mb-4">${dateTime || "Date & Time"}</p>
-          <p class="text-base mb-20">${text || "Join us for a celebration!"}</p>
+          <p class="text-base mb-20" style="white-space: pre-wrap">${
+            text || "Join us for a celebration!"
+          }</p>
           ${
             favorImages[0]
               ? `<img src="${favorImages[0]}" alt="Favor 1" class="corner-img top-2 left-2" />`
@@ -176,7 +178,7 @@ export default function BirthdayInvMaker() {
         <h1 className="text-4xl font-bold mb-2">{name || "Name"}</h1>
         <p className="text-lg mb-2">{address || "Address"}</p>
         <p className="text-lg mb-4">{dateTime || "Date & Time"}</p>
-        <p className="text-base mb-20">
+        <p className="text-base mb-20 whitespace-pre-wrap">
           {text || "Join us for a celebration!"}
         </p>
         {favorImages[0] && (
