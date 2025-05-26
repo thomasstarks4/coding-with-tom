@@ -72,22 +72,26 @@ export default function TodoApp() {
           onClick={handleAddTask}
           className="p-2 bg-teal-500 text-white rounded-r-md hover:bg-teal-600 active:bg-teal-500 transform active:scale-95 transition-all mr-auto"
         >
-          Add to list!
+          {tasks.length >= 1 ? "Add to list!" : "Start your list!"}
         </button>
       </div>
       <div className="flex justify-between mb-4">
-        <button
-          onClick={handleSaveList}
-          className="p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-600 transform hover:scale-105 active:scale-95 transition-all"
-        >
-          Save List
-        </button>
-        <button
-          onClick={handleClearList}
-          className="p-2 bg-gray-900 text-white rounded-md hover:bg-red-600 active:bg-gray-900 transform hover:scale-105 active:scale-95 transition-all"
-        >
-          Clear List
-        </button>
+        {tasks.length > 0 && (
+          <>
+            <button
+              onClick={handleSaveList}
+              className="p-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-600 transform hover:scale-105 active:scale-95 transition-all"
+            >
+              Save List
+            </button>
+            <button
+              onClick={handleClearList}
+              className="p-2 bg-gray-900 text-white rounded-md hover:bg-red-600 active:bg-gray-900 transform hover:scale-105 active:scale-95 transition-all"
+            >
+              Clear List
+            </button>
+          </>
+        )}
       </div>
       <div className="space-y-2">
         {tasks.map((task) => (
