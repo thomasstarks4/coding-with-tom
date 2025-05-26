@@ -22,6 +22,7 @@ import ErrorPage from "./components/portfolio-main/ErrorPage";
 import Chat from "./components/truly-private-chat/components/Chat";
 import TPCAbout from "./components/truly-private-chat/components/About";
 import BirthdayInvMaker from "./components/portfolio-main/BirthdayInvMaker";
+import SimplyDo from "./components/portfolio-main/SimplyDo";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
@@ -147,6 +148,7 @@ function CodingWithTom() {
         <Route path="/math" element={<MathGenerator />} />
         <Route path="/highlighter" element={<WordHighlighter />} />
         <Route path="/sentence-starters" element={<Home2 />} />
+        <Route path="/simplydo" element={<SimplyDo />} />
         <Route path="/tpc/home" element={<Home3 />} />
         <Route path="/tpc/chat" element={<Chat />} />
         <Route path="/tpc/about" element={<TPCAbout />} />

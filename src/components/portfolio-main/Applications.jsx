@@ -48,6 +48,11 @@ function Applications() {
       label: "Birthday Invitation Maker (Web App)",
       external: false,
     },
+    {
+      to: "/simplydo",
+      label: "To Do List/Task Manager (SimplyDo)",
+      external: false,
+    },
   ];
 
   // Filter apps based on search query
