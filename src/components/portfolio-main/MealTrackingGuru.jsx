@@ -94,7 +94,7 @@ const MealTracker = () => {
             meals.map((meal, index) => (
               <div
                 key={index}
-                className="grid grid-cols-10 gap-4 mb-4 last:mb-0 items-center text-center"
+                className="grid grid-cols-10 gap-4 mb-4 last:mb-0 items-center text-center text-black"
               >
                 <div className="col-span-2">
                   <label className="block text-sm font-medium text-blue-800 mb-2">
