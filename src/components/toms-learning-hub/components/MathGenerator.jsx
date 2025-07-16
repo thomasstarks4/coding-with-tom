@@ -206,7 +206,11 @@ function MathGenerator() {
           </div>
         </form>
       </div>
-
+      {/* Name and Date, only shown when printing */}
+      <div class="hidden print:flex flex-row justify-center items-center my-8 space-x-4 onlyPrint">
+        <div>Name: ________________________________</div>
+        <div>Date: ________________</div>
+      </div>
       {/* Problems */}
       <div
         id="problems"
