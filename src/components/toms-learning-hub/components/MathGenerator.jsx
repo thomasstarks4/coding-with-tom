@@ -76,7 +76,7 @@ function MathGenerator() {
   return (
     <div className="col bg-[#090a37] mb-4 ">
       {/* Header */}
-      <h1 className="p-1 font-bold text-3xl text-white">
+      <h1 className="p-1 font-bold text-3xl text-white onlyPrint">
         Math Problem Generator
       </h1>
       <div className="noprint">
@@ -214,7 +214,7 @@ function MathGenerator() {
       {/* Problems */}
       <div
         id="problems"
-        className="problems-container font-extrabold text-lg pb-4"
+        className="problems-container font-extrabold text-lg pb-4 onlyPrint"
         style={{ whiteSpace: "pre" }}
       >
         {problems.map((problem, index) => (

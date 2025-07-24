@@ -317,6 +317,12 @@ form {
   .noprint {
     display: none;
   }
+  .onlyPrint {
+    color: black;
+  }
+  .problem {
+    border: 1px solid black;
+  }
 }
 
 /* Scrollbar Track */
