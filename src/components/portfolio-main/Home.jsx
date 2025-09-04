@@ -5,7 +5,7 @@ import "./styles/Home.css";
 
 function Home() {
   return (
-    <div className="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-6">
+    <div className="bg-slate-900 min-h-[90%] flex flex-col items-center justify-center p-6">
       <IntroView />
     </div>
   );
