@@ -23,6 +23,7 @@ import Chat from "./components/truly-private-chat/components/Chat";
 import TPCAbout from "./components/truly-private-chat/components/About";
 import BirthdayInvMaker from "./components/portfolio-main/BirthdayInvMaker";
 import SimplyDo from "./components/portfolio-main/SimplyDo";
+import ProgressTracker from "./components/portfolio-main/ProgressTracker";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
@@ -127,7 +128,7 @@ function CodingWithTom() {
       onClick={() => {
         if (showMenu) setShowMenu(false); // Hide menu if user clicks anywhere on the screen
       }}
-      className={`min-h-screen ${isLearningHubRoute ? "bg-learning-hub" : ""} ${
+      className={` ${isLearningHubRoute ? "bg-learning-hub" : ""} ${
         isPortfolioSite ? "bg-main" : ""
       }`}
     >
@@ -152,6 +153,7 @@ function CodingWithTom() {
         <Route path="/tpc/home" element={<Home3 />} />
         <Route path="/tpc/chat" element={<Chat />} />
         <Route path="/tpc/about" element={<TPCAbout />} />
+        <Route path="/progress-tracker" element={<ProgressTracker />} />
         <Route
           path="/birthday-invitation-maker"
           element={<BirthdayInvMaker />}
