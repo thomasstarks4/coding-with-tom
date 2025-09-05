@@ -1,4 +1,5 @@
 import { useState, useId, memo } from "react";
+import { signInAndStore, registerThenSignIn } from "./api";
 
 const VIEWS = {
   SIGN_IN: "signIn",
@@ -7,13 +8,31 @@ const VIEWS = {
   APP: "app",
 };
 
-export default function ProgressTracker({
-  initialView = VIEWS.PICK,
-  onSignIn,
-  onRegister,
-}) {
+export default function ProgressTracker({ initialView = VIEWS.PICK }) {
   const [view, setView] = useState(initialView);
 
+  const onSignIn = async ({ username, password }) => {
+    try {
+      // username field is the email for login
+      const user = await signInAndStore({ email: username, password });
+      console.log("Signed in as:", user);
+      // Optionally verify with /me:
+      // const me = await api.me();
+      // console.log("me:", me);
+    } catch (e) {
+      alert(e.message || "Sign-in failed");
+    }
+  };
+
+  const onRegister = async ({ username, email, password }) => {
+    try {
+      const user = await registerThenSignIn({ username, email, password });
+      console.log("Registered and signed in:", user);
+    } catch (e) {
+      alert(e.message || "Registration failed");
+      console.log(e);
+    }
+  };
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center p-6">
       <header className="max-w-md w-full">
@@ -174,11 +193,11 @@ function SignInForm({ onSubmit, onSwap, onBack }) {
       }
     >
       <form onSubmit={submit} className="space-y-3">
-        <Field label="Username" htmlFor="si-username">
+        <Field label="Email" htmlFor="si-username">
           <Input
             id="si-username"
             name="username"
-            placeholder="Enter your username"
+            placeholder="Enter your email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
