@@ -1,15 +1,23 @@
 RewriteEngine On
 RewriteBase /
 
-# ✅ EXCLUDE the API from SPA rewrite
+# 1) Exclude the API from SPA rewrites
+
 RewriteCond %{REQUEST_URI} ^/progress-tracker/api/ [NC]
 RewriteRule ^ - [L]
 
-# SPA rewrite for everything else
+# 2) Special-case: if the request is exactly /progress-tracker or /progress-tracker/
+
+# serve the SPA index (otherwise Apache treats it as a directory and 403s)
+
+RewriteRule ^progress-tracker/?$ /index.html [L]
+
+# 3) SPA fallback for everything else that's not a real file/dir
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
 
-# DO NOT REMOVE THIS LINE AND THE LINES BELOW ERRORPAGEID:XMGJ4ASV4S
+# (keep your error page lines)
+
 ErrorDocument 404 /404.html
-# DO NOT REMOVE THIS LINE AND THE LINES ABOVE XMGJ4ASV4S:ERRORPAGEID

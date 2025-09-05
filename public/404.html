@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>404 • Page Not Found</title>
+    <link rel="icon" href="/code-icon.png" />
+    <link rel="apple-touch-icon" href="/code-icon.png" />
+    <meta name="theme-color" content="#0f172a" />
+    <!-- Optional font for a slightly sleeker look -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg: #0b1220; /* slate-950-ish */
+        --bg2: #0f172a; /* slate-900 */
+        --card: #111827cc; /* slate-900/80 */
+        --ring: #334155; /* slate-600 */
+        --text: #e5e7eb; /* slate-200 */
+        --muted: #94a3b8; /* slate-400 */
+        --accent: #22d3ee; /* cyan-400 */
+        --accent2: #a78bfa; /* violet-400 */
+        --glow: 0 0 25px rgba(34, 211, 238, 0.25),
+          0 0 50px rgba(167, 139, 250, 0.12);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background: radial-gradient(
+            1200px 800px at 100% -10%,
+            #1e293b 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            1000px 700px at -10% 110%,
+            #0ea5e9 0%,
+            transparent 60%
+          ),
+          linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+        overflow: hidden;
+      }
+
+      /* Subtle animated blobs */
+      .blob,
+      .blob2 {
+        position: absolute;
+        inset: auto;
+        width: 28rem;
+        height: 28rem;
+        border-radius: 50%;
+        filter: blur(64px);
+        opacity: 0.18;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+      }
+      .blob {
+        top: 10%;
+        left: 85%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          var(--accent),
+          transparent 60%
+        );
+        animation: float 18s ease-in-out infinite;
+      }
+      .blob2 {
+        bottom: -10%;
+        left: -5%;
+        background: radial-gradient(
+          circle at 70% 70%,
+          var(--accent2),
+          transparent 60%
+        );
+        animation: float2 22s ease-in-out infinite;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          transform: translate(-52%, -48%) scale(1.08);
+        }
+      }
+      @keyframes float2 {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          transform: translate(-48%, -52%) scale(1.06);
+        }
+      }
+
+      .wrap {
+        position: relative;
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 2rem;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 720px;
+        background: linear-gradient(
+          180deg,
+          rgba(17, 24, 39, 0.9),
+          rgba(2, 6, 23, 0.75)
+        );
+        border: 1px solid rgba(51, 65, 85, 0.5);
+        border-radius: 1.25rem; /* rounded-2xl */
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), var(--glow);
+        backdrop-filter: blur(12px);
+        padding: clamp(1.25rem, 2vw + 1rem, 2rem);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.35rem 0.6rem;
+        border-radius: 0.75rem;
+        background: linear-gradient(
+          90deg,
+          rgba(34, 211, 238, 0.12),
+          rgba(167, 139, 250, 0.12)
+        );
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        color: var(--muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .title {
+        margin: 0.75rem 0 0;
+        font-weight: 800;
+        font-size: clamp(2.6rem, 4.5vw, 3.4rem);
+        line-height: 1.05;
+        background: linear-gradient(90deg, var(--text), #c7d2fe);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        text-shadow: 0 0 30px rgba(167, 139, 250, 0.08);
+      }
+
+      .sub {
+        margin-top: 0.75rem;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.2vw + 0.85rem, 1.125rem);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .btn {
+        appearance: none;
+        border: 0;
+        padding: 0.85rem 1.1rem;
+        border-radius: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition: transform 0.08s ease, box-shadow 0.2s ease,
+          background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        box-shadow: 0 8px 20px rgba(2, 6, 23, 0.45);
+      }
+      .btn-primary {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        color: #0b1220;
+        border: 1px solid rgba(14, 165, 233, 0.45);
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+      }
+      .btn-ghost {
+        background: rgba(2, 6, 23, 0.6);
+        color: var(--text);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+      }
+      .btn-ghost:hover {
+        border-color: rgba(148, 163, 184, 0.6);
+        transform: translateY(-1px);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+      .chip {
+        border-radius: 0.75rem;
+        border: 1px dashed rgba(148, 163, 184, 0.35);
+        color: var(--muted);
+        padding: 0.6rem 0.8rem;
+        text-align: center;
+        background: rgba(15, 23, 42, 0.55);
+      }
+
+      .code {
+        margin-top: 1.5rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-size: 0.85rem;
+        color: #cbd5e1;
+        background: #0a0f1a;
+        border: 1px solid rgba(51, 65, 85, 0.5);
+        border-radius: 0.75rem;
+        padding: 0.9rem 1rem;
+        overflow-x: auto;
+      }
+
+      @media (max-width: 640px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .actions {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .btn {
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blob"></div>
+    <div class="blob2"></div>
+
+    <div class="wrap">
+      <div class="card" role="main" aria-labelledby="title">
+        <span class="eyebrow">Error 404</span>
+        <h1 class="title" id="title">Page not found</h1>
+        <p class="sub">
+          The page you’re looking for doesn’t exist—or moved. No worries, you
+          can head back safely.
+        </p>
+
+        <div class="actions" style="margin-top: 1.25rem">
+          <!-- Home link back to "/" (requested) -->
+          <a class="btn btn-primary" href="/" aria-label="Go to Home">
+            ⟵ Go Home
+          </a>
+
+          <!-- Optional: back to previous page -->
+          <a
+            class="btn btn-ghost"
+            href="javascript:history.back()"
+            aria-label="Go back to previous page"
+          >
+            ← Back
+          </a>
+        </div>
+
+        <!-- Optional “quick paths” / helpful chips -->
+        <div class="grid" aria-label="Quick links">
+          <div class="chip">
+            <a href="/" style="color: inherit; text-decoration: none">/ Home</a>
+          </div>
+          <div class="chip">
+            <a
+              href="/progress-tracker"
+              style="color: inherit; text-decoration: none"
+              >/ Progress Tracker</a
+            >
+          </div>
+        </div>
+
+        <pre class="code" aria-label="Debug info">
+GET <span id="path">/unknown</span> → 404 Not Found
+      </pre>
+      </div>
+    </div>
+
+    <script>
+      // Tiny helper to show the requested path in the debug box
+      (function () {
+        try {
+          var p = document.getElementById("path");
+          if (p) p.textContent = window.location.pathname || "/";
+        } catch (_) {}
+      })();
+    </script>
+  </body>
+</html>
