@@ -1,14 +1,15 @@
-
-
 RewriteEngine On
 RewriteBase /
+
+# ✅ EXCLUDE the API from SPA rewrite
+RewriteCond %{REQUEST_URI} ^/progress-tracker/api/ [NC]
+RewriteRule ^ - [L]
+
+# SPA rewrite for everything else
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
 
-
-
 # DO NOT REMOVE THIS LINE AND THE LINES BELOW ERRORPAGEID:XMGJ4ASV4S
 ErrorDocument 404 /404.html
 # DO NOT REMOVE THIS LINE AND THE LINES ABOVE XMGJ4ASV4S:ERRORPAGEID
-
