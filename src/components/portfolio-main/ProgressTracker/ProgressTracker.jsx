@@ -30,6 +30,7 @@ export default function ProgressTracker({ initialView = VIEWS.PICK }) {
     try {
       const user = await registerThenSignIn({ username, email, password });
       console.log("Registered and signed in:", user);
+      localStorage.setItem("username", user.username);
       setView(VIEWS.APP);
     } catch (e) {
       alert(e.message || "Registration failed");
