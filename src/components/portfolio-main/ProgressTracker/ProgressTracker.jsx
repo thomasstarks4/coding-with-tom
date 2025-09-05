@@ -1,5 +1,5 @@
-import { useState, useId, memo } from "react";
-import { signInAndStore, registerThenSignIn } from "./api";
+import { useState, useId, memo, useEffect } from "react";
+import { signInAndStore, registerThenSignIn, projectsApi } from "./api";
 
 const VIEWS = {
   SIGN_IN: "signIn",
@@ -16,6 +16,8 @@ export default function ProgressTracker({ initialView = VIEWS.PICK }) {
       // username field is the email for login
       const user = await signInAndStore({ email: username, password });
       console.log("Signed in as:", user);
+      localStorage.setItem("username", user.username);
+      setView("app");
       // Optionally verify with /me:
       // const me = await api.me();
       // console.log("me:", me);
@@ -28,6 +30,7 @@ export default function ProgressTracker({ initialView = VIEWS.PICK }) {
     try {
       const user = await registerThenSignIn({ username, email, password });
       console.log("Registered and signed in:", user);
+      setView(VIEWS.APP);
     } catch (e) {
       alert(e.message || "Registration failed");
       console.log(e);
@@ -62,6 +65,7 @@ export default function ProgressTracker({ initialView = VIEWS.PICK }) {
             onRegister={() => setView(VIEWS.REGISTER)}
           />
         )}
+        {view === VIEWS.APP && <Dashboard />}
       </main>
     </div>
   );
@@ -88,6 +92,7 @@ const Field = ({ label, htmlFor, children, hint }) => (
   </div>
 );
 
+// Inputs
 const Input = memo(function Input({ className = "", ...props }) {
   return (
     <input
@@ -157,6 +162,7 @@ function PickView({ onSignIn, onRegister }) {
   );
 }
 
+// Sign In Form
 function SignInForm({ onSubmit, onSwap, onBack }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -228,6 +234,7 @@ function SignInForm({ onSubmit, onSwap, onBack }) {
   );
 }
 
+// Register Form
 function RegisterForm({ onSubmit, onSwap, onBack }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -314,5 +321,366 @@ function RegisterForm({ onSubmit, onSwap, onBack }) {
         </div>
       </form>
     </Card>
+  );
+}
+
+export function Dashboard() {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [selectedId, setSelectedId] = useState(null); // null=list view, id=detail
+  const [showCreate, setShowCreate] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newNotes, setNewNotes] = useState("");
+
+  // load all projects (with tasks)
+  useEffect(() => {
+    (async () => {
+      try {
+        const { projects } = await projectsApi.list();
+        setProjects(projects || []);
+      } catch (e) {
+        setError(e.message || "Failed to load projects");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  // CRUD helpers (shared by both views)
+  async function createProject(e) {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+    try {
+      const { project } = await projectsApi.create({
+        title: newTitle.trim(),
+        notes: newNotes.trim() || null,
+      });
+      setProjects((p) => [project, ...p]);
+      setNewTitle("");
+      setNewNotes("");
+      setShowCreate(false);
+      // stay on Dashboard list per your spec
+    } catch (e) {
+      setError(e.message || "Create failed");
+    }
+  }
+
+  async function saveProject(p) {
+    try {
+      const { project } = await projectsApi.update(p.id, {
+        title: p.title,
+        notes: p.notes ?? null,
+      });
+      setProjects((list) =>
+        list.map((x) => (x.id === p.id ? { ...x, ...project } : x))
+      );
+    } catch (e) {
+      setError(e.message || "Save failed");
+    }
+  }
+
+  async function deleteProject(id) {
+    try {
+      await projectsApi.remove(id);
+      setProjects((list) => list.filter((p) => p.id !== id));
+      setSelectedId(null); // if we were in detail, go back to Dashboard
+    } catch (e) {
+      setError(e.message || "Delete failed");
+    }
+  }
+
+  async function addTask(pid, title) {
+    if (!title.trim()) return;
+    const { task } = await projectsApi.addTask(pid, { title: title.trim() });
+    setProjects((list) =>
+      list.map((p) =>
+        p.id === pid ? { ...p, tasks: [...(p.tasks || []), task] } : p
+      )
+    );
+  }
+
+  async function patchTask(tid, patch, pid) {
+    await projectsApi.updateTask(tid, patch);
+    setProjects((list) =>
+      list.map((p) =>
+        p.id === pid
+          ? {
+              ...p,
+              tasks: (p.tasks || []).map((t) =>
+                t.id === tid ? { ...t, ...patch } : t
+              ),
+            }
+          : p
+      )
+    );
+  }
+
+  async function removeTask(tid, pid) {
+    await projectsApi.deleteTask(tid);
+    setProjects((list) =>
+      list.map((p) =>
+        p.id === pid
+          ? {
+              ...p,
+              tasks: (p.tasks || []).filter((t) => t.id !== tid),
+            }
+          : p
+      )
+    );
+  }
+
+  // ===== Views =====
+  // Detail view: show only the selected project (and a back button)
+  if (selectedId != null) {
+    const proj = projects.find((p) => p.id === selectedId);
+    return (
+      <div className="max-w-3xl w-full mx-auto space-y-4">
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => setSelectedId(null)}
+            className="text-sm text-slate-300 hover:text-white underline underline-offset-4"
+          >
+            ← Go back to Dashboard
+          </button>
+          <span className="text-slate-200">
+            Welcome, <b>{localStorage.getItem("username") || "friend"}</b>!
+          </span>
+        </div>
+
+        {error && (
+          <div className="bg-red-500/20 text-red-200 border border-red-500/40 rounded-lg p-3">
+            {error}{" "}
+            <button onClick={() => setError("")} className="underline ml-2">
+              dismiss
+            </button>
+          </div>
+        )}
+
+        {proj ? (
+          <ProjectCard
+            project={proj}
+            onChange={(next) =>
+              setProjects((list) =>
+                list.map((x) => (x.id === proj.id ? next : x))
+              )
+            }
+            onSave={saveProject}
+            onDelete={() => deleteProject(proj.id)}
+            onAddTask={(title) => addTask(proj.id, title)}
+            onPatchTask={(tid, patch) => patchTask(tid, patch, proj.id)}
+            onRemoveTask={(tid) => removeTask(tid, proj.id)}
+          />
+        ) : (
+          <div className="text-slate-300">Project not found.</div>
+        )}
+      </div>
+    );
+  }
+
+  // Dashboard list view: Create button (collapsible form) + names of projects
+  return (
+    <div className="max-w-3xl w-full mx-auto space-y-6">
+      <div className="flex items-center justify-between">
+        <span className="text-slate-200">
+          Welcome, <b>{localStorage.getItem("username") || "friend"}</b>!
+        </span>
+        <button
+          onClick={() => {
+            localStorage.removeItem("pt_token");
+            window.location.reload();
+          }}
+          className="text-sm text-slate-300 hover:text-white underline underline-offset-4"
+        >
+          Sign out
+        </button>
+      </div>
+
+      {error && (
+        <div className="bg-red-500/20 text-red-200 border border-red-500/40 rounded-lg p-3">
+          {error}{" "}
+          <button onClick={() => setError("")} className="underline ml-2">
+            dismiss
+          </button>
+        </div>
+      )}
+
+      {/* Create New Project (collapsed by default) */}
+      <div className="bg-slate-800/70 rounded-2xl p-4 sm:p-6 shadow">
+        <div className="flex items-center justify-between">
+          <h2 className="text-white font-bold text-lg">Dashboard</h2>
+          <button
+            onClick={() => setShowCreate((s) => !s)}
+            className="bg-green-500 hover:bg-green-400 active:scale-[.98] text-black font-semibold rounded-xl px-4 py-2"
+          >
+            {showCreate ? "Close" : "Create New Project"}
+          </button>
+        </div>
+
+        {showCreate && (
+          <form onSubmit={createProject} className="grid gap-3 mt-4">
+            <input
+              className="rounded-lg bg-slate-900/80 text-white placeholder-slate-400 py-2 px-3 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none"
+              placeholder="Project title"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              required
+            />
+            <textarea
+              className="rounded-lg bg-slate-900/80 text-white placeholder-slate-400 py-2 px-3 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none min-h-[80px]"
+              placeholder="Notes (optional)"
+              value={newNotes}
+              onChange={(e) => setNewNotes(e.target.value)}
+            />
+            <div>
+              <button className="bg-green-500 hover:bg-green-400 active:scale-[.98] text-black font-semibold rounded-xl px-4 py-2">
+                Create project
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+
+      {/* Project names only */}
+      <div className="bg-slate-800/70 rounded-2xl p-4 sm:p-6 shadow">
+        <h3 className="text-white font-semibold mb-3">Your Projects</h3>
+        {loading ? (
+          <div className="text-slate-300">Loading…</div>
+        ) : projects.length === 0 ? (
+          <div className="text-slate-300">No projects yet.</div>
+        ) : (
+          <ul className="divide-y divide-slate-700/60">
+            {projects.map((p) => (
+              <li key={p.id}>
+                <button
+                  className="w-full text-left py-3 hover:bg-slate-700/40 rounded-lg px-2 text-slate-100"
+                  onClick={() => setSelectedId(p.id)}
+                  title="Open project"
+                >
+                  {p.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ProjectCard({
+  project,
+  onChange,
+  onSave,
+  onDelete,
+  onAddTask,
+  onPatchTask,
+  onRemoveTask,
+}) {
+  const [title, setTitle] = useState(project.title);
+  const [notes, setNotes] = useState(project.notes ?? "");
+  const [newTask, setNewTask] = useState("");
+
+  useEffect(() => {
+    setTitle(project.title);
+    setNotes(project.notes ?? "");
+  }, [project.id]);
+
+  const dirty =
+    title !== project.title || (notes ?? "") !== (project.notes ?? "");
+
+  return (
+    <div className="bg-slate-800/70 rounded-2xl p-4 sm:p-6 shadow">
+      <div className="flex items-center gap-2">
+        <input
+          className="flex-1 rounded-lg bg-slate-900/80 text-white placeholder-slate-400 py-2 px-3 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          onBlur={() => dirty && onSave({ ...project, title, notes })}
+        />
+        <button
+          onClick={() => dirty && onSave({ ...project, title, notes })}
+          disabled={!dirty}
+          className={
+            "px-3 py-2 rounded-lg text-sm font-semibold " +
+            (dirty
+              ? "bg-blue-500 text-black hover:bg-blue-400"
+              : "bg-slate-700 text-slate-300 cursor-not-allowed")
+          }
+        >
+          Save
+        </button>
+        <button
+          onClick={onDelete}
+          className="px-3 py-2 rounded-lg text-sm font-semibold bg-red-500 text-black hover:bg-red-400"
+        >
+          Delete
+        </button>
+      </div>
+
+      <div className="mt-3">
+        <textarea
+          className="w-full rounded-lg bg-slate-900/80 text-white placeholder-slate-400 py-2 px-3 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none min-h-[90px]"
+          placeholder="Notes…"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          onBlur={() => dirty && onSave({ ...project, title, notes })}
+        />
+      </div>
+
+      {/* Tasks */}
+      <div className="mt-4 space-y-2">
+        {(project.tasks || []).map((t) => (
+          <div key={t.id} className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={!!t.done}
+              onChange={(e) =>
+                onPatchTask(t.id, { done: e.target.checked ? 1 : 0 })
+              }
+              className="h-4 w-4 accent-green-500"
+            />
+            <input
+              className={
+                "flex-1 rounded-lg bg-slate-900/80 text-white py-1 px-2 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none " +
+                (t.done ? "line-through text-slate-400" : "")
+              }
+              defaultValue={t.title}
+              onBlur={(e) => {
+                const v = e.target.value.trim();
+                if (v && v !== t.title) onPatchTask(t.id, { title: v });
+              }}
+            />
+            <button
+              onClick={() => onRemoveTask(t.id)}
+              className="text-slate-300 hover:text-red-300 text-sm"
+              title="Delete task"
+            >
+              ✕
+            </button>
+          </div>
+        ))}
+
+        {/* Add task */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onAddTask(newTask);
+            setNewTask("");
+          }}
+          className="flex items-center gap-2 pt-2"
+        >
+          <input
+            className="flex-1 rounded-lg bg-slate-900/80 text-white placeholder-slate-400 py-1.5 px-2 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder="New task"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+          />
+          <button className="px-3 py-1.5 rounded-lg bg-green-500 text-black hover:bg-green-400 font-semibold">
+            Add
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

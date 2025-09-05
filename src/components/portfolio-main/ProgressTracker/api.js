@@ -54,3 +54,24 @@ export async function registerThenSignIn({ username, email, password }) {
   await api.register({ username, email, password });
   return signInAndStore({ email, password });
 }
+
+// Projects
+export const projectsApi = {
+  list: () => request("/projects"), // { projects: [...] (with tasks) }
+  create: ({ title, notes }) =>
+    request("/projects", { method: "POST", body: { title, notes } }),
+  update: (id, { title, notes }) =>
+    request(`/projects/${id}`, { method: "PUT", body: { title, notes } }),
+  remove: (id) => request(`/projects/${id}`, { method: "DELETE" }),
+
+  // Tasks
+  addTask: (projectId, { title }) =>
+    request(`/projects/${projectId}/tasks`, {
+      method: "POST",
+      body: { title },
+    }),
+  listTasks: (projectId) => request(`/projects/${projectId}/tasks`), // { tasks: [...] }
+  updateTask: (taskId, patch) =>
+    request(`/tasks/${taskId}`, { method: "PATCH", body: patch }),
+  deleteTask: (taskId) => request(`/tasks/${taskId}`, { method: "DELETE" }),
+};
