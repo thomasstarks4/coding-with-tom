@@ -61,10 +61,23 @@ export default function ProgressTracker({ initialView = VIEWS.PICK }) {
           />
         )}
         {view === VIEWS.PICK && (
-          <PickView
-            onSignIn={() => setView(VIEWS.SIGN_IN)}
-            onRegister={() => setView(VIEWS.REGISTER)}
-          />
+          <div className="bg-slate-950 p-4 rounded-xl">
+            <div className="text-center font-semibold text-xl my-5">
+              Welcome To Project Progress Tracker 🎉
+            </div>
+            <div className="text-center w-full text-md my-5">
+              Take control of your goals with ease! <br />
+              Effortlessly create projects, track your progress, add items or
+              tasks, and enjoy the satisfaction of checking them off as you go.{" "}
+              <br />
+              Whether it’s big milestones or small daily wins, we’re here to
+              help you stay organized and motivated every step of the way. 🚀
+            </div>
+            <PickView
+              onSignIn={() => setView(VIEWS.SIGN_IN)}
+              onRegister={() => setView(VIEWS.REGISTER)}
+            />
+          </div>
         )}
         {view === VIEWS.APP && <Dashboard />}
       </main>
@@ -144,20 +157,20 @@ function PasswordField({
 /** Screens **/
 function PickView({ onSignIn, onRegister }) {
   return (
-    <div className="grid gap-3">
+    <div className="flex md:flex-row flex-col md:space-x-3 space-y-3 md:space-y-0 mx-auto mt-">
       <button
         type="button"
         onClick={onRegister}
-        className="w-full bg-blue-600 hover:bg-blue-500 active:scale-[.98] text-white font-semibold rounded-xl px-4 py-2 transition"
+        className="md:w-[50%] w-[75%] mx-auto  bg-blue-600 hover:bg-blue-500 active:scale-[.98] text-white font-semibold rounded-xl px-4 py-2 transition"
       >
-        Register
+        Sign up now!
       </button>
       <button
         type="button"
         onClick={onSignIn}
-        className="w-full bg-indigo-600 hover:bg-indigo-500 active:scale-[.98] text-white font-semibold rounded-xl px-4 py-2 transition"
+        className="md:w-[50%] w-[75%] mx-auto bg-indigo-600 hover:bg-indigo-500 active:scale-[.98] text-white font-semibold rounded-xl px-4 py-2 transition"
       >
-        Sign In
+        Returning user? Log in
       </button>
     </div>
   );
@@ -339,6 +352,7 @@ export function Dashboard() {
     (async () => {
       try {
         const { projects } = await projectsApi.list();
+        console.log(projects);
         setProjects(projects || []);
       } catch (e) {
         setError(e.message || "Failed to load projects");
@@ -430,6 +444,24 @@ export function Dashboard() {
       )
     );
   }
+  function formatDate(date) {
+    let [calendarDate, time] = date.split(" ");
+    let [hour, minute] = time.split(":").map(Number);
+
+    let suffix = hour >= 12 ? "PM" : "AM";
+
+    // Convert hour to 12-hour format
+    if (hour === 0) {
+      hour = 12; // midnight edge case
+    } else if (hour > 12) {
+      hour -= 12;
+    }
+
+    let formattedTime = `${hour}:${minute
+      .toString()
+      .padStart(2, "0")} ${suffix}`;
+    return `${calendarDate} ${formattedTime}`;
+  }
 
   // ===== Views =====
   // Detail view: show only the selected project (and a back button)
@@ -444,9 +476,10 @@ export function Dashboard() {
           >
             ← Go back to Dashboard
           </button>
-          <span className="text-slate-200">
-            Welcome, <b>{localStorage.getItem("username") || "friend"}</b>!
-          </span>
+          <div>
+            Created on:{" "}
+            {formatDate(projects.find((p) => p.id === selectedId).created_at)}
+          </div>
         </div>
 
         {error && (
@@ -508,8 +541,8 @@ export function Dashboard() {
 
       {/* Create New Project (collapsed by default) */}
       <div className="bg-slate-800/70 rounded-2xl p-4 sm:p-6 shadow">
-        <div className="flex items-center justify-between">
-          <h2 className="text-white font-bold text-lg">Dashboard</h2>
+        <div className="flex flex-col space-y-4 items-center justify-between">
+          <h2 className="text-white font-bold text-lg">Your Dashboard</h2>
           <button
             onClick={() => setShowCreate((s) => !s)}
             className="bg-green-500 hover:bg-green-400 active:scale-[.98] text-black font-semibold rounded-xl px-4 py-2"
@@ -544,7 +577,9 @@ export function Dashboard() {
 
       {/* Project names only */}
       <div className="bg-slate-800/70 rounded-2xl p-4 sm:p-6 shadow">
-        <h3 className="text-white font-semibold mb-3">Your Projects</h3>
+        <h3 className="text-white font-semibold mb-3 text-center text-lg">
+          Your Projects
+        </h3>
         {loading ? (
           <div className="text-slate-300">Loading…</div>
         ) : projects.length === 0 ? (
@@ -554,7 +589,7 @@ export function Dashboard() {
             {projects.map((p) => (
               <li key={p.id}>
                 <button
-                  className="w-full text-left py-3 hover:bg-slate-700/40 rounded-lg px-2 text-slate-100"
+                  className="w-full py-3 hover:bg-slate-700/40 rounded-lg px-2 text-slate-100 text-center"
                   onClick={() => setSelectedId(p.id)}
                   title="Open project"
                 >
@@ -672,8 +707,8 @@ function ProjectCard({
           className="flex items-center gap-2 pt-2"
         >
           <input
-            className="flex-1 rounded-lg bg-slate-900/80 text-white placeholder-slate-400 py-1.5 px-2 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none"
-            placeholder="New task"
+            className="flex-1 rounded-lg bg-slate-900/80 text-white placeholder-slate-400 py-1.5 px-2 ring-1 ring-slate-600 focus:ring-2 focus:ring-blue-500 outline-none text-center"
+            placeholder="New Item"
             value={newTask}
             onChange={(e) => setNewTask(e.target.value)}
           />
