@@ -23,7 +23,7 @@ import Chat from "./components/truly-private-chat/components/Chat";
 import TPCAbout from "./components/truly-private-chat/components/About";
 import BirthdayInvMaker from "./components/portfolio-main/BirthdayInvMaker";
 import SimplyDo from "./components/portfolio-main/SimplyDo";
-import ProgressTracker from "./components/portfolio-main/ProgressTracker";
+import ProgressTracker from "./components/portfolio-main/ProgressTracker/ProgressTracker";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
