@@ -53,6 +53,11 @@ function Applications() {
       label: "To Do List/Task Manager (SimplyDo)",
       external: false,
     },
+    {
+      to: "/progress-tracker",
+      label: "Track your progress on projects!",
+      external: false,
+    },
   ];
 
   // Filter apps based on search query
@@ -101,7 +106,7 @@ function Applications() {
 
   return (
     <div
-      className="bg-slate-900 flex-1 flex flex-col justify-center items-center"
+      className="bg-slate-900 flex-1 flex flex-col justify-center items-center min-h-[85%] p-4"
       ref={containerRef}
     >
       <div className="flex flex-col justify-center items-center">
