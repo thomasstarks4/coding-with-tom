@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white text-gray-800">
+    <div className="relative min-h-screen overflow-auto bg-white text-gray-800">
       {/* Content */}
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center px-4 py-16 sm:py-20 lg:py-24">
         <header className="text-center">
@@ -10,10 +10,10 @@ const Home = () => {
             Welcome to Tom&apos;s Learning Hub
           </h1>
           <p className="mt-3 max-w-3xl text-base text-gray-600 sm:text-lg lg:text-xl animate-[fadeInUp_1s_ease-out] motion-reduce:animate-none">
-            At our site, we believe that learning to read should be a fun and
-            engaging experience for children. Our educational software is
-            designed to help young readers build their confidence and skills by
-            using <strong>sentence starters</strong> and{" "}
+            I believe that learning to read should be a fun and engaging
+            experience for children. This educational software is designed to
+            help young readers build their confidence and skills by using{" "}
+            <strong>sentence starters</strong> and{" "}
             <strong>common, everyday words</strong>.
           </p>
         </header>
@@ -23,22 +23,22 @@ const Home = () => {
           <h2 className="text-xl font-semibold sm:text-2xl">How It Works:</h2>
           <ul className="mt-4 space-y-4 text-sm leading-6 text-gray-700 sm:text-base">
             <li>
-              <strong>Sentence Starters:</strong> We offer a wide variety of
-              sentence starters that form the base of a sentence. These starters
-              are crafted to be simple and meaningful, helping children
-              understand the context and structure of sentences.
+              <strong>Sentence Starters:</strong> A wide variety of sentence
+              starters that form the base of a sentence. These starters are
+              crafted to be simple and meaningful, helping children understand
+              the context and structure of sentences.
             </li>
             <li>
-              <strong>Common Words and Phrases:</strong> The software introduces
-              children to frequently used words in a fun way, reinforcing their
-              recognition and understanding. By reading these common words in
-              different contexts, children can start to form their own sentences
-              and improve their reading fluency.
+              <strong>Common Words and Phrases:</strong> Introduces children to
+              frequently used words in a fun way, reinforcing their recognition
+              and understanding. By reading these common words in different
+              contexts, children can start to form their own sentences and
+              improve their reading fluency.
             </li>
             <li>
-              <strong>Interactive Learning:</strong> Our program encourages
-              children to interact with the content, helping them stay engaged
-              and interested. The goal is to make reading not just a learning
+              <strong>Interactive Learning:</strong> Encourages children to
+              interact with the content, helping them stay engaged and
+              interested. The goal is to make reading not just a learning
               process but an adventure they can enjoy!
             </li>
           </ul>
@@ -46,10 +46,10 @@ const Home = () => {
 
         {/* Section 2 */}
         <section className="mt-6 w-full rounded-2xl bg-white/80 p-5 shadow-sm backdrop-blur sm:mt-8 sm:p-6 lg:mt-10 lg:p-8 animate-[fadeInUp_1s_ease-out] motion-reduce:animate-none">
-          <h2 className="text-xl font-semibold sm:text-2xl">Why Choose Us?</h2>
+          <h2 className="text-xl font-semibold sm:text-2xl">Why Use This?</h2>
           <ul className="mt-4 space-y-4 text-sm leading-6 text-gray-700 sm:text-base">
             <li>
-              <strong>Designed for Kids:</strong> Our software is tailored
+              <strong>Designed for Kids:</strong> Tailored and tested
               specifically for young readers. It’s colorful, easy to use, and
               packed with fun animations and sounds that keep children motivated
               and eager to learn.
@@ -67,7 +67,7 @@ const Home = () => {
             <li>
               <strong>Supports Parents and Educators:</strong> Whether you're a
               parent looking to supplement your child's learning at home or an
-              educator searching for new tools to engage students, our platform
+              educator searching for new tools to engage students, this platform
               offers valuable resources to support literacy development.
             </li>
           </ul>

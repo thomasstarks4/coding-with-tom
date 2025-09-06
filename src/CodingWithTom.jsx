@@ -160,7 +160,12 @@ function CodingWithTom() {
         />
         <Route
           path="/starter"
-          element={<Starter startersSelected={startersSelected} />}
+          element={
+            <Starter
+              startersSelected={startersSelected}
+              setStartersSelected={setStartersSelected}
+            />
+          }
         />
         <Route
           path="/tuner"
