@@ -445,6 +445,7 @@ export function Dashboard() {
     );
   }
   function formatDate(date) {
+    if (!date) return;
     let [calendarDate, time] = date.split(" ");
     let [hour, minute] = time.split(":").map(Number);
 
