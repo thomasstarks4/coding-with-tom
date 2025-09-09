@@ -445,7 +445,18 @@ export function Dashboard() {
     );
   }
   function formatDate(date) {
-    if (!date) return;
+    let inputDate;
+
+    if (!date) {
+      // Use current date/time if not provided
+      inputDate = new Date();
+      const year = inputDate.getFullYear();
+      const month = String(inputDate.getMonth() + 1).padStart(2, "0");
+      const day = String(inputDate.getDate()).padStart(2, "0");
+      const hours = String(inputDate.getHours()).padStart(2, "0");
+      const minutes = String(inputDate.getMinutes()).padStart(2, "0");
+      date = `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
     let [calendarDate, time] = date.split(" ");
     let [hour, minute] = time.split(":").map(Number);
 
