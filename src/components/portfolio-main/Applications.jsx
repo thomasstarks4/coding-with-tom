@@ -60,7 +60,7 @@ function Applications() {
     },
     {
       to: "/grow-app",
-      label: "Track your progress on projects!",
+      label: "Grow App",
       external: false,
     },
   ];
