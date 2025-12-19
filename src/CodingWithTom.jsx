@@ -24,6 +24,7 @@ import TPCAbout from "./components/truly-private-chat/components/About";
 import BirthdayInvMaker from "./components/portfolio-main/BirthdayInvMaker";
 import SimplyDo from "./components/portfolio-main/SimplyDo";
 import ProgressTracker from "./components/portfolio-main/ProgressTracker/ProgressTracker";
+import GrowApp from "./components/grow-app/Grow";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
@@ -154,6 +155,7 @@ function CodingWithTom() {
         <Route path="/tpc/chat" element={<Chat />} />
         <Route path="/tpc/about" element={<TPCAbout />} />
         <Route path="/progress-tracker" element={<ProgressTracker />} />
+        <Route path="/grow-app" element={<GrowApp />} />
         <Route
           path="/birthday-invitation-maker"
           element={<BirthdayInvMaker />}

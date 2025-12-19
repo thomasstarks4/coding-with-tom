@@ -632,6 +632,7 @@ function ProjectCard({
   useEffect(() => {
     setTitle(project.title);
     setNotes(project.notes ?? "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [project.id]);
 
   const dirty =
