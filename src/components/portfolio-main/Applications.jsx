@@ -58,6 +58,11 @@ function Applications() {
       label: "Track your progress on projects!",
       external: false,
     },
+    {
+      to: "/grow-app",
+      label: "Track your progress on projects!",
+      external: false,
+    },
   ];
 
   // Filter apps based on search query
