@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import attackingKnight from "./media/animations/knight-attack.gif";
 import "./styles/Applications.css";
-
+// Component rendering the links to different applications I've made
 function Applications() {
   const navigate = useNavigate();
   const [queryText, setQueryText] = useState("");
