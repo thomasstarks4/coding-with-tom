@@ -3,8 +3,9 @@ import Home from "./components/portfolio-main/Home";
 import Home2 from "./components/toms-learning-hub/components/Home";
 import Home3 from "./components/truly-private-chat/components/Home";
 import { useState } from "react";
-import { Route, Routes, Link, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import HamburgerButton from "./components/portfolio-main/HamburgerButton";
+import HamburgerMenu from "./components/portfolio-main/HamburgerMenu";
 import Contact from "./components/portfolio-main/Contact";
 import About from "./components/portfolio-main/About";
 import Applications from "./components/portfolio-main/Applications";
@@ -28,19 +29,14 @@ import GrowApp from "./components/grow-app/Grow";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
-  const location = useLocation(); // Get the current route location
+  const location = useLocation();
 
-  const hamburgerMenuClick = () => {
+  const toggleMenu = () => {
     setShowMenu((prevState) => !prevState);
   };
 
-  const hamburgerMenuClick2 = () => {
+  const closeMenu = () => {
     setShowMenu(false);
-    const containers = document.querySelectorAll(".container");
-
-    containers.forEach((container) => {
-      container.classList.toggle("reduced", !showMenu);
-    });
   };
 
   const initialStarters = {
@@ -126,9 +122,6 @@ function CodingWithTom() {
   const isPortfolioSite = isLearningHubRoute === false;
   return (
     <div
-      onClick={() => {
-        if (showMenu) setShowMenu(false); // Hide menu if user clicks anywhere on the screen
-      }}
       className={` ${isLearningHubRoute ? "bg-learning-hub" : ""} ${
         isPortfolioSite ? "bg-main" : ""
       }`}
@@ -138,7 +131,8 @@ function CodingWithTom() {
         <LearningHubNavbar />
       ) : (
         <>
-          <HamburgerButton onClick={hamburgerMenuClick} showMenu={showMenu} />
+          <HamburgerButton onClick={toggleMenu} showMenu={showMenu} />
+          <HamburgerMenu showMenu={showMenu} onClose={closeMenu} />
         </>
       )}
 
@@ -186,25 +180,6 @@ function CodingWithTom() {
 
       {/* Add ToastContainer to render toasts */}
       <ToastContainer autoClose={3000} position="top-right" />
-
-      <div className={showMenu ? "off-screen-menu active" : "off-screen-menu"}>
-        {showMenu && (
-          <ul>
-            <Link to="/" onClick={hamburgerMenuClick2}>
-              Home
-            </Link>
-            <Link to="/about" onClick={hamburgerMenuClick2}>
-              About
-            </Link>
-            <Link to="/contact" onClick={hamburgerMenuClick2}>
-              Contact
-            </Link>
-            <Link to="/apps" onClick={hamburgerMenuClick2}>
-              Apps
-            </Link>
-          </ul>
-        )}
-      </div>
     </div>
   );
 }
