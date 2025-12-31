@@ -27,7 +27,7 @@ function HamburgerButton({ showMenu, onClick }) {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             style={{ top: 0 }}
           />
-          
+
           {/* Middle line */}
           <motion.span
             className="absolute left-0 top-2.5 h-0.5 w-6 rounded-full bg-gradient-to-r from-purple-400 to-pink-400"
@@ -37,7 +37,7 @@ function HamburgerButton({ showMenu, onClick }) {
             }}
             transition={{ duration: 0.2 }}
           />
-          
+
           {/* Bottom line */}
           <motion.span
             className="absolute left-0 h-0.5 w-6 rounded-full bg-gradient-to-r from-green-400 to-emerald-400"
@@ -50,7 +50,7 @@ function HamburgerButton({ showMenu, onClick }) {
             style={{ bottom: 0 }}
           />
         </div>
-        
+
         {/* Animated ring on hover */}
         <motion.div
           className="absolute inset-0 rounded-xl border-2 border-cyan-400"

@@ -112,7 +112,7 @@ function HamburgerMenu({ showMenu, onClose }) {
                       >
                         {/* Gradient overlay on hover */}
                         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/10 group-hover:to-blue-500/10 transition-all duration-300" />
-                        
+
                         <div className="relative flex items-center gap-4">
                           <span className="text-3xl">{item.icon}</span>
                           <span className="text-xl font-semibold text-white group-hover:text-cyan-300 transition-colors">
