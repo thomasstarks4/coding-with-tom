@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import "../styles/Starter.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Starter = ({ startersSelected }) => {
-  console.log("startersSelected:", startersSelected); // Debugging to see what is passed
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+  const [cardStates, setCardStates] = useState({});
 
-  // Word arrays
+  // Enhanced word lists for better sentence construction
   const singleNouns = [
     "cat",
     "dog",
     "sun",
+    "moon",
     "car",
     "tree",
     "bird",
@@ -19,7 +19,15 @@ const Starter = ({ startersSelected }) => {
     "hat",
     "book",
     "fish",
+    "flower",
+    "star",
+    "house",
+    "door",
+    "window",
+    "table",
+    "chair",
   ];
+
   const pluralNouns = [
     "cats",
     "dogs",
@@ -31,7 +39,14 @@ const Starter = ({ startersSelected }) => {
     "stars",
     "toys",
     "hats",
+    "flowers",
+    "cookies",
+    "shoes",
+    "friends",
+    "animals",
+    "colors",
   ];
+
   const adjectives = [
     "big",
     "small",
@@ -43,7 +58,16 @@ const Starter = ({ startersSelected }) => {
     "cold",
     "red",
     "blue",
+    "tall",
+    "short",
+    "funny",
+    "silly",
+    "brave",
+    "kind",
+    "bright",
+    "dark",
   ];
+
   const verbs = [
     "run",
     "jump",
@@ -55,43 +79,51 @@ const Starter = ({ startersSelected }) => {
     "walk",
     "sleep",
     "dance",
+    "write",
+    "draw",
+    "laugh",
+    "talk",
+    "listen",
+    "watch",
   ];
+
   const nounPlaces = [
     "park",
-    "home",
     "school",
     "store",
     "beach",
     "zoo",
     "farm",
-    "city",
-    "house",
-    "yard",
+    "garden",
+    "library",
+    "playground",
+    "kitchen",
   ];
+
   const bodyParts = [
-    "hand",
-    "foot",
-    "head",
-    "arm",
-    "leg",
-    "ear",
+    "eyes",
+    "ears",
+    "hands",
+    "feet",
     "nose",
-    "eye",
     "mouth",
-    "knee",
+    "face",
+    "head",
   ];
+
   const pluralNounPlaces = [
     "parks",
-    "homes",
     "schools",
     "stores",
     "beaches",
     "farms",
-    "cities",
+    "gardens",
+    "libraries",
+    "playgrounds",
     "rooms",
-    "houses",
-    "shops",
+    "classrooms",
   ];
+
   const gamesSports = [
     "tag",
     "soccer",
@@ -101,123 +133,202 @@ const Starter = ({ startersSelected }) => {
     "jump rope",
     "baseball",
     "basketball",
-    "duck-duck-goose",
     "tennis",
+    "kickball",
   ];
+
   const objects = [
     "toy",
     "ball",
     "book",
     "doll",
     "block",
-    "chair",
     "bike",
     "pencil",
     "cup",
     "bag",
+    "crayon",
+    "picture",
+    "phone",
+    "blanket",
+    "backpack",
   ];
 
-  // Function to generate a random word from the correct array based on partnerType
+  // Enhanced word selection with better context awareness
   const getRandomWord = (partnerType) => {
-    switch (partnerType) {
-      case "single noun":
-        return singleNouns[Math.floor(Math.random() * singleNouns.length)];
-      case "plural noun":
-        return pluralNouns[Math.floor(Math.random() * pluralNouns.length)];
-      case "adjective":
-        return adjectives[Math.floor(Math.random() * adjectives.length)];
-      case "verb":
-        return verbs[Math.floor(Math.random() * verbs.length)];
-      case "noun/place":
-        return nounPlaces[Math.floor(Math.random() * nounPlaces.length)];
-      case "body part":
-        return bodyParts[Math.floor(Math.random() * bodyParts.length)];
-      case "plural noun/places":
-        return pluralNounPlaces[
-          Math.floor(Math.random() * pluralNounPlaces.length)
-        ];
-      case "game/sport":
-        return gamesSports[Math.floor(Math.random() * gamesSports.length)];
-      case "object":
-        return objects[Math.floor(Math.random() * objects.length)];
-      default:
-        return "";
-    }
+    const wordMap = {
+      "single noun": singleNouns,
+      "plural noun": pluralNouns,
+      adjective: adjectives,
+      verb: verbs,
+      "noun/place": nounPlaces,
+      "body part": bodyParts,
+      "plural noun/places": pluralNounPlaces,
+      "game/sport": gamesSports,
+      object: objects,
+    };
+    const words = wordMap[partnerType] || [];
+    return words[Math.floor(Math.random() * words.length)];
   };
 
-  // Function to generate sentences based on startersSelected
+  // Generate sentences with improved logic
   const generateSentences = () => {
     if (!startersSelected || typeof startersSelected !== "object") {
-      console.log("Invalid startersSelected:", startersSelected); // Debugging
-      return ["Something went wrong"]; // Return an empty array if startersSelected is undefined or not an object
+      return ["Something went wrong"];
     }
 
     return Object.keys(startersSelected)
-      .filter((key) => startersSelected[key]?.isShown) // Only starters that are shown
+      .filter((key) => startersSelected[key]?.isShown)
       .map((key) => {
         const starter = startersSelected[key];
-        const randomWord = getRandomWord(starter.partnerType); // Generate random word based on partnerType
-        const sentence = `${starter.text} ${randomWord}`; // Combine starter text with the random word
-        return sentence; // Return generated sentence
+        const randomWord = getRandomWord(starter.partnerType);
+
+        // Ensure proper capitalization and punctuation
+        let sentence = `${starter.text} ${randomWord}`;
+
+        // Capitalize first letter if not already
+        if (sentence && sentence[0] === sentence[0].toLowerCase()) {
+          sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+        }
+
+        // Add period if sentence doesn't end with punctuation
+        if (sentence && !sentence.match(/[.!?]$/)) {
+          sentence += ".";
+        }
+
+        return sentence;
       });
   };
 
-  // Generate sentences
   const sentences = generateSentences();
 
-  // Function to handle the onClick event for the sentence cards
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
     setIsModalOpen(true);
   };
 
-  // Function to handle the confirmation in the custom dialog
   const handleConfirm = () => {
-    const card = document.getElementById(`sentence-card-${selectedCardIndex}`);
-    card.style.backgroundColor = "green";
+    setCardStates((prev) => ({ ...prev, [selectedCardIndex]: "success" }));
     setIsModalOpen(false);
   };
 
-  // Function to handle the cancellation in the custom dialog
   const handleCancel = () => {
-    const card = document.getElementById(`sentence-card-${selectedCardIndex}`);
-    card.style.backgroundColor = "lightblue";
+    setCardStates((prev) => ({ ...prev, [selectedCardIndex]: "retry" }));
     setIsModalOpen(false);
   };
 
   return (
-    <div className="starter-container">
-      <h1 className="title">Generated Sentences</h1>
-      <div className="sentences-wrapper">
-        {sentences.map((sentence, index) => (
-          <div
-            id={`sentence-card-${index}`}
-            className="sentence-card"
-            key={index}
-            onClick={() => handleCardClick(index)}
-          >
-            <p className="sentence-text">{sentence}</p>
-          </div>
-        ))}
-      </div>
+    <motion.div
+      className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-50 py-8 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          className="bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 p-8 rounded-2xl shadow-xl mb-8"
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <h1 className="text-4xl font-bold text-white text-center mb-2">
+            📚 Generated Sentences
+          </h1>
+          <p className="text-white/90 text-center text-lg">
+            Click each sentence after your learner reads it!
+          </p>
+        </motion.div>
 
-      {/* Custom Modal Dialog */}
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2 className="modal-title">Could your learner read this?</h2>
-            <div className="modal-buttons">
-              <button className="confirm-button" onClick={handleConfirm}>
-                Yes
-              </button>
-              <button className="cancel-button" onClick={handleCancel}>
-                No
-              </button>
-            </div>
-          </div>
+        {/* Sentences Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {sentences.map((sentence, index) => {
+            const state = cardStates[index];
+            const bgClass =
+              state === "success"
+                ? "from-green-400 to-emerald-500"
+                : state === "retry"
+                ? "from-blue-400 to-cyan-500"
+                : "from-yellow-300 to-orange-300";
+
+            return (
+              <motion.div
+                key={index}
+                className={`bg-gradient-to-br ${bgClass} p-6 rounded-2xl shadow-lg border-4 border-white cursor-pointer`}
+                initial={{ scale: 0, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.05,
+                  type: "spring",
+                }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleCardClick(index)}
+              >
+                <p className="text-xl font-bold text-gray-900 text-center">
+                  {sentence}
+                </p>
+                {state === "success" && (
+                  <div className="text-center mt-2 text-2xl">✅</div>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
-      )}
-    </div>
+
+        {/* Modal */}
+        <AnimatePresence>
+          {isModalOpen && (
+            <>
+              <motion.div
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsModalOpen(false)}
+              />
+              <motion.div
+                className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+              >
+                <div
+                  className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                    Could your learner read this?
+                  </h2>
+                  <p className="text-xl text-center text-gray-600 mb-6 font-semibold">
+                    "{sentences[selectedCardIndex]}"
+                  </p>
+                  <div className="flex gap-3">
+                    <motion.button
+                      className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-4 px-6 rounded-xl"
+                      onClick={handleConfirm}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      ✅ Yes!
+                    </motion.button>
+                    <motion.button
+                      className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-4 px-6 rounded-xl"
+                      onClick={handleCancel}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      🔄 Try Again
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 };
 

@@ -9,28 +9,6 @@ const Home = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
-      {/* Decorative Elements */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <motion.div
-          className="absolute left-[12%] top-[18%] h-[120px] w-[120px] rounded-full bg-blue-500/30 sm:h-[150px] sm:w-[150px]"
-          animate={{ y: [0, -30, 0], rotate: [0, 180, 360] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute right-[12%] top-1/3 h-[120px] w-[120px] bg-purple-500/30 sm:h-[150px] sm:w-[150px]"
-          animate={{ y: [0, 40, 0], rotate: [0, -180, -360] }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-      </div>
-
       {/* Content */}
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center px-4 py-16 sm:py-20 lg:py-24">
         <motion.header
@@ -42,7 +20,7 @@ const Home = () => {
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-transparent bg-clip-text">
             Welcome to Tom&apos;s Learning Hub
           </h1>
-          <p className="mt-3 max-w-3xl text-base text-gray-600 sm:text-lg lg:text-xl">
+          <p className="mt-3 max-w-3xl text-base text-gray-600 sm:text-lg lg:text-xl animate-[fadeInUp_1s_ease-out] motion-reduce:animate-none">
             I believe that learning to read should be a fun and engaging
             experience for children. This educational software is designed to
             help young readers build their confidence and skills by using{" "}
@@ -59,9 +37,7 @@ const Home = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           whileHover={{ scale: 1.02, y: -5 }}
         >
-          <h2 className="text-xl font-semibold sm:text-2xl mb-4 text-blue-700">
-            How It Works:
-          </h2>
+          <h2 className="text-xl font-semibold sm:text-2xl">How It Works:</h2>
           <ul className="mt-4 space-y-4 text-sm leading-6 text-gray-700 sm:text-base">
             <li>
               <strong>Sentence Starters:</strong> A wide variety of sentence
@@ -83,7 +59,7 @@ const Home = () => {
               process but an adventure they can enjoy!
             </li>
           </ul>
-        </motion.section>
+        </section>
 
         {/* Section 2 */}
         <motion.section
@@ -93,15 +69,13 @@ const Home = () => {
           transition={{ duration: 0.5, delay: 0.6 }}
           whileHover={{ scale: 1.02, y: -5 }}
         >
-          <h2 className="text-xl font-semibold sm:text-2xl mb-4 text-purple-700">
-            Why Use This?
-          </h2>
+          <h2 className="text-xl font-semibold sm:text-2xl">Why Use This?</h2>
           <ul className="mt-4 space-y-4 text-sm leading-6 text-gray-700 sm:text-base">
             <li>
               <strong>Designed for Kids:</strong> Tailored and tested
-              specifically for young readers. It's colorful, easy to use, and
-              packed with fun animations that keep children motivated and eager
-              to learn.
+              specifically for young readers. It’s colorful, easy to use, and
+              packed with fun animations and sounds that keep children motivated
+              and eager to learn.
             </li>
             <li>
               <strong>Builds Confidence:</strong> By gradually introducing
@@ -141,6 +115,61 @@ const Home = () => {
             </motion.button>
           </Link>
         </motion.div>
+      </div>
+
+      {/* Decorative Animated Elements */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        {/* Circle */}
+        <motion.div
+          className="absolute left-[12%] top-[18%] h-[120px] w-[120px] rounded-full bg-blue-500/30 sm:h-[150px] sm:w-[150px]"
+          animate={{
+            y: [0, -30, 0],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        {/* Square */}
+        <motion.div
+          className="absolute right-[12%] top-1/3 h-[120px] w-[120px] bg-purple-500/30 sm:h-[150px] sm:w-[150px]"
+          animate={{
+            y: [0, 40, 0],
+            rotate: [0, -180, -360],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+        {/* Triangle */}
+        <motion.div
+          className="absolute left-[28%] bottom-[8%]"
+          style={{
+            width: 0,
+            height: 0,
+            borderLeft: "60px solid transparent",
+            borderRight: "60px solid transparent",
+            borderBottom: "110px solid rgba(245, 166, 35, 0.3)",
+          }}
+          animate={{
+            y: [0, -25, 0],
+            rotate: [0, 90, 180, 270, 360],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
       </div>
     </motion.div>
   );

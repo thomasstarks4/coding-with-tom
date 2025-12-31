@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "../styles/Writer.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Writer = () => {
   const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [completedTopics, setCompletedTopics] = useState([]);
 
-  // Array of topics and subtopics for first-grade students
   const topics = [
     {
       topic: "My Favorite Animal",
@@ -85,123 +85,197 @@ const Writer = () => {
     },
   ];
 
-  // Function to handle the onClick event for the topic cards
   const handleCardClick = (index) => {
     setSelectedTopicIndex(index);
-    handleConfirm(index);
+    setIsModalOpen(true);
   };
 
-  // Function to handle the confirmation in the custom dialog
-  const handleConfirm = (index = -1) => {
-    if (index === -1) {
-      const card = document.getElementById(`prompt-card-${selectedTopicIndex}`);
-      if (card.style.backgroundColor === "green") {
-      }
-      card.style.backgroundColor = "green";
-    } else {
-      const card = document.getElementById(`prompt-card-${index}`);
-      card.style.backgroundColor = "green";
+  const handleConfirm = () => {
+    if (!completedTopics.includes(selectedTopicIndex)) {
+      setCompletedTopics((prev) => [...prev, selectedTopicIndex]);
     }
     setIsModalOpen(false);
   };
 
-  // Function to handle the cancellation in the custom dialog
   const handleCancel = () => {
-    const card = document.getElementById(`prompt-card-${selectedTopicIndex}`);
-    card.style.backgroundColor = "lightblue";
     setIsModalOpen(false);
   };
 
   return (
-    <div className="writer-container">
-      <h1 className="writer-title noprint">Writing Topics</h1>
-      <h3 className="noprint" style={{ color: "black" }}>
-        Choose a topic to get started!
-      </h3>
-      {selectedTopicIndex !== null && (
+    <motion.div
+      className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 py-8 px-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <motion.div
+          className="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 p-8 rounded-2xl shadow-xl mb-8 noprint"
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <h1 className="text-4xl font-bold text-white text-center mb-2">
+            ✍️ Writing Topics
+          </h1>
+          <p className="text-white/90 text-center text-lg">
+            Choose a topic to get started with creative writing!
+          </p>
+        </motion.div>
 
-      <button
-        className="noprint homework-button"
-        onClick={function () {
-          window.print();
-        }}
-      >
-        Print My Homework!
-      </button>
-      )}
-      <div className="prompts-wrapper noprint">
-        {topics.map((topicObj, index) => (
-          <div
-            id={`prompt-card-${index}`}
-            className="prompt-card"
-            key={index}
-            onClick={() => handleCardClick(index)}
+        {selectedTopicIndex !== null && (
+          <motion.button
+            className="noprint mb-6 mx-auto block bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg"
+            onClick={() => window.print()}
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
           >
-            <p className="prompt-text">{topicObj.topic}</p>
-          </div>
-        ))}
-      </div>
+            🖨️ Print My Homework!
+          </motion.button>
+        )}
 
-      {/* Custom Modal Dialog */}
-      {isModalOpen && selectedTopicIndex !== null && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h2 className="modal-title">
-              Could your little one write something?
-            </h2>
-            <p>Topic: {topics[selectedTopicIndex].topic}</p>
-            <p>Subtopics:</p>
-            <ul>
-              {topics[selectedTopicIndex].subtopics.map((subtopic, index) => (
-                <li key={index}>{subtopic}</li>
-              ))}
-            </ul>
-            <div className="modal-buttons">
-              <button className="confirm-button" onClick={handleConfirm}>
-                They did!
-              </button>
-              <button className="cancel-button" onClick={handleCancel}>
-                Not this time!
-              </button>
-            </div>
-          </div>
+        {/* Topics Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 noprint">
+          {topics.map((topicObj, index) => {
+            const isCompleted = completedTopics.includes(index);
+            return (
+              <motion.div
+                key={index}
+                className={`p-6 rounded-2xl shadow-lg border-4 cursor-pointer ${
+                  isCompleted
+                    ? "bg-gradient-to-br from-green-400 to-emerald-500 border-green-600"
+                    : "bg-gradient-to-br from-purple-300 to-pink-300 border-purple-400"
+                }`}
+                initial={{ scale: 0, rotate: 10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: index * 0.05,
+                  type: "spring",
+                }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleCardClick(index)}
+              >
+                <p className="text-xl font-bold text-gray-900 text-center">
+                  {topicObj.topic}
+                </p>
+                {isCompleted && (
+                  <div className="text-center mt-2 text-2xl">✅</div>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
-      )}
 
-      {/* Printable Form */}
-      {selectedTopicIndex !== null && (
-        <div className="printable-form">
-          <h2>{topics[selectedTopicIndex].topic}</h2>
-          <div className="name-section">
-            <h3>Writer's Name:</h3>
-            <div className="writing-line">
-              <p>
+        {/* Modal */}
+        <AnimatePresence>
+          {isModalOpen && selectedTopicIndex !== null && (
+            <>
+              <motion.div
+                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsModalOpen(false)}
+              />
+              <motion.div
+                className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+              >
+                <div
+                  className="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+                    Could your little one write something?
+                  </h2>
+                  <p className="text-xl text-purple-700 font-bold mb-3">
+                    Topic: {topics[selectedTopicIndex].topic}
+                  </p>
+                  <p className="text-gray-700 font-semibold mb-2">
+                    Subtopics to explore:
+                  </p>
+                  <ul className="list-disc list-inside mb-6 space-y-1 text-gray-600">
+                    {topics[selectedTopicIndex].subtopics.map(
+                      (subtopic, index) => (
+                        <li key={index}>{subtopic}</li>
+                      )
+                    )}
+                  </ul>
+                  <div className="flex gap-3">
+                    <motion.button
+                      className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-4 px-6 rounded-xl"
+                      onClick={handleConfirm}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      ✅ They did!
+                    </motion.button>
+                    <motion.button
+                      className="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-bold py-4 px-6 rounded-xl"
+                      onClick={handleCancel}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Not this time
+                    </motion.button>
+                  </div>
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Printable Form */}
+        {selectedTopicIndex !== null && (
+          <div className="hidden print:block bg-white p-8">
+            <h2 className="text-3xl font-bold text-center mb-8 border-b-4 border-gray-800 pb-4">
+              {topics[selectedTopicIndex].topic}
+            </h2>
+            <div className="mb-8">
+              <h3 className="text-xl font-bold mb-2">Writer's Name:</h3>
+              <div className="border-b-2 border-gray-400 pb-1">
                 ________________________________________________________________
-              </p>
-            </div>
-          </div>
-          {topics[selectedTopicIndex].subtopics.map((subtopic, index) => (
-            <div key={index} className="subtopic-section">
-              <h3>{subtopic}</h3>
-              <div className="writing-lines">
-                <p>
-                  ________________________________________________________________
-                </p>
-                <p>
-                  ________________________________________________________________
-                </p>
-                <p>
-                  ________________________________________________________________
-                </p>
-                <p>
-                  ________________________________________________________________
-                </p>
               </div>
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+            {topics[selectedTopicIndex].subtopics.map((subtopic, index) => (
+              <div key={index} className="mb-8">
+                <h3 className="text-lg font-bold mb-3">{subtopic}</h3>
+                <div className="space-y-3">
+                  <div className="border-b border-gray-400">
+                    ________________________________________________________________
+                  </div>
+                  <div className="border-b border-gray-400">
+                    ________________________________________________________________
+                  </div>
+                  <div className="border-b border-gray-400">
+                    ________________________________________________________________
+                  </div>
+                  <div className="border-b border-gray-400">
+                    ________________________________________________________________
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Print styles */}
+      <style>{`
+        @media print {
+          .noprint { display: none !important; }
+          body { background: white !important; }
+        }
+        @page { margin: 1cm; }
+      `}</style>
+    </motion.div>
   );
 };
 
