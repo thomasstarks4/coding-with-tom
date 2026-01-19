@@ -89,14 +89,14 @@ function Applications() {
       external: false,
       color: "from-emerald-500 to-teal-500",
     },
-    {
-      to: "/grow-app",
-      label: "Grow App",
-      description: "Personal Growth Tracker",
-      category: "Productivity",
-      external: false,
-      color: "from-orange-500 to-amber-500",
-    },
+    // {
+    //   to: "/grow-app",
+    //   label: "Grow App",
+    //   description: "Personal Growth Tracker",
+    //   category: "Productivity",
+    //   external: false,
+    //   color: "from-orange-500 to-amber-500",
+    // },
   ];
 
   // Filter apps based on search query
@@ -104,7 +104,7 @@ function Applications() {
     (app) =>
       app.label.toLowerCase().includes(queryText.toLowerCase()) ||
       app.description.toLowerCase().includes(queryText.toLowerCase()) ||
-      app.category.toLowerCase().includes(queryText.toLowerCase())
+      app.category.toLowerCase().includes(queryText.toLowerCase()),
   );
 
   const handleInputChange = (e) => {
