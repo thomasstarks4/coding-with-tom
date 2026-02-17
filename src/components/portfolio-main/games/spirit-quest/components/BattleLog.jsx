@@ -20,7 +20,7 @@ function LogEntry({ text, type }) {
       initial={{ opacity: 0, x: -16 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.25 }}
-      className={`text-sm leading-relaxed ${LOG_COLORS[type] || "text-gray-300"}`}
+      className={`text-sm lg:text-base leading-relaxed ${LOG_COLORS[type] || "text-gray-300"}`}
     >
       {text}
     </motion.p>
@@ -35,7 +35,7 @@ export default function BattleLog({ log }) {
   }, [log]);
 
   return (
-    <div className="bg-black/50 border border-gray-800 rounded-xl p-3 h-40 md:h-48 overflow-y-auto space-y-1"
+    <div className="bg-black/50 border border-gray-800 rounded-xl p-3 lg:p-4 h-40 md:h-48 lg:h-56 2xl:h-64 overflow-y-auto space-y-1 lg:space-y-1.5"
       style={{ scrollbarWidth: "thin", scrollbarColor: "#4b5563 transparent" }}
     >
       <AnimatePresence>

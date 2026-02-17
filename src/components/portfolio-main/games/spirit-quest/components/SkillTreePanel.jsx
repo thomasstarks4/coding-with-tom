@@ -51,25 +51,25 @@ export default function SkillTreePanel({
         <button onClick={saveAndBack} className="text-gray-500 hover:text-gray-300 transition-colors text-sm">
           ← Back{hasChanges ? " (save)" : ""}
         </button>
-        <h2 className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
+        <h2 className="text-xl lg:text-2xl 2xl:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
           {pathData?.name || "Skills"}
         </h2>
         <div className="w-16" />
       </div>
 
-      <p className="text-xs text-gray-500 text-center">
+      <p className="text-xs lg:text-sm text-gray-500 text-center">
         Tap unlocked skills to equip (max 4). Equipped skills glow.
       </p>
 
       {/* Active skill slots */}
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-center gap-2 lg:gap-3">
         {[0, 1, 2, 3].map((slotIdx) => {
           const skillId = pendingActive[slotIdx];
           const skill = tree.find((s) => s.id === skillId);
           return (
             <div
               key={slotIdx}
-              className={`w-16 h-16 rounded-xl border-2 flex items-center justify-center text-xs text-center font-bold transition-all ${
+              className={`w-16 h-16 lg:w-20 lg:h-20 2xl:w-24 2xl:h-24 rounded-xl border-2 flex items-center justify-center text-xs lg:text-sm text-center font-bold transition-all ${
                 skill
                   ? `${pathData?.borderColor || "border-cyan-500"} bg-gray-800/60 text-cyan-300 cursor-pointer`
                   : "border-gray-700 border-dashed bg-gray-900/30 text-gray-700"
@@ -88,7 +88,7 @@ export default function SkillTreePanel({
       </div>
 
       {/* Full skill tree */}
-      <div className="space-y-2 max-h-80 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#4b5563 transparent" }}>
+      <div className="space-y-2 lg:space-y-3 max-h-80 lg:max-h-[28rem] 2xl:max-h-[36rem] overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "#4b5563 transparent" }}>
         {tree.map((skill, idx) => {
           const unlocked = unlockedSkills.includes(skill.id);
           const equipped = pendingActive.includes(skill.id);
@@ -105,7 +105,7 @@ export default function SkillTreePanel({
                 onClick={() => unlocked && toggleSkill(skill.id)}
                 onContextMenu={(e) => { e.preventDefault(); setInspecting(inspecting === skill.id ? null : skill.id); }}
                 disabled={!unlocked}
-                className={`w-full text-left p-3 rounded-xl border transition-all ${
+                className={`w-full text-left p-3 lg:p-4 rounded-xl border transition-all ${
                   equipped
                     ? `${pathData?.borderColor || "border-cyan-500"} bg-gray-800/80 ring-1 ring-cyan-500/30`
                     : unlocked
@@ -115,7 +115,7 @@ export default function SkillTreePanel({
               >
                 <div className="flex items-center gap-3">
                   {/* Level indicator */}
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0
+                  <div className={`w-8 h-8 lg:w-10 lg:h-10 rounded-lg flex items-center justify-center text-xs lg:text-sm font-bold flex-shrink-0
                     ${unlocked
                       ? equipped
                         ? "bg-cyan-600 text-white"
@@ -128,7 +128,7 @@ export default function SkillTreePanel({
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className={`text-sm font-bold ${unlocked ? (equipped ? "text-cyan-300" : "text-gray-200") : "text-gray-600"}`}>
+                      <span className={`text-sm lg:text-base font-bold ${unlocked ? (equipped ? "text-cyan-300" : "text-gray-200") : "text-gray-600"}`}>
                         {skill.name}
                       </span>
                       {elementColor && (
@@ -137,7 +137,7 @@ export default function SkillTreePanel({
                         </span>
                       )}
                     </div>
-                    <p className={`text-xs mt-0.5 ${unlocked ? "text-gray-400" : "text-gray-700"}`}>
+                    <p className={`text-xs lg:text-sm mt-0.5 ${unlocked ? "text-gray-400" : "text-gray-700"}`}>
                       {skill.desc}
                     </p>
                   </div>

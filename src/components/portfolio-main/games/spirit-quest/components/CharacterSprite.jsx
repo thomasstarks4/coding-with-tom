@@ -81,7 +81,7 @@ export function FloatingNumber({ value, type, onComplete }) {
 
   return (
     <motion.span
-      className={`absolute text-lg font-extrabold ${color} pointer-events-none`}
+      className={`absolute text-lg lg:text-xl 2xl:text-2xl font-extrabold ${color} pointer-events-none`}
       initial={{ opacity: 1, y: 0, x: 0 }}
       animate={{ opacity: 0, y: -40 }}
       transition={{ duration: 0.8 }}
@@ -136,8 +136,8 @@ export default function CharacterSprite({
       <div className="relative">
         <AuraGlow element={element} isPlayer={isPlayer} />
         <motion.div
-          className={`relative z-10 w-20 h-20 md:w-24 md:h-24 rounded-2xl border-2 ${borderColor}
-            bg-gray-900/80 flex items-center justify-center text-4xl md:text-5xl`}
+          className={`relative z-10 w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 2xl:w-40 2xl:h-40 rounded-2xl border-2 ${borderColor}
+            bg-gray-900/80 flex items-center justify-center text-4xl md:text-5xl lg:text-6xl 2xl:text-7xl`}
           variants={variants}
           animate={animState}
         >

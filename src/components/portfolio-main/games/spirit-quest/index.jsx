@@ -42,8 +42,8 @@ const DEFAULT_SAVE = {
 // ─── Wrapper: dark atmospheric background ───────────────────
 function Wrapper({ children }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-gray-100 flex items-center justify-center p-3 md:p-4 font-mono">
-      <div className="w-full max-w-xl md:max-w-2xl">{children}</div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black text-gray-100 flex items-center justify-center p-3 md:p-6 lg:p-8 font-mono">
+      <div className="w-full max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl 2xl:max-w-5xl">{children}</div>
     </div>
   );
 }

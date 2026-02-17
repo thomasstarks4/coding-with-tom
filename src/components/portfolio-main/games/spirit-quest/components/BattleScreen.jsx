@@ -38,20 +38,20 @@ export default function BattleScreen({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-3 md:space-y-4 w-full"
+      className="space-y-3 md:space-y-4 lg:space-y-5 w-full"
     >
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-xl md:text-2xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
+        <h1 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
           Spirit Quest: Spirit Sword
         </h1>
-        <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-widest">
+        <p className="text-[10px] md:text-xs lg:text-sm text-gray-500 uppercase tracking-widest">
           Lv.{playerData.level} {path.name || "Channeler"} &bull; {modLabel}
         </p>
       </div>
 
       {/* Sprites arena */}
-      <div className="flex justify-between items-center px-2 md:px-8 py-3">
+      <div className="flex justify-between items-center px-2 md:px-8 lg:px-16 2xl:px-24 py-3 lg:py-6">
         {/* Player sprite */}
         <div className="flex flex-col items-center gap-1">
           <CharacterSprite
@@ -62,12 +62,12 @@ export default function BattleScreen({
             statusEffects={player.statusEffects}
             pathColor={path.borderColor}
           />
-          <span className="text-xs text-cyan-300 font-bold mt-1">{playerData.name}</span>
+          <span className="text-xs lg:text-sm text-cyan-300 font-bold mt-1">{playerData.name}</span>
         </div>
 
         {/* VS indicator */}
         <motion.span
-          className="text-2xl md:text-3xl font-extrabold text-gray-600"
+          className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-600"
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
@@ -83,7 +83,7 @@ export default function BattleScreen({
             isPlayer={false}
             statusEffects={enemy.statusEffects}
           />
-          <span className="text-xs text-red-400 font-bold mt-1">{enemy.name}</span>
+          <span className="text-xs lg:text-sm text-red-400 font-bold mt-1">{enemy.name}</span>
           {enemy.isBoss && (
             <span className="text-[10px] text-yellow-400 uppercase tracking-wider">Boss</span>
           )}
@@ -91,9 +91,9 @@ export default function BattleScreen({
       </div>
 
       {/* Stat panels */}
-      <div className="grid grid-cols-2 gap-2 md:gap-3">
+      <div className="grid grid-cols-2 gap-2 md:gap-3 lg:gap-4">
         {/* Player panel */}
-        <div className="bg-gray-800/60 border border-cyan-900/50 rounded-xl p-2 md:p-3 space-y-1">
+        <div className="bg-gray-800/60 border border-cyan-900/50 rounded-xl p-2 md:p-3 lg:p-4 space-y-1 lg:space-y-2">
           <div className="flex justify-between text-xs text-gray-400">
             <span>HP</span>
             <span>{player.hp} / {player.maxHp}</span>
@@ -111,7 +111,7 @@ export default function BattleScreen({
         </div>
 
         {/* Enemy panel */}
-        <div className="bg-gray-800/60 border border-red-900/50 rounded-xl p-2 md:p-3 space-y-1">
+        <div className="bg-gray-800/60 border border-red-900/50 rounded-xl p-2 md:p-3 lg:p-4 space-y-1 lg:space-y-2">
           <div className="flex justify-between text-xs text-gray-400">
             <span>HP</span>
             <span>{enemy.hp} / {enemy.maxHp}</span>

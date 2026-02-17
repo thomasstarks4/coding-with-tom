@@ -27,7 +27,7 @@ export default function ZoneSelectScreen({
         >
           ← Back
         </button>
-        <h2 className="text-xl md:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
+        <h2 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
           Choose Destination
         </h2>
         <div className="w-12" /> {/* spacer */}
@@ -39,7 +39,7 @@ export default function ZoneSelectScreen({
           <button
             key={key}
             onClick={() => onSelectModifier(key)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide border transition-all ${
+            className={`px-3 py-1.5 lg:px-4 lg:py-2 rounded-lg text-xs lg:text-sm font-bold uppercase tracking-wide border transition-all ${
               selectedModifier === key
                 ? key === "nightmare"
                   ? "border-red-500 text-red-400 bg-red-500/10"
@@ -71,17 +71,17 @@ export default function ZoneSelectScreen({
                   whileHover={{ scale: 1.02, x: 4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => onSelectZone(zone.id)}
-                  className={`w-full text-left p-4 rounded-2xl border border-gray-700/50 bg-gradient-to-r ${zone.color} bg-opacity-20 backdrop-blur-sm relative overflow-hidden group`}
+                  className={`w-full text-left p-4 lg:p-5 2xl:p-6 rounded-2xl border border-gray-700/50 bg-gradient-to-r ${zone.color} bg-opacity-20 backdrop-blur-sm relative overflow-hidden group`}
                 >
                   {/* Hover glow */}
                   <div className={`absolute inset-0 bg-gradient-to-r ${zone.color} opacity-5 group-hover:opacity-15 transition-opacity duration-300 rounded-2xl`} />
                   <div className="relative flex items-center gap-4">
-                    <span className="text-3xl">{zone.icon}</span>
+                    <span className="text-3xl lg:text-4xl">{zone.icon}</span>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition-colors">
+                      <h3 className="text-base lg:text-lg 2xl:text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
                         {zone.name}
                       </h3>
-                      <p className="text-xs text-gray-400">
+                      <p className="text-xs lg:text-sm text-gray-400">
                         Level {zone.levelRange[0]}–{zone.levelRange[1]}
                       </p>
                     </div>

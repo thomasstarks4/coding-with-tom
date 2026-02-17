@@ -36,22 +36,22 @@ export default function ResultScreen({
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="text-center space-y-5 max-w-md mx-auto"
+      className="text-center space-y-5 lg:space-y-6 max-w-md lg:max-w-lg 2xl:max-w-xl mx-auto"
     >
       {/* Result header */}
       <motion.div
         animate={{ rotate: won ? [0, 8, -8, 0] : [0, -4, 4, 0] }}
         transition={{ repeat: Infinity, duration: 1.5 }}
-        className="text-6xl md:text-7xl"
+        className="text-6xl md:text-7xl lg:text-8xl 2xl:text-9xl"
       >
         {won ? "🏆" : "💀"}
       </motion.div>
 
-      <h2 className={`text-3xl md:text-4xl font-extrabold ${won ? "text-yellow-300" : "text-red-500"}`}>
+      <h2 className={`text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-extrabold ${won ? "text-yellow-300" : "text-red-500"}`}>
         {won ? "VICTORY" : "DEFEAT"}
       </h2>
 
-      <p className="text-gray-400 text-sm">
+      <p className="text-gray-400 text-sm lg:text-base">
         {won
           ? `You defeated ${enemyName}!`
           : `${enemyName} has bested you... Train harder, channeler.`}
@@ -63,7 +63,7 @@ export default function ResultScreen({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="space-y-4 text-left bg-gray-800/50 rounded-xl p-4 border border-gray-700/50"
+          className="space-y-4 lg:space-y-5 text-left bg-gray-800/50 rounded-xl p-4 lg:p-5 2xl:p-6 border border-gray-700/50"
         >
           {/* XP */}
           <div>
@@ -185,7 +185,7 @@ export default function ResultScreen({
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.97 }}
         onClick={onContinue}
-        className="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 rounded-xl font-bold transition-colors"
+        className="px-8 py-3 lg:px-12 lg:py-4 2xl:py-5 bg-cyan-600 hover:bg-cyan-500 rounded-xl font-bold text-base lg:text-lg transition-colors"
       >
         {won ? "Return to Hub" : "Try Again"}
       </motion.button>

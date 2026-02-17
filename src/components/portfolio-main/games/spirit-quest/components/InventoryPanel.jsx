@@ -44,7 +44,7 @@ export default function InventoryPanel({
         <button onClick={onBack} className="text-gray-500 hover:text-gray-300 transition-colors text-sm">
           ← Back
         </button>
-        <h2 className="text-xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
+        <h2 className="text-xl lg:text-2xl 2xl:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
           Equipment & Inventory
         </h2>
         <div className="w-12" />
@@ -59,7 +59,7 @@ export default function InventoryPanel({
             <span className="text-purple-400">💎 {spiritShards}</span>
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-x-3 gap-y-1.5">
+        <div className="grid grid-cols-3 gap-x-3 lg:gap-x-5 gap-y-1.5 lg:gap-y-2">
           {[
             { label: "HP", base: baseStats.maxHp, bonus: equipBonuses.hp || 0, color: "text-green-400", icon: "❤️" },
             { label: "SE", base: baseStats.maxSe, bonus: equipBonuses.se || 0, color: "text-indigo-400", icon: "💜" },

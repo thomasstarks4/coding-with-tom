@@ -14,7 +14,7 @@ function ActionButton({ label, onClick, disabled, color, subtext }) {
       onClick={onClick}
       disabled={disabled}
       className={`
-        py-2.5 md:py-3 rounded-xl font-bold text-xs md:text-sm tracking-wide
+        py-2.5 md:py-3 lg:py-3.5 2xl:py-4 rounded-xl font-bold text-xs md:text-sm lg:text-base tracking-wide
         bg-gradient-to-r ${color}
         transition-all duration-150
         disabled:opacity-40 disabled:cursor-not-allowed
@@ -45,7 +45,7 @@ export default function ActionBar({
   return (
     <div className="space-y-2">
       {/* Skill buttons (top row) */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 lg:gap-3">
         {skills.map((skill) => {
           const onCd = cooldowns[skill.id] > 0;
           const noSe = playerSe < skill.seCost;
@@ -87,7 +87,7 @@ export default function ActionBar({
       </div>
 
       {/* Basic actions (bottom row) */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-2 lg:gap-3">
         <ActionButton
           label="⚔️ Attack"
           onClick={onBasicAttack}
