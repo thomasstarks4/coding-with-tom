@@ -52,19 +52,18 @@ export default function ActionBar({
           const disabled = turnLock || onCd || noSe;
 
           return (
-            <div key={skill.id} className="relative">
+            <div 
+              key={skill.id} 
+              className="relative"
+              onMouseEnter={() => setShowTooltip(skill.id)}
+              onMouseLeave={() => setShowTooltip(null)}
+            >
               <ActionButton
                 label={`${skill.name}`}
                 subtext={onCd ? `CD: ${cooldowns[skill.id]}t` : `${skill.seCost} SE`}
                 onClick={() => onUseSkill(skill.id)}
                 disabled={disabled}
                 color="from-fuchsia-800 to-fuchsia-700 hover:from-fuchsia-700 hover:to-fuchsia-600"
-              />
-              {/* Tooltip on hover */}
-              <div
-                className="absolute inset-0 z-10 cursor-help"
-                onMouseEnter={() => setShowTooltip(skill.id)}
-                onMouseLeave={() => setShowTooltip(null)}
               />
               <AnimatePresence>
                 {showTooltip === skill.id && (
