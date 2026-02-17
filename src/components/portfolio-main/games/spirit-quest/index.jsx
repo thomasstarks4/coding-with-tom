@@ -20,6 +20,7 @@ import { rollLoot, rollCurrencyRewards } from "./state/lootEngine";
 
 // Hooks
 import { usePersistence } from "./hooks/usePersistence";
+import { useMusic } from "./hooks/useMusic";
 
 // Screens
 import MenuScreen from "./components/MenuScreen";
@@ -30,6 +31,7 @@ import BattleScreen from "./components/BattleScreen";
 import ResultScreen from "./components/ResultScreen";
 import InventoryPanel from "./components/InventoryPanel";
 import SkillTreePanel from "./components/SkillTreePanel";
+import MusicControls from "./components/MusicControls";
 
 // ─── Default save-game shape ────────────────────────────────
 const DEFAULT_SAVE = {
@@ -63,6 +65,11 @@ export default function SpiritQuest() {
   // ── Convenience aliases ─────────────────────────────────
   const player = save.player;
   const phase = save.phase;
+
+  // ── Music management ────────────────────────────────────
+  // Determine which track to play based on phase
+  const currentTrack = phase === "battle" ? "during_battle" : "main_theme";
+  const { volume, setVolume, isMuted, toggleMute, play, isPlaying } = useMusic(currentTrack);
 
   const setPhase = useCallback((newPhase) => {
     setSave((prev) => ({ ...prev, phase: newPhase }));
@@ -348,6 +355,16 @@ export default function SpiritQuest() {
 
   return (
     <Wrapper>
+      {/* Persistent music controls */}
+      <MusicControls
+        volume={volume}
+        setVolume={setVolume}
+        isMuted={isMuted}
+        toggleMute={toggleMute}
+        play={play}
+        isPlaying={isPlaying}
+      />
+      
       <AnimatePresence mode="wait">
         <motion.div
           key={`${phase}-${subScreen}`}
