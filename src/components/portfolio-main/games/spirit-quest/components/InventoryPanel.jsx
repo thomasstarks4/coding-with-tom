@@ -2,20 +2,37 @@
 // InventoryPanel — equipment management, bag, crafting
 // ============================================================
 
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
-import { EQUIP_SLOTS, RARITIES } from "../constants";
+import { EQUIP_SLOTS, RARITIES, PATHS } from "../constants";
+import { getEquipmentBonuses } from "../data/equipment";
 
 export default function InventoryPanel({
   equipment,
   inventory,
   gold,
   spiritShards,
+  baseStats,
+  level,
+  path,
   onEquip,      // (inventoryIndex) => void
   onUnequip,    // (slotName) => void
   onDiscard,    // (inventoryIndex) => void
   onBack,
 }) {
+  // Calculate equipment bonuses
+  const equipBonuses = useMemo(() => getEquipmentBonuses(equipment), [equipment]);
+  const pathData = PATHS[path];
+
+  // Calculate effective stats
+  const stats = useMemo(() => ({
+    hp: baseStats.maxHp + (equipBonuses.hp || 0),
+    se: baseStats.maxSe + (equipBonuses.se || 0),
+    atk: baseStats.atk + (equipBonuses.atk || 0),
+    def: baseStats.def + (equipBonuses.def || 0),
+    spd: baseStats.spd + (equipBonuses.spd || 0),
+    focus: baseStats.focus + (equipBonuses.focus || 0),
+  }), [baseStats, equipBonuses]);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -33,10 +50,51 @@ export default function InventoryPanel({
         <div className="w-12" />
       </div>
 
-      {/* Currency */}
-      <div className="flex justify-center gap-6 text-sm">
-        <span className="text-yellow-400">💰 {gold} Gold</span>
-        <span className="text-purple-400">💎 {spiritShards} Shards</span>
+      {/* Stats Overview */}
+      <div className="bg-gray-800/50 rounded-xl p-3 border border-gray-700/50">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs text-gray-500 uppercase tracking-wider">Stats</p>
+          <div className="flex gap-3 text-xs">
+            <span className="text-yellow-400">💰 {gold}</span>
+            <span className="text-purple-400">💎 {spiritShards}</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-x-3 gap-y-1.5">
+          {[
+            { label: "HP", base: baseStats.maxHp, bonus: equipBonuses.hp || 0, color: "text-green-400", icon: "❤️" },
+            { label: "SE", base: baseStats.maxSe, bonus: equipBonuses.se || 0, color: "text-indigo-400", icon: "💜" },
+            { label: "ATK", base: baseStats.atk, bonus: equipBonuses.atk || 0, color: "text-red-400", icon: "⚔️" },
+            { label: "DEF", base: baseStats.def, bonus: equipBonuses.def || 0, color: "text-cyan-400", icon: "🛡️" },
+            { label: "SPD", base: baseStats.spd, bonus: equipBonuses.spd || 0, color: "text-yellow-400", icon: "💨" },
+            { label: "FOCUS", base: baseStats.focus, bonus: equipBonuses.focus || 0, color: "text-fuchsia-400", icon: "🎯" },
+          ].map((s) => (
+            <div key={s.label} className="flex items-center justify-between">
+              <span className="text-[10px] text-gray-500">
+                {s.icon} {s.label}
+              </span>
+              <div className="flex items-center gap-1">
+                <motion.span
+                  key={`${s.label}-total`}
+                  initial={{ scale: 1.3, color: "#fbbf24" }}
+                  animate={{ scale: 1, color: "currentColor" }}
+                  transition={{ duration: 0.3 }}
+                  className={`text-xs font-bold ${s.color}`}
+                >
+                  {s.base + s.bonus}
+                </motion.span>
+                {s.bonus !== 0 && (
+                  <motion.span
+                    initial={{ opacity: 0, x: -4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className={`text-[9px] ${s.bonus > 0 ? "text-green-400" : "text-red-400"}`}
+                  >
+                    ({s.bonus > 0 ? "+" : ""}{s.bonus})
+                  </motion.span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Equipment slots */}

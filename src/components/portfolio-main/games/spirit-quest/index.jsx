@@ -240,6 +240,9 @@ export default function SpiritQuest() {
           inventory={player.inventory}
           gold={player.gold}
           spiritShards={player.spiritShards}
+          baseStats={player.baseStats}
+          level={player.level}
+          path={player.path}
           onEquip={handleEquip}
           onUnequip={handleUnequip}
           onDiscard={handleDiscard}
