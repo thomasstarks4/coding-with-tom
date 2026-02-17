@@ -10,8 +10,45 @@ import {
 } from "../../utils/animations";
 import "./styles/Applications.css";
 
+// ─── Games list (active + WIP placeholders) ────────────────
+const games = [
+  {
+    to: "/games/spirit-quest",
+    label: "Spirit Quest: Spirit Sword",
+    description: "Turn-based RPG inspired by Yu Yu Hakusho",
+    icon: "⚔️",
+    color: "from-cyan-500 to-fuchsia-600",
+    wip: false,
+  },
+  {
+    to: null,
+    label: "Dungeon Crawler: Depths Below",
+    description: "Procedurally generated dungeon exploration",
+    icon: "🏰",
+    color: "from-amber-500 to-orange-600",
+    wip: true,
+  },
+  {
+    to: null,
+    label: "Star Pilot: Nebula Run",
+    description: "Side-scrolling space shooter",
+    icon: "🚀",
+    color: "from-violet-500 to-indigo-600",
+    wip: true,
+  },
+  {
+    to: null,
+    label: "Puzzle Realm",
+    description: "Logic puzzles with increasing difficulty",
+    icon: "🧩",
+    color: "from-emerald-500 to-teal-600",
+    wip: true,
+  },
+];
+
 function Applications() {
   const [queryText, setQueryText] = useState("");
+  const [activeTab, setActiveTab] = useState("apps"); // "apps" | "games"
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -187,11 +224,45 @@ function Applications() {
           </motion.p>
         </motion.div>
 
-        {/* Search Bar */}
+        {/* Tab Switcher */}
         <motion.div
           variants={fadeInUp}
           transition={smoothTransition}
-          className="w-full max-w-2xl mx-auto mb-8"
+          className="flex justify-center gap-2 mb-8"
+        >
+          {["apps", "games"].map((tab) => (
+            <motion.button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`relative px-8 py-3 rounded-xl font-bold text-sm uppercase tracking-widest transition-colors duration-300 border ${
+                activeTab === tab
+                  ? tab === "games"
+                    ? "border-fuchsia-500 text-fuchsia-300 bg-fuchsia-500/10"
+                    : "border-cyan-500 text-cyan-300 bg-cyan-500/10"
+                  : "border-slate-700 text-slate-400 hover:border-slate-500 hover:text-slate-300"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              {tab === "apps" ? "📱 Apps" : "🎮 Games"}
+              {activeTab === tab && (
+                <motion.div
+                  layoutId="activeTabIndicator"
+                  className={`absolute inset-0 rounded-xl border-2 ${
+                    tab === "games" ? "border-fuchsia-400" : "border-cyan-400"
+                  }`}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </motion.button>
+          ))}
+        </motion.div>
+
+        {/* Search Bar — only shown on Apps tab */}
+        <motion.div
+          variants={fadeInUp}
+          transition={smoothTransition}
+          className={`w-full max-w-2xl mx-auto mb-8 ${activeTab !== "apps" ? "hidden" : ""}`}
           ref={inputRef}
         >
           <div className="relative">
@@ -219,53 +290,152 @@ function Applications() {
           </div>
         </motion.div>
 
-        {/* Apps Grid */}
+        {/* Content — Apps Grid or Games List */}
         <AnimatePresence mode="wait">
-          {displayApps.length > 0 ? (
+          {activeTab === "apps" ? (
+            /* ═══════════ APPS VIEW ═══════════ */
+            displayApps.length > 0 ? (
+              <motion.div
+                key="apps-grid"
+                variants={staggerContainer}
+                initial="initial"
+                animate="animate"
+                exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8"
+              >
+                {displayApps.map((app, idx) => (
+                  <motion.div
+                    key={idx}
+                    variants={staggerItem}
+                    whileHover={{ y: -10, scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {app.external ? (
+                      <a
+                        href={app.to}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="block h-full"
+                      >
+                        <AppCard app={app} />
+                      </a>
+                    ) : (
+                      <Link to={app.to} className="block h-full">
+                        <AppCard app={app} />
+                      </Link>
+                    )}
+                  </motion.div>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="no-results"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="text-center py-12"
+              >
+                <p className="text-white text-xl">
+                  No applications found matching "{queryText}"
+                </p>
+              </motion.div>
+            )
+          ) : (
+            /* ═══════════ GAMES VIEW ═══════════ */
             <motion.div
-              key="apps-grid"
-              variants={staggerContainer}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8"
+              key="games-list"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20, transition: { duration: 0.2 } }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="max-w-2xl mx-auto space-y-4 pb-8"
             >
-              {displayApps.map((app, idx) => (
+              {/* Games section header */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.15 }}
+                className="text-center mb-6"
+              >
+                <p className="text-slate-400 text-sm uppercase tracking-widest">
+                  Select a quest
+                </p>
+              </motion.div>
+
+              {games.map((game, idx) => (
                 <motion.div
-                  key={idx}
-                  variants={staggerItem}
-                  whileHover={{ y: -10, scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.3 }}
+                  key={game.label}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 + idx * 0.08, duration: 0.35 }}
                 >
-                  {app.external ? (
-                    <a
-                      href={app.to}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="block h-full"
-                    >
-                      <AppCard app={app} />
-                    </a>
+                  {game.wip ? (
+                    /* ── WIP placeholder row ── */
+                    <div className="relative group rounded-2xl p-5 border border-slate-700/40 bg-slate-800/30 backdrop-blur-sm cursor-default">
+                      <div className="flex items-center gap-4">
+                        <span className="text-3xl opacity-30">{game.icon}</span>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-bold text-slate-500 line-through decoration-slate-600">
+                            {game.label}
+                          </h3>
+                          <p className="text-sm text-slate-600 line-through decoration-slate-700">
+                            {game.description}
+                          </p>
+                        </div>
+                        <span className="flex-shrink-0 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-400/80 bg-amber-900/20 border border-amber-800/30 rounded-full">
+                          Coming Soon
+                        </span>
+                      </div>
+                    </div>
                   ) : (
-                    <Link to={app.to} className="block h-full">
-                      <AppCard app={app} />
+                    /* ── Playable game row ── */
+                    <Link to={game.to} className="block">
+                      <motion.div
+                        className={`relative group rounded-2xl p-5 border border-slate-700/50 bg-gradient-to-r from-slate-800/80 to-slate-900/80 backdrop-blur-sm overflow-hidden cursor-pointer`}
+                        whileHover={{ scale: 1.02, x: 6 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                      >
+                        {/* Hover glow */}
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-r ${game.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl`}
+                        />
+                        <div className="relative flex items-center gap-4">
+                          <motion.span
+                            className="text-3xl"
+                            animate={{ rotate: [0, 5, -5, 0] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                          >
+                            {game.icon}
+                          </motion.span>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors duration-200">
+                              {game.label}
+                            </h3>
+                            <p className="text-sm text-slate-400">
+                              {game.description}
+                            </p>
+                          </div>
+                          <motion.span
+                            className="text-slate-500 group-hover:text-cyan-400 transition-colors"
+                            initial={{ x: 0 }}
+                            whileHover={{ x: 4 }}
+                          >
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </motion.span>
+                        </div>
+                        {/* Decorative edge glow */}
+                        <div
+                          className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${game.color} opacity-0 group-hover:opacity-80 transition-opacity duration-300 rounded-l-2xl`}
+                        />
+                      </motion.div>
                     </Link>
                   )}
                 </motion.div>
               ))}
-            </motion.div>
-          ) : (
-            <motion.div
-              key="no-results"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="text-center py-12"
-            >
-              <p className="text-white text-xl">
-                No applications found matching "{queryText}"
-              </p>
             </motion.div>
           )}
         </AnimatePresence>
