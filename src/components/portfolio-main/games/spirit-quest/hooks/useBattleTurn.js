@@ -21,8 +21,9 @@ import { getEquipmentPassives } from "../data/equipment";
  * @param {object}   equipment    - player's equipment (for passives)
  * @param {function} onVictory    - called when enemy HP <= 0
  * @param {function} onDefeat     - called when player HP <= 0
+ * @param {function} onRun        - called when player successfully flees
  */
-export function useBattleTurn(initPlayer, initEnemy, equipment, onVictory, onDefeat) {
+export function useBattleTurn(initPlayer, initEnemy, equipment, onVictory, onDefeat, onRun) {
   const [player, setPlayer] = useState(initPlayer);
   const [enemy, setEnemy] = useState(initEnemy);
   const [log, setLog] = useState([]);
@@ -352,9 +353,28 @@ export function useBattleTurn(initPlayer, initEnemy, equipment, onVictory, onDef
   }, [turnLock, player, enemy, equipment, startPlayerTurn, addLog,
       hasLifesteal, onVictory, scheduleEnemyTurn]);
 
+  const run = useCallback(() => {
+    if (turnLock) return;
+    const { player: p, skip } = startPlayerTurn(player);
+    if (skip || p.hp <= 0) return;
+
+    const speedDiff = p.spd - enemy.spd;
+    const fleeChance = clamp(0.45 + speedDiff * 0.03, 0.25, 0.9);
+    const escaped = Math.random() < fleeChance;
+
+    if (escaped) {
+      addLog("🏃 You break away from combat and retreat safely.", "system");
+      onRun?.();
+      return;
+    }
+
+    addLog("❌ Escape failed! The enemy blocks your path.", "enemy");
+    scheduleEnemyTurn(p, enemy);
+  }, [turnLock, startPlayerTurn, player, enemy, addLog, onRun, scheduleEnemyTurn]);
+
   return {
     player, enemy, log, turnLock, animState,
-    actions: { basicAttack, guard, useSkill },
+    actions: { basicAttack, guard, run, useSkill },
     addLog,
   };
 }

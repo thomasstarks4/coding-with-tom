@@ -124,7 +124,7 @@ function CodingWithTom() {
   const isPortfolioSite = isLearningHubRoute === false;
   return (
     <div
-      className={` ${isLearningHubRoute ? "bg-learning-hub" : ""} ${
+      className={`app-shell ${isLearningHubRoute ? "bg-learning-hub" : ""} ${
         isPortfolioSite ? "bg-main" : ""
       }`}
     >

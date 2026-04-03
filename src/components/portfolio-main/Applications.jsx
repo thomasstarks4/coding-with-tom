@@ -161,7 +161,7 @@ function Applications() {
 
   return (
     <motion.div
-      className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex-1 flex flex-col justify-start items-center min-h-screen p-6 overflow-hidden"
+      className="view-shell relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900"
       ref={containerRef}
       initial="initial"
       animate="animate"
@@ -195,7 +195,7 @@ function Applications() {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-7xl">
+      <div className="view-content relative z-10 w-full max-w-7xl">
         {/* Header Section */}
         <motion.div
           variants={fadeInUp}

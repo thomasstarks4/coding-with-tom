@@ -11,7 +11,7 @@ import {
 function About() {
   return (
     <motion.div
-      className="introduction relative bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 font-bold text-white min-h-screen py-12 px-4 overflow-hidden"
+      className="view-shell introduction relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-12 font-bold text-white"
       initial="initial"
       animate="animate"
       variants={staggerContainer}
@@ -43,7 +43,7 @@ function About() {
       />
 
       {/* Content container */}
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <div className="view-content relative z-10 max-w-6xl">
         {/* Animated knight image */}
         <motion.div
           variants={fadeInUp}

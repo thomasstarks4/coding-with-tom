@@ -34,29 +34,6 @@
   transform: translateY(-2px) scale(1.05);
 }
 
-/*
-  3. Animated gradient background 
-     - A bit shorter timing (10s)
-     - Fewer color stops for a cleaner look
-*/
-body {
-  background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fbc2eb);
-  background-size: 200% 200%;
-  animation: backgroundAnimation 10s ease-in-out infinite;
-}
-
-@keyframes backgroundAnimation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 /* 
   4. Simple centering class 
      - For horizontal centering text/inline elements 
