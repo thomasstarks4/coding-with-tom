@@ -12,10 +12,10 @@ import {
 
 function Home() {
   return (
-    <div className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 min-h-[90%] flex flex-col items-center justify-center p-6 overflow-hidden">
+    <div className="view-shell home-view relative overflow-hidden">
       {/* Animated background elements */}
       <motion.div
-        className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+        className="pointer-events-none absolute top-20 left-10 h-72 w-72 rounded-full bg-blue-500 opacity-20 blur-xl"
         animate={{
           scale: [1, 1.2, 1],
           x: [0, 50, 0],
@@ -28,7 +28,7 @@ function Home() {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+        className="pointer-events-none absolute bottom-20 right-10 h-72 w-72 rounded-full bg-purple-500 opacity-20 blur-xl"
         animate={{
           scale: [1, 1.3, 1],
           x: [0, -50, 0],
@@ -52,12 +52,12 @@ function IntroView() {
       variants={staggerContainer}
       initial="initial"
       animate="animate"
-      className="relative z-10"
+      className="relative z-10 view-content"
     >
       <motion.div
         variants={scaleIn}
         transition={smoothTransition}
-        className="flex flex-col items-center space-y-6 shadow-2xl rounded-2xl p-8 md:p-12 bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-lg border border-slate-700/50 max-w-4xl"
+        className="mx-auto flex w-full max-w-4xl flex-col items-center gap-6 rounded-3xl border border-slate-700/50 bg-gradient-to-br from-slate-800/90 to-slate-900/90 p-8 shadow-2xl backdrop-blur-lg md:p-12"
       >
         {/* Animated heading with gradient text */}
         <motion.h1

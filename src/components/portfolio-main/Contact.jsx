@@ -21,7 +21,7 @@ function Contact() {
 
   return (
     <motion.div
-      className="relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden"
+      className="view-shell relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
       initial="initial"
       animate="animate"
       variants={staggerContainer}
@@ -54,7 +54,7 @@ function Contact() {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-4xl">
+      <div className="view-content relative z-10 w-full max-w-4xl">
         {/* Header */}
         <motion.h1
           variants={fadeInUp}

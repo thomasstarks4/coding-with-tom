@@ -18,18 +18,20 @@ export default function BattleScreen({
   modifier,
   onVictory,
   onDefeat,
+  onRun,
 }) {
   const path = PATHS[playerData.path] || {};
 
   const {
     player, enemy, log, turnLock, animState,
-    actions: { basicAttack, guard, useSkill },
+    actions: { basicAttack, guard, run, useSkill },
   } = useBattleTurn(
     combatPlayer,
     combatEnemy,
     playerData.equipment,
     onVictory,
     onDefeat,
+    onRun,
   );
 
   const modLabel = BATTLE_MODIFIERS[modifier]?.label || "Normal";
@@ -141,6 +143,7 @@ export default function BattleScreen({
         activeSkills={playerData.activeSkills}
         onBasicAttack={basicAttack}
         onGuard={guard}
+        onRun={run}
         onUseSkill={useSkill}
         turnLock={turnLock}
         playerSe={player.se}

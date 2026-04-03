@@ -33,6 +33,7 @@ export default function ActionBar({
   activeSkills = [],
   onBasicAttack,
   onGuard,
+  onRun,
   onUseSkill,
   turnLock,
   playerSe,
@@ -87,7 +88,7 @@ export default function ActionBar({
       </div>
 
       {/* Basic actions (bottom row) */}
-      <div className="grid grid-cols-2 gap-2 lg:gap-3">
+      <div className="grid grid-cols-3 gap-2 lg:gap-3">
         <ActionButton
           label="⚔️ Attack"
           onClick={onBasicAttack}
@@ -100,6 +101,12 @@ export default function ActionBar({
           onClick={onGuard}
           disabled={turnLock}
           color="from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500"
+        />
+        <ActionButton
+          label="🏃 Run"
+          onClick={onRun}
+          disabled={turnLock}
+          color="from-amber-700 to-orange-600 hover:from-amber-600 hover:to-orange-500"
         />
       </div>
 

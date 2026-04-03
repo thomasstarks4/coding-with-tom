@@ -227,6 +227,17 @@ export default function SpiritQuest() {
     setPhase("result");
   }, [player, setPlayer, setPhase]);
 
+  const handleRunFromBattle = useCallback(() => {
+    setPlayer((p) => ({
+      ...p,
+      battlesFled: (p?.battlesFled || 0) + 1,
+    }));
+    setBattleResult(null);
+    setCombatEnemy(null);
+    setCombatPlayer(null);
+    setPhase("hub");
+  }, [setPlayer, setPhase]);
+
   const handleResultContinue = useCallback(() => {
     setPhase("hub");
     setBattleResult(null);
@@ -321,6 +332,7 @@ export default function SpiritQuest() {
             modifier={selectedModifier}
             onVictory={handleVictory}
             onDefeat={handleDefeat}
+            onRun={handleRunFromBattle}
           />
         );
 
