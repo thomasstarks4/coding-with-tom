@@ -25,3 +25,7 @@ yarn-error.log*
 # api
 src/components/portfolio-main/ProgressTracker/api.js
 .env
+
+# forest platformer large source assets
+src/components/portfolio-main/games/forest-platformer/assets/
+src/components/portfolio-main/games/forest-platformer/music/

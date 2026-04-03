@@ -1,0 +1,524 @@
+.forest-platformer-shell {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 20% 15%, #1d4ed8 0%, #020617 55%);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: #e2e8f0;
+}
+
+.forest-platformer-card {
+  width: min(1100px, 96vw);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.94));
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+}
+
+.forest-platformer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+.forest-platformer-header h1 {
+  margin: 0;
+  font-size: clamp(1.2rem, 1.7vw, 1.6rem);
+  letter-spacing: 0.02em;
+  color: #f8fafc;
+}
+
+.forest-platformer-header p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #93c5fd;
+}
+
+.forest-platformer-back {
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: #e0f2fe;
+  padding: 8px 14px;
+  background: rgba(12, 74, 110, 0.5);
+  transition: background-color 180ms ease;
+}
+
+.forest-platformer-back:hover {
+  background: rgba(14, 116, 144, 0.7);
+}
+
+.forest-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.forest-music-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.forest-music-player button {
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  border-radius: 999px;
+  background: rgba(14, 116, 144, 0.32);
+  color: #e0f2fe;
+  padding: 5px 10px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.forest-music-player button:hover {
+  background: rgba(14, 116, 144, 0.52);
+}
+
+.forest-music-player input[type="range"] {
+  width: 86px;
+}
+
+.forest-platformer-hud {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 0 20px 14px;
+  font-size: 0.92rem;
+  color: #dbeafe;
+}
+
+.forest-platformer-hud span {
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.7);
+  padding: 6px 12px;
+}
+
+.forest-platformer-stage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 640px;
+  position: relative;
+  overflow: hidden;
+  background: #38bdf8;
+}
+
+.forest-parallax {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-x;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.forest-sky {
+  background-image: url("./assets/FREE_Fantasy Forest/Backgrounds/Sky.png");
+  background-size: 420px 420px;
+}
+
+.forest-clouds {
+  background-image: url("./assets/FREE_Fantasy Forest/Backgrounds/Clouds.png");
+  background-size: 380px 380px;
+  background-position: 0 0;
+  opacity: 0.8;
+}
+
+.forest-mountains {
+  background-image: url("./assets/FREE_Fantasy Forest/Backgrounds/Grass Mountains.png");
+  background-size: 440px 440px;
+  background-position: left bottom;
+}
+
+.forest-world {
+  position: absolute;
+  inset: 0;
+  width: 3600px;
+}
+
+.forest-platform {
+  position: absolute;
+  image-rendering: pixelated;
+}
+
+.forest-platform--ground {
+  background:
+    linear-gradient(
+      to bottom,
+      #4ade80 0 8px,
+      #1f7a45 8px 15px,
+      #8a4d21 15px 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(120, 67, 30, 0.82) 0 34px,
+      rgba(95, 50, 20, 0.9) 34px 68px
+    );
+  box-shadow:
+    inset 0 -8px 0 rgba(62, 28, 10, 0.45),
+    inset 0 2px 0 rgba(187, 247, 208, 0.35);
+}
+
+.forest-platform--ground::before,
+.forest-platform--ground::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: calc(100% - 10px);
+  top: 10px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(82, 39, 15, 0.95) 0 12px,
+      rgba(120, 67, 30, 0.92) 12px 24px
+    );
+}
+
+.forest-platform--ground::before {
+  left: 0;
+  border-right: 2px solid rgba(45, 20, 7, 0.42);
+}
+
+.forest-platform--ground::after {
+  right: 0;
+  border-left: 2px solid rgba(45, 20, 7, 0.42);
+}
+
+.forest-platform--ledge {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(203, 213, 225, 0.92) 0 2px,
+      rgba(71, 85, 105, 0.98) 2px 9px,
+      rgba(30, 41, 59, 0.98) 9px 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(15, 23, 42, 0.68) 0 26px,
+      rgba(51, 65, 85, 0.68) 26px 52px
+    );
+  box-shadow:
+    inset 0 -4px 0 rgba(15, 23, 42, 0.8),
+    0 8px 16px rgba(2, 6, 23, 0.42);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 6px;
+  animation: ledgeFloat var(--float-duration, 3.2s) ease-in-out var(--float-delay, 0s) infinite;
+}
+
+.forest-platform--moving {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(226, 232, 240, 0.92) 0 2px,
+      rgba(100, 116, 139, 0.98) 2px 9px,
+      rgba(30, 41, 59, 0.98) 9px 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(15, 23, 42, 0.65) 0 24px,
+      rgba(51, 65, 85, 0.7) 24px 48px
+    );
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  border-radius: 7px;
+  box-shadow:
+    inset 0 -5px 0 rgba(15, 23, 42, 0.8),
+    0 8px 14px rgba(2, 6, 23, 0.45);
+}
+
+.forest-tree {
+  position: absolute;
+  width: 64px;
+  height: 96px;
+  image-rendering: pixelated;
+  background-size: 128px 96px;
+  background-repeat: no-repeat;
+  transform-origin: center bottom;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px rgba(2, 6, 23, 0.35));
+}
+
+.forest-coin {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #fef08a, #f59e0b 60%, #92400e);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.95);
+  animation: coinBob 0.7s ease-in-out infinite alternate;
+}
+
+.forest-hazard {
+  position: absolute;
+  background:
+    linear-gradient(
+      to top,
+      rgba(127, 29, 29, 0.9) 0 40%,
+      rgba(220, 38, 38, 0.95) 40% 100%
+    );
+  clip-path: polygon(
+    0 100%,
+    0 60%,
+    6% 0,
+    12% 60%,
+    18% 0,
+    24% 60%,
+    30% 0,
+    36% 60%,
+    42% 0,
+    48% 60%,
+    54% 0,
+    60% 60%,
+    66% 0,
+    72% 60%,
+    78% 0,
+    84% 60%,
+    90% 0,
+    96% 60%,
+    100% 60%,
+    100% 100%
+  );
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.45);
+}
+
+.forest-enemy {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  border-radius: 10px 10px 7px 7px;
+  background: linear-gradient(to bottom, #fca5a5, #b91c1c 55%, #7f1d1d);
+  border: 1px solid rgba(254, 202, 202, 0.45);
+  box-shadow:
+    inset 0 -5px 0 rgba(69, 10, 10, 0.55),
+    0 4px 9px rgba(2, 6, 23, 0.5);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.forest-goal {
+  position: absolute;
+  width: 70px;
+  height: 140px;
+  border: 2px solid rgba(196, 181, 253, 0.9);
+  border-radius: 999px;
+  box-shadow: 0 0 24px rgba(216, 180, 254, 0.8);
+  background: rgba(30, 27, 75, 0.45);
+  display: grid;
+  place-items: center;
+}
+
+.forest-goal-core {
+  color: #f5d0fe;
+  font-size: 2rem;
+  animation: goalPulse 1.15s ease-in-out infinite alternate;
+}
+
+.forest-player {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  transform-origin: center;
+}
+
+.samurai-sprite {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+.samurai-sprite.idle {
+  animation: samuraiIdle 0.9s steps(10) infinite;
+}
+
+.samurai-sprite.run {
+  animation: samuraiRun 0.8s steps(16) infinite;
+}
+
+.samurai-sprite.jump {
+  animation: none;
+  background-position: -864px 0;
+}
+
+.samurai-sprite.attack {
+  animation: samuraiAttack 0.34s steps(7) 1;
+}
+
+.samurai-sprite.hurt {
+  animation: samuraiHurt 0.35s steps(4) infinite;
+  filter: drop-shadow(0 0 5px rgba(248, 113, 113, 0.8));
+}
+
+.forest-platformer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  color: #cbd5e1;
+}
+
+.forest-platformer-footer button {
+  border: 1px solid rgba(74, 222, 128, 0.55);
+  border-radius: 10px;
+  background: rgba(22, 163, 74, 0.22);
+  color: #dcfce7;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background-color 180ms ease;
+}
+
+.forest-platformer-footer button:hover {
+  background: rgba(22, 163, 74, 0.38);
+}
+
+.forest-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(2, 6, 23, 0.55);
+  backdrop-filter: blur(1px);
+}
+
+.forest-overlay-card {
+  width: min(420px, 88vw);
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(15, 23, 42, 0.92);
+  padding: 18px 20px;
+  text-align: center;
+  box-shadow: 0 14px 40px rgba(2, 6, 23, 0.55);
+}
+
+.forest-overlay-card h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #f8fafc;
+}
+
+.forest-overlay-card p {
+  margin: 10px 0 0;
+  color: #cbd5e1;
+}
+
+.forest-overlay-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.forest-overlay-actions button {
+  border: 1px solid rgba(74, 222, 128, 0.55);
+  border-radius: 10px;
+  background: rgba(22, 163, 74, 0.2);
+  color: #dcfce7;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.forest-overlay-actions button:hover {
+  background: rgba(22, 163, 74, 0.34);
+}
+
+@keyframes samuraiIdle {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -960px 0;
+  }
+}
+
+@keyframes samuraiRun {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -1536px 0;
+  }
+}
+
+@keyframes samuraiAttack {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -672px 0;
+  }
+}
+
+@keyframes samuraiHurt {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -384px 0;
+  }
+}
+
+@keyframes coinBob {
+  from {
+    transform: translateY(-3px);
+  }
+  to {
+    transform: translateY(3px);
+  }
+}
+
+@keyframes goalPulse {
+  from {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes ledgeFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 740px) {
+  .forest-platformer-shell {
+    padding: 12px;
+  }
+
+  .forest-platformer-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .forest-header-controls {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .forest-platformer-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+

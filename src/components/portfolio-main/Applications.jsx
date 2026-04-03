@@ -13,6 +13,14 @@ import "./styles/Applications.css";
 // ─── Games list (active + WIP placeholders) ────────────────
 const games = [
   {
+    to: "/games/forest-platformer",
+    label: "Forest Platformer",
+    description: "2D side-scrolling platformer with pixel-art physics gameplay",
+    icon: "🌲",
+    color: "from-emerald-500 to-lime-600",
+    wip: false,
+  },
+  {
     to: "/games/spirit-quest",
     label: "Spirit Quest: Spirit Sword",
     description: "Turn-based RPG inspired by Yu Yu Hakusho",

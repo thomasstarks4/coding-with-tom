@@ -27,6 +27,7 @@ import SimplyDo from "./components/portfolio-main/SimplyDo";
 import ProgressTracker from "./components/portfolio-main/ProgressTracker/ProgressTracker";
 import GrowApp from "./components/grow-app/Grow";
 import SpiritQuest from "./components/portfolio-main/games/spirit-quest";
+import ForestPlatformer from "./components/portfolio-main/games/forest-platformer";
 import GardenLabelMaker from "./components/portfolio-main/GardenLabelMaker.tsx";
 
 function CodingWithTom() {
@@ -153,6 +154,7 @@ function CodingWithTom() {
         <Route path="/progress-tracker" element={<ProgressTracker />} />
         <Route path="/grow-app" element={<GrowApp />} />
         <Route path="/games/spirit-quest" element={<SpiritQuest />} />
+        <Route path="/games/forest-platformer" element={<ForestPlatformer />} />
         <Route path="/label-maker" element={<GardenLabelMaker />} />
         <Route
           path="/label-maker2"
