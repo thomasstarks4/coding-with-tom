@@ -111,6 +111,15 @@ function Applications() {
       color: "from-pink-500 to-rose-500",
     },
     {
+      to: "/label-maker",
+      label: "Plant Label Studio",
+      description:
+        "Printable plant labels for gardens, classrooms, organizing seedlings, and gifts",
+      category: "Utility",
+      external: false,
+      color: "from-teal-500 to-emerald-600",
+    },
+    {
       to: "/simplydo",
       label: "SimplyDo",
       description: "To Do List/Task Manager",

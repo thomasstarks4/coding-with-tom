@@ -2,10 +2,56 @@
 // InventoryPanel — equipment management, bag, crafting
 // ============================================================
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { EQUIP_SLOTS, RARITIES, PATHS } from "../constants";
+import { EQUIP_SLOTS, RARITIES } from "../constants";
 import { getEquipmentBonuses } from "../data/equipment";
+
+const STAT_LABELS = {
+  hp: "HP",
+  se: "SE",
+  atk: "ATK",
+  def: "DEF",
+  spd: "SPD",
+  focus: "FOCUS",
+};
+
+function getGearDescription(item) {
+  if (!item) return "";
+
+  const bonusText = Object.entries(item.stats || {})
+    .filter(([, value]) => typeof value === "number" && value > 0)
+    .map(([stat, value]) => `+${value} ${STAT_LABELS[stat] || stat.toUpperCase()}`);
+
+  const parts = [];
+  if (item.charmDesc) parts.push(item.charmDesc);
+  if (item.passive?.desc) parts.push(item.passive.desc);
+  if (bonusText.length > 0) parts.push(`Bonuses: ${bonusText.join(", ")}`);
+  if (item.lore) parts.push(item.lore);
+
+  return parts.join(" • ") || "Mysterious gear infused with spirit energy.";
+}
+
+function GearTooltip({ item, x, y }) {
+  const description = getGearDescription(item);
+
+  return (
+    <div
+      className="pointer-events-none fixed z-[2147483647] w-[min(340px,calc(100vw-2rem))] transition-opacity duration-100"
+      style={{ left: `${x}px`, top: `${y}px` }}
+    >
+      <div className="rounded-xl border border-fuchsia-400/40 bg-gradient-to-br from-gray-900 via-gray-900 to-fuchsia-950/80 px-3 py-2 shadow-[0_0_25px_rgba(217,70,239,0.3)] backdrop-blur-sm">
+        <div className="mb-1 flex items-center gap-2">
+          <span className="text-base">{item?.icon || "✨"}</span>
+          <span className={`text-xs font-semibold ${RARITIES[item?.rarity]?.color || "text-fuchsia-200"}`}>
+            {item?.name}
+          </span>
+        </div>
+        <p className="text-[11px] leading-relaxed text-fuchsia-100/90">{description}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function InventoryPanel({
   equipment,
@@ -22,17 +68,35 @@ export default function InventoryPanel({
 }) {
   // Calculate equipment bonuses
   const equipBonuses = useMemo(() => getEquipmentBonuses(equipment), [equipment]);
-  const pathData = PATHS[path];
+  const [tooltip, setTooltip] = useState({ item: null, x: 0, y: 0 });
 
-  // Calculate effective stats
-  const stats = useMemo(() => ({
-    hp: baseStats.maxHp + (equipBonuses.hp || 0),
-    se: baseStats.maxSe + (equipBonuses.se || 0),
-    atk: baseStats.atk + (equipBonuses.atk || 0),
-    def: baseStats.def + (equipBonuses.def || 0),
-    spd: baseStats.spd + (equipBonuses.spd || 0),
-    focus: baseStats.focus + (equipBonuses.focus || 0),
-  }), [baseStats, equipBonuses]);
+  const getTooltipPosition = (clientX, clientY) => {
+    const tooltipWidth = 340;
+    const offset = 16;
+    const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1920;
+    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 1080;
+
+    const x = Math.max(8, Math.min(clientX + offset, viewportWidth - tooltipWidth - 8));
+    const y = Math.max(8, Math.min(clientY + offset, viewportHeight - 120));
+    return { x, y };
+  };
+
+  const showTooltip = (item, event) => {
+    if (!item) return;
+    const { x, y } = getTooltipPosition(event.clientX, event.clientY);
+    setTooltip({ item, x, y });
+  };
+
+  const moveTooltip = (event) => {
+    setTooltip((prev) => {
+      if (!prev.item) return prev;
+      const { x, y } = getTooltipPosition(event.clientX, event.clientY);
+      return { ...prev, x, y };
+    });
+  };
+
+  const hideTooltip = () => setTooltip({ item: null, x: 0, y: 0 });
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -107,6 +171,9 @@ export default function InventoryPanel({
               <motion.div
                 key={slot}
                 whileHover={{ scale: 1.01 }}
+                onMouseEnter={(event) => showTooltip(item, event)}
+                onMouseMove={moveTooltip}
+                onMouseLeave={hideTooltip}
                 className={`flex items-center gap-3 p-3 rounded-xl border ${
                   item
                     ? (RARITIES[item.rarity]?.border || "border-gray-600") + " bg-gray-800/60"
@@ -163,6 +230,9 @@ export default function InventoryPanel({
               <motion.div
                 key={item.id}
                 whileHover={{ scale: 1.01 }}
+                onMouseEnter={(event) => showTooltip(item, event)}
+                onMouseMove={moveTooltip}
+                onMouseLeave={hideTooltip}
                 className={`flex items-center gap-3 p-2 rounded-lg border ${RARITIES[item.rarity]?.border || "border-gray-600"} bg-gray-800/40`}
               >
                 <span className="text-xl">{item.icon}</span>
@@ -191,6 +261,7 @@ export default function InventoryPanel({
           </div>
         )}
       </div>
+      {tooltip.item && <GearTooltip item={tooltip.item} x={tooltip.x} y={tooltip.y} />}
     </motion.div>
   );
 }

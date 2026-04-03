@@ -4,8 +4,54 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PATHS, RARITIES } from "../constants";
+import { RARITIES } from "../constants";
 import { XpBar } from "./HpBar";
+
+const STAT_LABELS = {
+  hp: "HP",
+  se: "SE",
+  atk: "ATK",
+  def: "DEF",
+  spd: "SPD",
+  focus: "FOCUS",
+};
+
+function getGearDescription(item) {
+  if (!item) return "";
+
+  const bonusText = Object.entries(item.stats || {})
+    .filter(([, value]) => typeof value === "number" && value > 0)
+    .map(([stat, value]) => `+${value} ${STAT_LABELS[stat] || stat.toUpperCase()}`);
+
+  const parts = [];
+  if (item.charmDesc) parts.push(item.charmDesc);
+  if (item.passive?.desc) parts.push(item.passive.desc);
+  if (bonusText.length > 0) parts.push(`Bonuses: ${bonusText.join(", ")}`);
+  if (item.lore) parts.push(item.lore);
+
+  return parts.join(" • ") || "Mysterious gear infused with spirit energy.";
+}
+
+function GearTooltip({ item, x, y }) {
+  const description = getGearDescription(item);
+
+  return (
+    <div
+      className="pointer-events-none fixed z-[2147483647] w-[min(340px,calc(100vw-2rem))]"
+      style={{ left: `${x}px`, top: `${y}px` }}
+    >
+      <div className="rounded-xl border border-fuchsia-400/40 bg-gradient-to-br from-gray-900 via-gray-900 to-fuchsia-950/80 px-3 py-2 shadow-[0_0_25px_rgba(217,70,239,0.3)] backdrop-blur-sm">
+        <div className="mb-1 flex items-center gap-2">
+          <span className="text-base">{item?.icon || "✨"}</span>
+          <span className={`text-xs font-semibold ${RARITIES[item?.rarity]?.color || "text-fuchsia-200"}`}>
+            {item?.name}
+          </span>
+        </div>
+        <p className="text-[11px] leading-relaxed text-fuchsia-100/90">{description}</p>
+      </div>
+    </div>
+  );
+}
 
 export default function ResultScreen({
   outcome,          // "victory" | "defeat"
@@ -21,7 +67,35 @@ export default function ResultScreen({
   onContinue,       // returns to hub
 }) {
   const [lootRevealed, setLootRevealed] = useState(0);
+  const [tooltip, setTooltip] = useState({ item: null, x: 0, y: 0 });
   const won = outcome === "victory";
+
+  const getTooltipPosition = (clientX, clientY) => {
+    const tooltipWidth = 340;
+    const offset = 16;
+    const viewportWidth = typeof window !== "undefined" ? window.innerWidth : 1920;
+    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 1080;
+
+    const x = Math.max(8, Math.min(clientX + offset, viewportWidth - tooltipWidth - 8));
+    const y = Math.max(8, Math.min(clientY + offset, viewportHeight - 120));
+    return { x, y };
+  };
+
+  const showTooltip = (item, event) => {
+    if (!item) return;
+    const { x, y } = getTooltipPosition(event.clientX, event.clientY);
+    setTooltip({ item, x, y });
+  };
+
+  const moveTooltip = (event) => {
+    setTooltip((prev) => {
+      if (!prev.item) return prev;
+      const { x, y } = getTooltipPosition(event.clientX, event.clientY);
+      return { ...prev, x, y };
+    });
+  };
+
+  const hideTooltip = () => setTooltip({ item: null, x: 0, y: 0 });
 
   // Reveal loot items one by one
   const revealNext = () => {
@@ -125,6 +199,9 @@ export default function ResultScreen({
                       initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
                       animate={{ opacity: 1, scale: 1, rotateY: 0 }}
                       transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                      onMouseEnter={(event) => showTooltip(item, event)}
+                      onMouseMove={moveTooltip}
+                      onMouseLeave={hideTooltip}
                       className={`flex items-center gap-3 p-2 rounded-lg bg-gray-900/60 border ${RARITIES[item.rarity]?.border || "border-gray-600"}`}
                     >
                       <span className="text-2xl">{item.icon}</span>
@@ -164,6 +241,7 @@ export default function ResultScreen({
           )}
         </motion.div>
       )}
+      {tooltip.item && <GearTooltip item={tooltip.item} x={tooltip.x} y={tooltip.y} />}
 
       {/* Defeat penalty */}
       {!won && (

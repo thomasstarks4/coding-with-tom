@@ -3,7 +3,7 @@ import Home from "./components/portfolio-main/Home";
 import Home2 from "./components/toms-learning-hub/components/Home";
 import Home3 from "./components/truly-private-chat/components/Home";
 import { useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import HamburgerButton from "./components/portfolio-main/HamburgerButton";
 import HamburgerMenu from "./components/portfolio-main/HamburgerMenu";
 import Contact from "./components/portfolio-main/Contact";
@@ -27,6 +27,7 @@ import SimplyDo from "./components/portfolio-main/SimplyDo";
 import ProgressTracker from "./components/portfolio-main/ProgressTracker/ProgressTracker";
 import GrowApp from "./components/grow-app/Grow";
 import SpiritQuest from "./components/portfolio-main/games/spirit-quest";
+import GardenLabelMaker from "./components/portfolio-main/GardenLabelMaker.tsx";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
@@ -152,6 +153,15 @@ function CodingWithTom() {
         <Route path="/progress-tracker" element={<ProgressTracker />} />
         <Route path="/grow-app" element={<GrowApp />} />
         <Route path="/games/spirit-quest" element={<SpiritQuest />} />
+        <Route path="/label-maker" element={<GardenLabelMaker />} />
+        <Route
+          path="/label-maker2"
+          element={<Navigate to="/label-maker" replace />}
+        />
+        <Route
+          path="/label-maker-2"
+          element={<Navigate to="/label-maker" replace />}
+        />
         <Route
           path="/birthday-invitation-maker"
           element={<BirthdayInvMaker />}
