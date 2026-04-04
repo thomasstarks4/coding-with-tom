@@ -11,7 +11,7 @@ import "./forest-platformer.css";
 
 const VIEW_WIDTH = 960;
 const VIEW_HEIGHT = 540;
-const WORLD_WIDTH = 3600;
+const BASE_WORLD_WIDTH = 3600;
 const WORLD_FLOOR = 468;
 const MAX_LIVES = 3;
 
@@ -22,13 +22,21 @@ const STOMP_BOUNCE = 460;
 const PLAYER_SPRITE_Y_OFFSET = -4;
 
 const PLAYER_SIZE = { w: 46, h: 72 };
+const PLAYER_COLLIDER = {
+  w: 40,
+  h: 26,
+  offsetX: 3,
+  // Keep feet contact aligned with sprite bottom, shrink mostly from the head.
+  offsetY: PLAYER_SIZE.h - 26,
+};
 
 const LEVELS = [
   {
     id: 1,
     name: "Forest Path",
+    worldWidth: BASE_WORLD_WIDTH,
     start: { x: 60, y: WORLD_FLOOR - PLAYER_SIZE.h },
-    goal: { x: WORLD_WIDTH - 180, y: 228, w: 70, h: 140 },
+    goal: { x: BASE_WORLD_WIDTH - 180, y: 228, w: 70, h: 140 },
     platforms: [
       { x: -100, y: WORLD_FLOOR, w: 900, h: 90, kind: "ground" },
       { x: 890, y: WORLD_FLOOR, w: 740, h: 90, kind: "ground" },
@@ -39,7 +47,7 @@ const LEVELS = [
       { x: 1240, y: 368, w: 180, h: 24, kind: "ledge" },
       { x: 1570, y: 310, w: 210, h: 24, kind: "ledge" },
       { x: 2080, y: 350, w: 160, h: 24, kind: "ledge" },
-      { x: 2320, y: 300, w: 180, h: 24, kind: "ledge" },
+      { x: 2400, y: 300, w: 180, h: 24, kind: "ledge" },
       { x: 2860, y: 350, w: 180, h: 24, kind: "ledge" },
       { x: 3130, y: 295, w: 180, h: 24, kind: "ledge" },
     ],
@@ -68,8 +76,9 @@ const LEVELS = [
   {
     id: 2,
     name: "Dark Canopy",
+    worldWidth: BASE_WORLD_WIDTH,
     start: { x: 80, y: WORLD_FLOOR - PLAYER_SIZE.h },
-    goal: { x: WORLD_WIDTH - 200, y: 218, w: 70, h: 140 },
+    goal: { x: BASE_WORLD_WIDTH - 200, y: 218, w: 70, h: 140 },
     platforms: [
       { x: -100, y: WORLD_FLOOR, w: 620, h: 90, kind: "ground" },
       { x: 830, y: WORLD_FLOOR, w: 470, h: 90, kind: "ground" },
@@ -123,6 +132,88 @@ const LEVELS = [
       { x: 3270, y: 372, variant: 0, flip: true },
     ],
   },
+  {
+    id: 3,
+    name: "Rift Expanse",
+    worldWidth: 6600,
+    start: { x: 90, y: WORLD_FLOOR - PLAYER_SIZE.h },
+    goal: { x: 6370, y: 196, w: 70, h: 140 },
+    platforms: [
+      { x: -100, y: WORLD_FLOOR, w: 620, h: 90, kind: "ground" },
+      { x: 960, y: WORLD_FLOOR, w: 360, h: 90, kind: "ground" },
+      { x: 1930, y: WORLD_FLOOR, w: 360, h: 90, kind: "ground" },
+      { x: 3040, y: WORLD_FLOOR, w: 300, h: 90, kind: "ground" },
+      { x: 4150, y: WORLD_FLOOR, w: 330, h: 90, kind: "ground" },
+      { x: 5320, y: WORLD_FLOOR, w: 320, h: 90, kind: "ground" },
+      { x: 6080, y: WORLD_FLOOR, w: 560, h: 90, kind: "ground" },
+      { x: 470, y: 378, w: 120, h: 24, kind: "ledge" },
+      { x: 770, y: 324, w: 110, h: 24, kind: "ledge" },
+      { x: 1410, y: 336, w: 110, h: 24, kind: "ledge" },
+      { x: 1730, y: 282, w: 100, h: 24, kind: "ledge" },
+      { x: 2390, y: 322, w: 110, h: 24, kind: "ledge" },
+      { x: 2730, y: 270, w: 100, h: 24, kind: "ledge" },
+      { x: 3550, y: 318, w: 115, h: 24, kind: "ledge" },
+      { x: 3830, y: 266, w: 100, h: 24, kind: "ledge" },
+      { x: 4570, y: 318, w: 110, h: 24, kind: "ledge" },
+      { x: 4960, y: 262, w: 100, h: 24, kind: "ledge" },
+      { x: 5710, y: 326, w: 110, h: 24, kind: "ledge" },
+      { x: 5940, y: 258, w: 95, h: 24, kind: "ledge" },
+    ],
+    movingPlatforms: [
+      { id: "m1", x: 640, y: 300, w: 120, h: 20, axis: "y", range: 100, speed: 2.1, phase: 0.2 },
+      { id: "m2", x: 1240, y: 268, w: 130, h: 20, axis: "x", range: 220, speed: 1.95, phase: 1.0 },
+      { id: "m3", x: 2100, y: 278, w: 120, h: 20, axis: "y", range: 104, speed: 2.2, phase: 1.8 },
+      { id: "m4", x: 2550, y: 252, w: 125, h: 20, axis: "x", range: 210, speed: 2.0, phase: 2.4 },
+      { id: "m5", x: 3320, y: 286, w: 130, h: 20, axis: "y", range: 110, speed: 2.15, phase: 0.9 },
+      { id: "m6", x: 4040, y: 246, w: 130, h: 20, axis: "x", range: 230, speed: 2.05, phase: 1.6 },
+      { id: "m7", x: 4890, y: 248, w: 120, h: 20, axis: "y", range: 100, speed: 2.25, phase: 2.1 },
+      { id: "m8", x: 5550, y: 250, w: 130, h: 20, axis: "x", range: 220, speed: 2.15, phase: 0.5 },
+      { id: "m9", x: 6110, y: 225, w: 130, h: 20, axis: "y", range: 78, speed: 2.35, phase: 1.3 },
+    ],
+    hazards: [
+      { x: 520, y: WORLD_FLOOR - 16, w: 440, h: 16 },
+      { x: 1320, y: WORLD_FLOOR - 16, w: 610, h: 16 },
+      { x: 2290, y: WORLD_FLOOR - 16, w: 750, h: 16 },
+      { x: 3340, y: WORLD_FLOOR - 16, w: 810, h: 16 },
+      { x: 4480, y: WORLD_FLOOR - 16, w: 840, h: 16 },
+      { x: 5640, y: WORLD_FLOOR - 16, w: 440, h: 16 },
+    ],
+    enemies: [
+      { id: "e1", x: 1020, y: WORLD_FLOOR - 42, w: 44, h: 42, minX: 970, maxX: 1300, speed: 128, dir: 1 },
+      { id: "e2", x: 2040, y: WORLD_FLOOR - 42, w: 44, h: 42, minX: 1950, maxX: 2280, speed: 132, dir: -1 },
+      { id: "e3", x: 3120, y: WORLD_FLOOR - 42, w: 44, h: 42, minX: 3060, maxX: 3330, speed: 126, dir: 1 },
+      { id: "e4", x: 4250, y: WORLD_FLOOR - 42, w: 44, h: 42, minX: 4170, maxX: 4460, speed: 136, dir: -1 },
+      { id: "e5", x: 5360, y: WORLD_FLOOR - 42, w: 44, h: 42, minX: 5330, maxX: 5620, speed: 142, dir: 1 },
+      { id: "e6", x: 5985, y: 216, w: 44, h: 42, minX: 5940, maxX: 6120, speed: 115, dir: -1 },
+    ],
+    coins: [
+      { x: 510, y: 330 },
+      { x: 810, y: 272 },
+      { x: 1290, y: 220 },
+      { x: 1490, y: 286 },
+      { x: 1770, y: 228 },
+      { x: 2140, y: 228 },
+      { x: 2470, y: 212 },
+      { x: 2820, y: 214 },
+      { x: 3370, y: 230 },
+      { x: 3860, y: 210 },
+      { x: 4170, y: 188 },
+      { x: 4620, y: 228 },
+      { x: 4990, y: 206 },
+      { x: 5580, y: 210 },
+      { x: 5980, y: 198 },
+      { x: 6200, y: 176 },
+    ],
+    decorations: [
+      { x: 180, y: 372, variant: 0, flip: false },
+      { x: 1110, y: 372, variant: 1, flip: true },
+      { x: 2050, y: 372, variant: 0, flip: false },
+      { x: 3160, y: 372, variant: 1, flip: false },
+      { x: 4290, y: 372, variant: 0, flip: true },
+      { x: 5450, y: 372, variant: 1, flip: false },
+      { x: 6270, y: 372, variant: 0, flip: true },
+    ],
+  },
 ];
 
 function intersects(a, b) {
@@ -136,6 +227,15 @@ function intersects(a, b) {
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
+}
+
+function getPlayerCollider(player) {
+  return {
+    x: player.x + PLAYER_COLLIDER.offsetX,
+    y: player.y + PLAYER_COLLIDER.offsetY,
+    w: PLAYER_COLLIDER.w,
+    h: PLAYER_COLLIDER.h,
+  };
 }
 
 function createMovingPlatform(def, elapsed) {
@@ -378,31 +478,48 @@ export default function ForestPlatformer() {
       const allPlatforms = [...level.platforms, ...movingPlatforms];
 
       // Horizontal collision pass.
-      next.player.x += next.player.vx * dt;
+      let envCollider = getPlayerCollider(next.player);
+      envCollider.x += next.player.vx * dt;
       allPlatforms.forEach((platform) => {
-        if (!intersects(next.player, platform)) return;
+        if (!intersects(envCollider, platform)) return;
+        // Prevent moving ledges from side-snapping the player while they are
+        // standing/running off the top surface. This removes teleport-like
+        // corrections when high-motion platforms overlap during edge exits.
+        if (
+          platform.kind === "moving" &&
+          envCollider.y + envCollider.h <= platform.y + 12
+        ) {
+          return;
+        }
         if (next.player.vx > 0) {
-          next.player.x = platform.x - next.player.w;
+          envCollider.x = platform.x - envCollider.w;
         } else if (next.player.vx < 0) {
-          next.player.x = platform.x + platform.w;
+          envCollider.x = platform.x + platform.w;
         }
       });
-      next.player.x = clamp(next.player.x, -40, WORLD_WIDTH - next.player.w + 20);
+      envCollider.x = clamp(
+        envCollider.x,
+        -40 + PLAYER_COLLIDER.offsetX,
+        level.worldWidth + 20 - envCollider.w,
+      );
+      next.player.x = envCollider.x - PLAYER_COLLIDER.offsetX;
 
       // Vertical collision pass.
-      next.player.y += next.player.vy * dt;
+      envCollider = getPlayerCollider(next.player);
+      envCollider.y += next.player.vy * dt;
       next.player.onGround = false;
       allPlatforms.forEach((platform) => {
-        if (!intersects(next.player, platform)) return;
+        if (!intersects(envCollider, platform)) return;
         if (next.player.vy > 0) {
-          next.player.y = platform.y - next.player.h;
+          envCollider.y = platform.y - envCollider.h;
           next.player.vy = 0;
           next.player.onGround = true;
         } else if (next.player.vy < 0) {
-          next.player.y = platform.y + platform.h;
+          envCollider.y = platform.y + platform.h;
           next.player.vy = 0;
         }
       });
+      next.player.y = envCollider.y - PLAYER_COLLIDER.offsetY;
 
       // Fall reset.
       if (next.player.y > VIEW_HEIGHT + 220) {
@@ -496,7 +613,7 @@ export default function ForestPlatformer() {
       next.cameraX = clamp(
         next.player.x + next.player.w / 2 - VIEW_WIDTH / 2,
         0,
-        WORLD_WIDTH - VIEW_WIDTH,
+        level.worldWidth - VIEW_WIDTH,
       );
 
       stateRef.current = next;
@@ -563,14 +680,25 @@ export default function ForestPlatformer() {
     snapshot.phase === "wonLevel"
       ? "Level clear! Enter the next forest route."
       : snapshot.phase === "completed"
-        ? "You conquered both levels. The forest is safe."
+        ? "You conquered all three levels. The forest is safe."
         : snapshot.phase === "gameover"
           ? "You were overwhelmed. Restart to try again."
           : "Collect all spirit coins, then reach the portal.";
 
   return (
     <div className="forest-platformer-shell">
-      <audio ref={audioRef} src={forestLofi} preload="auto" />
+      <audio
+        ref={audioRef}
+        src={forestLofi}
+        preload="auto"
+        loop
+        onEnded={() => {
+          const audio = audioRef.current;
+          if (!audio) return;
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
+        }}
+      />
       <div className="forest-platformer-card">
         <header className="forest-platformer-header">
           <div>
@@ -642,7 +770,10 @@ export default function ForestPlatformer() {
 
           <div
             className="forest-world"
-            style={{ transform: `translateX(${-snapshot.cameraX}px)` }}
+            style={{
+              width: `${activeLevel.worldWidth}px`,
+              transform: `translateX(${-snapshot.cameraX}px)`,
+            }}
           >
             {activeLevel.decorations.map((tree, idx) => (
               <div

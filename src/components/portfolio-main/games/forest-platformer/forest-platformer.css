@@ -141,7 +141,6 @@
 .forest-world {
   position: absolute;
   inset: 0;
-  width: 3600px;
 }
 
 .forest-platform {
@@ -340,7 +339,7 @@
 }
 
 .samurai-sprite.run {
-  animation: samuraiRun 0.8s steps(16) infinite;
+  animation: samuraiRun 0.6s steps(16) infinite;
 }
 
 .samurai-sprite.jump {
