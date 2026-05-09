@@ -287,12 +287,18 @@ const createInitialState = () => ({
 
 export default function ForestPlatformer() {
   const keysRef = useRef({ left: false, right: false, jump: false });
+  const stageHostRef = useRef(null);
+  const isMobileViewportRef = useRef(false);
+  const isPortraitViewportRef = useRef(false);
   const rafRef = useRef(null);
   const audioRef = useRef(null);
   const musicStartedRef = useRef(false);
   const previousTimeRef = useRef(0);
   const stateRef = useRef(createInitialState());
   const [snapshot, setSnapshot] = useState(stateRef.current);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const [stageScale, setStageScale] = useState(1);
+  const [touchState, setTouchState] = useState({ left: false, right: false, jump: false });
   const [musicStarted, setMusicStarted] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [musicVolume, setMusicVolume] = useState(0.35);
@@ -304,6 +310,57 @@ export default function ForestPlatformer() {
   useEffect(() => {
     musicStartedRef.current = musicStarted;
   }, [musicStarted]);
+
+  useEffect(() => {
+    isMobileViewportRef.current = isMobileViewport;
+  }, [isMobileViewport]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 900px), (pointer: coarse)");
+    const applyViewportMode = () => {
+      setIsMobileViewport(mediaQuery.matches);
+    };
+    applyViewportMode();
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", applyViewportMode);
+    } else {
+      mediaQuery.addListener(applyViewportMode);
+    }
+    return () => {
+      if (typeof mediaQuery.removeEventListener === "function") {
+        mediaQuery.removeEventListener("change", applyViewportMode);
+      } else {
+        mediaQuery.removeListener(applyViewportMode);
+      }
+    };
+  }, []);
+
+  const clearInputState = useCallback(() => {
+    keysRef.current.left = false;
+    keysRef.current.right = false;
+    keysRef.current.jump = false;
+    setTouchState({ left: false, right: false, jump: false });
+  }, []);
+
+  const updateStageScale = useCallback(() => {
+    const host = stageHostRef.current;
+    if (!host) return;
+    const availableWidth = host.clientWidth;
+    const isPortrait = window.innerHeight >= window.innerWidth;
+    isPortraitViewportRef.current = isPortrait;
+    const maxHeightRatio = isMobileViewport ? (isPortrait ? 0.54 : 0.66) : 0.72;
+    const availableHeight = window.innerHeight * maxHeightRatio;
+    const nextScale = clamp(Math.min(availableWidth / VIEW_WIDTH, availableHeight / VIEW_HEIGHT), 0.1, 1);
+    setStageScale(nextScale);
+  }, [isMobileViewport]);
+
+  useEffect(() => {
+    updateStageScale();
+    window.addEventListener("resize", updateStageScale);
+    return () => {
+      window.removeEventListener("resize", updateStageScale);
+    };
+  }, [updateStageScale]);
 
   const startMusic = useCallback(() => {
     const audio = audioRef.current;
@@ -327,6 +384,17 @@ export default function ForestPlatformer() {
     setSnapshot(updated);
     if (!musicStartedRef.current) startMusic();
   }, [startMusic]);
+
+  const setControlState = useCallback(
+    (key, pressed) => {
+      keysRef.current[key] = pressed;
+      setTouchState((currentState) =>
+        currentState[key] === pressed ? currentState : { ...currentState, [key]: pressed },
+      );
+      if (pressed) markRunStarted();
+    },
+    [markRunStarted],
+  );
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -399,11 +467,13 @@ export default function ForestPlatformer() {
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener("blur", clearInputState);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener("blur", clearInputState);
     };
-  }, [markRunStarted]);
+  }, [clearInputState, markRunStarted]);
 
   useEffect(() => () => {
     if (audioRef.current) {
@@ -610,11 +680,19 @@ export default function ForestPlatformer() {
         }
       }
 
-      next.cameraX = clamp(
-        next.player.x + next.player.w / 2 - VIEW_WIDTH / 2,
-        0,
-        level.worldWidth - VIEW_WIDTH,
-      );
+      const isMobileCamera = isMobileViewportRef.current;
+      const isPortraitCamera = isMobileCamera && isPortraitViewportRef.current;
+      const cameraAnchorRatio = isMobileCamera
+        ? isPortraitCamera
+          ? 0.33
+          : 0.4
+        : 0.5;
+      const cameraFocusX =
+        next.phase === "wonLevel" || next.phase === "completed"
+          ? level.goal.x + level.goal.w / 2
+          : next.player.x + next.player.w / 2;
+      const desiredCameraX = cameraFocusX - VIEW_WIDTH * cameraAnchorRatio;
+      next.cameraX = clamp(desiredCameraX, 0, level.worldWidth - VIEW_WIDTH);
 
       stateRef.current = next;
       setSnapshot(next);
@@ -703,7 +781,11 @@ export default function ForestPlatformer() {
         <header className="forest-platformer-header">
           <div>
             <h1>Forest Platformer</h1>
-            <p>Use A/D or arrow keys to move, W/Up/Space to jump, R to restart.</p>
+            <p>
+              {isMobileViewport
+                ? "Use touch controls to move and jump. Tap restart if you need a reset."
+                : "Use A/D or arrow keys to move, W/Up/Space to jump, R to restart."}
+            </p>
           </div>
           <div className="forest-header-controls">
             <div className="forest-music-player">
@@ -757,138 +839,207 @@ export default function ForestPlatformer() {
           <span>Time: {snapshot.elapsed.toFixed(1)}s</span>
         </section>
 
-        <section className="forest-platformer-stage">
-          <div className="forest-parallax forest-sky" />
-          <div
-            className="forest-parallax forest-clouds"
-            style={{ backgroundPositionX: `${snapshot.cameraX * -0.25}px` }}
-          />
-          <div
-            className="forest-parallax forest-mountains"
-            style={{ backgroundPositionX: `${snapshot.cameraX * -0.45}px` }}
-          />
-
-          <div
-            className="forest-world"
-            style={{
-              width: `${activeLevel.worldWidth}px`,
-              transform: `translateX(${-snapshot.cameraX}px)`,
-            }}
-          >
-            {activeLevel.decorations.map((tree, idx) => (
-              <div
-                key={`tree-${idx}`}
-                className="forest-tree"
-                style={{
-                  left: tree.x,
-                  top: tree.y,
-                  backgroundImage: `url(${treeSprites})`,
-                  backgroundPosition: tree.variant === 1 ? "-64px 0" : "0 0",
-                  transform: tree.flip ? "scaleX(-1)" : "none",
-                }}
-              />
-            ))}
-
-            {activeLevel.platforms.map((platform, idx) => (
-              <div
-                key={`platform-${idx}`}
-                className={`forest-platform ${
-                  platform.kind === "ground" ? "forest-platform--ground" : "forest-platform--ledge"
-                }`}
-                style={{
-                  left: platform.x,
-                  top: platform.y,
-                  width: platform.w,
-                  height: platform.h,
-                  "--tile-texture": `url(${groundTile})`,
-                  "--float-delay": `${(idx % 4) * 0.35}s`,
-                  "--float-duration": `${3.1 + (idx % 3) * 0.5}s`,
-                }}
-              />
-            ))}
-
-            {snapshot.movingPlatforms.map((platform, idx) => (
-              <div
-                key={platform.id}
-                className="forest-platform forest-platform--moving"
-                style={{
-                  left: platform.x,
-                  top: platform.y,
-                  width: platform.w,
-                  height: platform.h,
-                  "--float-delay": `${(idx % 4) * 0.35}s`,
-                  "--float-duration": `${3.2 + (idx % 2) * 0.5}s`,
-                }}
-              />
-            ))}
-
-            {snapshot.coins.map((coin, idx) => (
-              <div key={`coin-${idx}`} className="forest-coin" style={{ left: coin.x, top: coin.y }} />
-            ))}
-
-            {activeLevel.hazards.map((hazard, idx) => (
-              <div
-                key={`hazard-${idx}`}
-                className="forest-hazard"
-                style={{ left: hazard.x, top: hazard.y, width: hazard.w, height: hazard.h }}
-              />
-            ))}
-
-            {snapshot.enemies.filter((enemy) => enemy.alive).map((enemy) => (
-              <div
-                key={enemy.id}
-                className="forest-enemy"
-                style={{ left: enemy.x, top: enemy.y, width: enemy.w, height: enemy.h }}
-              >
-                👹
-              </div>
-            ))}
-
-            <div className="forest-goal" style={{ left: activeLevel.goal.x, top: activeLevel.goal.y }}>
-              <div className="forest-goal-core">◎</div>
-            </div>
+        <section
+          className="forest-platformer-stage-shell"
+          ref={stageHostRef}
+          style={{ height: `${Math.round(VIEW_HEIGHT * stageScale)}px` }}
+        >
+          <div className="forest-platformer-stage" style={{ transform: `scale(${stageScale})` }}>
+            <div className="forest-parallax forest-sky" />
+            <div
+              className="forest-parallax forest-clouds"
+              style={{ backgroundPositionX: `${snapshot.cameraX * -0.25}px` }}
+            />
+            <div
+              className="forest-parallax forest-mountains"
+              style={{ backgroundPositionX: `${snapshot.cameraX * -0.45}px` }}
+            />
 
             <div
-              className="forest-player"
+              className="forest-world"
               style={{
-                left: snapshot.player.x - 24,
-                top: snapshot.player.y + PLAYER_SPRITE_Y_OFFSET,
-                transform: `scaleX(${snapshot.player.facing})`,
+                width: `${activeLevel.worldWidth}px`,
+                transform: `translateX(${-snapshot.cameraX}px)`,
               }}
             >
-              <div
-                className={`samurai-sprite ${samuraiAnimationState}`}
-                style={{
-                  backgroundImage: `url(${samuraiSpriteSheet})`,
-                }}
-              />
-            </div>
-          </div>
-          {snapshot.phase !== "playing" && (
-            <div className="forest-overlay">
-              <div className="forest-overlay-card">
-                <h2>
-                  {snapshot.phase === "wonLevel"
-                    ? `Level ${snapshot.levelIndex + 1} complete`
-                    : snapshot.phase === "completed"
-                      ? "Campaign complete"
-                      : "Game Over"}
-                </h2>
-                <p>{overlayText}</p>
-                <div className="forest-overlay-actions">
-                  {snapshot.phase === "wonLevel" && (
-                    <button onClick={nextLevel} type="button">
-                      Start Level {snapshot.levelIndex + 2}
-                    </button>
-                  )}
-                  <button onClick={resetRun} type="button">
-                    Restart Campaign
-                  </button>
+              {activeLevel.decorations.map((tree, idx) => (
+                <div
+                  key={`tree-${idx}`}
+                  className="forest-tree"
+                  style={{
+                    left: tree.x,
+                    top: tree.y,
+                    backgroundImage: `url(${treeSprites})`,
+                    backgroundPosition: tree.variant === 1 ? "-64px 0" : "0 0",
+                    transform: tree.flip ? "scaleX(-1)" : "none",
+                  }}
+                />
+              ))}
+
+              {activeLevel.platforms.map((platform, idx) => (
+                <div
+                  key={`platform-${idx}`}
+                  className={`forest-platform ${
+                    platform.kind === "ground" ? "forest-platform--ground" : "forest-platform--ledge"
+                  }`}
+                  style={{
+                    left: platform.x,
+                    top: platform.y,
+                    width: platform.w,
+                    height: platform.h,
+                    "--tile-texture": `url(${groundTile})`,
+                    "--float-delay": `${(idx % 4) * 0.35}s`,
+                    "--float-duration": `${3.1 + (idx % 3) * 0.5}s`,
+                  }}
+                />
+              ))}
+
+              {snapshot.movingPlatforms.map((platform, idx) => (
+                <div
+                  key={platform.id}
+                  className="forest-platform forest-platform--moving"
+                  style={{
+                    left: platform.x,
+                    top: platform.y,
+                    width: platform.w,
+                    height: platform.h,
+                    "--float-delay": `${(idx % 4) * 0.35}s`,
+                    "--float-duration": `${3.2 + (idx % 2) * 0.5}s`,
+                  }}
+                />
+              ))}
+
+              {snapshot.coins.map((coin, idx) => (
+                <div key={`coin-${idx}`} className="forest-coin" style={{ left: coin.x, top: coin.y }} />
+              ))}
+
+              {activeLevel.hazards.map((hazard, idx) => (
+                <div
+                  key={`hazard-${idx}`}
+                  className="forest-hazard"
+                  style={{ left: hazard.x, top: hazard.y, width: hazard.w, height: hazard.h }}
+                />
+              ))}
+
+              {snapshot.enemies.filter((enemy) => enemy.alive).map((enemy) => (
+                <div
+                  key={enemy.id}
+                  className="forest-enemy"
+                  style={{ left: enemy.x, top: enemy.y, width: enemy.w, height: enemy.h }}
+                >
+                  👹
                 </div>
+              ))}
+
+              <div className="forest-goal" style={{ left: activeLevel.goal.x, top: activeLevel.goal.y }}>
+                <div className="forest-goal-core">◎</div>
+              </div>
+
+              <div
+                className="forest-player"
+                style={{
+                  left: snapshot.player.x - 24,
+                  top: snapshot.player.y + PLAYER_SPRITE_Y_OFFSET,
+                  transform: `scaleX(${snapshot.player.facing})`,
+                }}
+              >
+                <div
+                  className={`samurai-sprite ${samuraiAnimationState}`}
+                  style={{
+                    backgroundImage: `url(${samuraiSpriteSheet})`,
+                  }}
+                />
               </div>
             </div>
-          )}
+            {snapshot.phase !== "playing" && (
+              <div className="forest-overlay">
+                <div className="forest-overlay-card">
+                  <h2>
+                    {snapshot.phase === "wonLevel"
+                      ? `Level ${snapshot.levelIndex + 1} complete`
+                      : snapshot.phase === "completed"
+                        ? "Campaign complete"
+                        : "Game Over"}
+                  </h2>
+                  <p>{overlayText}</p>
+                  <div className="forest-overlay-actions">
+                    {snapshot.phase === "wonLevel" && (
+                      <button onClick={nextLevel} type="button">
+                        Start Level {snapshot.levelIndex + 2}
+                      </button>
+                    )}
+                    <button onClick={resetRun} type="button">
+                      Restart Campaign
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </section>
+        {isMobileViewport && (
+          <section className="forest-mobile-controls" aria-label="Touch controls">
+            <div className="forest-mobile-dpad">
+              <button
+                type="button"
+                className={touchState.left ? "is-active" : ""}
+                onTouchStart={(event) => {
+                  event.preventDefault();
+                  setControlState("left", true);
+                }}
+                onTouchEnd={(event) => {
+                  event.preventDefault();
+                  setControlState("left", false);
+                }}
+                onTouchCancel={() => setControlState("left", false)}
+                onMouseDown={() => setControlState("left", true)}
+                onMouseUp={() => setControlState("left", false)}
+                onMouseLeave={() => setControlState("left", false)}
+                onContextMenu={(event) => event.preventDefault()}
+              >
+                Left
+              </button>
+              <button
+                type="button"
+                className={touchState.right ? "is-active" : ""}
+                onTouchStart={(event) => {
+                  event.preventDefault();
+                  setControlState("right", true);
+                }}
+                onTouchEnd={(event) => {
+                  event.preventDefault();
+                  setControlState("right", false);
+                }}
+                onTouchCancel={() => setControlState("right", false)}
+                onMouseDown={() => setControlState("right", true)}
+                onMouseUp={() => setControlState("right", false)}
+                onMouseLeave={() => setControlState("right", false)}
+                onContextMenu={(event) => event.preventDefault()}
+              >
+                Right
+              </button>
+            </div>
+            <button
+              type="button"
+              className={`forest-mobile-jump ${touchState.jump ? "is-active" : ""}`}
+              onTouchStart={(event) => {
+                event.preventDefault();
+                setControlState("jump", true);
+              }}
+              onTouchEnd={(event) => {
+                event.preventDefault();
+                setControlState("jump", false);
+              }}
+              onTouchCancel={() => setControlState("jump", false)}
+              onMouseDown={() => setControlState("jump", true)}
+              onMouseUp={() => setControlState("jump", false)}
+              onMouseLeave={() => setControlState("jump", false)}
+              onContextMenu={(event) => event.preventDefault()}
+            >
+              Jump
+            </button>
+          </section>
+        )}
 
         <footer className="forest-platformer-footer">
           <span>{overlayText}</span>

@@ -104,12 +104,20 @@
 }
 
 .forest-platformer-stage {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 640px;
+  width: 960px;
+  height: 540px;
   position: relative;
   overflow: hidden;
   background: #38bdf8;
+  transform-origin: top center;
+  touch-action: none;
+}
+
+.forest-platformer-stage-shell {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .forest-parallax {
@@ -431,6 +439,10 @@
   background: rgba(22, 163, 74, 0.34);
 }
 
+.forest-mobile-controls {
+  display: none;
+}
+
 @keyframes samuraiIdle {
   from {
     background-position: 0 0;
@@ -501,12 +513,15 @@
 
 @media (max-width: 740px) {
   .forest-platformer-shell {
-    padding: 12px;
+    min-height: 100dvh;
+    padding: 10px;
+    align-items: flex-start;
   }
 
   .forest-platformer-header {
     flex-direction: column;
     align-items: flex-start;
+    padding: 14px 14px 8px;
   }
 
   .forest-header-controls {
@@ -515,9 +530,80 @@
     flex-wrap: wrap;
   }
 
+  .forest-music-player {
+    width: 100%;
+    justify-content: space-between;
+    border-radius: 12px;
+  }
+
+  .forest-platformer-hud {
+    gap: 8px;
+    padding: 0 14px 10px;
+    font-size: 0.82rem;
+  }
+
+  .forest-platformer-hud span {
+    padding: 5px 10px;
+  }
+
+  .forest-platformer-stage-shell {
+    margin-top: 2px;
+  }
+
+  .forest-mobile-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px 12px;
+  }
+
+  .forest-mobile-dpad {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .forest-mobile-controls button {
+    min-height: 56px;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.9);
+    color: #e2e8f0;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .forest-mobile-dpad button {
+    flex: 1;
+  }
+
+  .forest-mobile-jump {
+    min-width: 108px;
+    padding: 0 16px;
+    background: rgba(14, 116, 144, 0.8);
+    border-color: rgba(56, 189, 248, 0.6);
+  }
+
+  .forest-mobile-controls button.is-active {
+    transform: translateY(1px);
+    filter: brightness(1.15);
+    box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.25);
+  }
+
   .forest-platformer-footer {
     flex-direction: column;
     align-items: flex-start;
+    padding: 12px 14px 14px;
+    gap: 9px;
+  }
+
+  .forest-platformer-footer button {
+    width: 100%;
   }
 }
 
