@@ -29,6 +29,7 @@ import GrowApp from "./components/grow-app/Grow";
 import SpiritQuest from "./components/portfolio-main/games/spirit-quest";
 import ForestPlatformer from "./components/portfolio-main/games/forest-platformer";
 import GardenLabelMaker from "./components/portfolio-main/GardenLabelMaker.tsx";
+import OSRSWildernessHelper from "./components/portfolio-main/OSRSWildernessHelper";
 
 function CodingWithTom() {
   const [showMenu, setShowMenu] = useState(false);
@@ -188,6 +189,7 @@ function CodingWithTom() {
         />
         <Route path="/writer" element={<Writer />} />
         <Route path="/JavaScriptIDE" element={<JavaScriptIDE />}></Route>
+        <Route path="/osrs-wilderness" element={<OSRSWildernessHelper />} />
         <Route path="*" element={<ErrorPage />} />
         <Route path="/meal-tracker" element={<MealTracker />}></Route>
       </Routes>

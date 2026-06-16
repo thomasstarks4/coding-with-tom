@@ -143,6 +143,14 @@ function Applications() {
       external: false,
       color: "from-emerald-500 to-teal-500",
     },
+    {
+      to: "/osrs-wilderness",
+      label: "OSRS Wilderness Helper",
+      description: "Old School Runescape Wilderness guide — skilling, bosses, slayer & more",
+      category: "Gaming",
+      external: false,
+      color: "from-red-700 to-stone-900",
+    },
     // {
     //   to: "/grow-app",
     //   label: "Grow App",
