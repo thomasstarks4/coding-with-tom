@@ -4,7 +4,7 @@ export const hubTools = [
     title: "Sentence Starter",
     summary: "Choose sentence patterns and practice read-aloud together.",
     detail:
-      "Pick which starters like “I can see the…” or “We like…” are active, then work through generated sentences. Pattern choices save automatically. Tap each sentence after your learner reads it aloud.",
+      "Pick which starters like “I can see the…” or “We like…” are active, then launch a fullscreen focus session with one sentence at a time. Pattern choices save automatically.",
     bestFor: "10-minute reading sessions with an adult",
   },
   {

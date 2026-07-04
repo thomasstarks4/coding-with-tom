@@ -10,10 +10,10 @@ const ROUTE_TO_ID = {
 const toolSteps = {
   starter: [
     "In Configure starters, check the sentence patterns you want active.",
-    "Use Select All or pick a handful — your choices save automatically.",
-    "Work through sentences in the Not read container below.",
-    "Tap a sentence after your learner reads it aloud.",
-    "Mark Yes to move it to Read, or Try again to practice that sentence later.",
+    "Click Start focus session for a fullscreen reading view.",
+    "Have your learner read the large sentence aloud.",
+    "Tap Got it to move on, or Try again later to practice that sentence again later in the session.",
+    "Use the lock icon if your learner might accidentally tap and exit.",
     "Click New set for fresh random words with the same patterns.",
   ],
   writer: [

@@ -1,0 +1,88 @@
+:root {
+  --starter-focus-sentence: clamp(2rem, 7vw, 4.5rem);
+  --starter-focus-action-min: 56px;
+}
+
+.starter-focus-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.starter-focus-backdrop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.starter-focus-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  max-width: 48rem;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.starter-focus-sentence {
+  font-size: var(--starter-focus-sentence);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  text-align: center;
+}
+
+.starter-focus-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.starter-focus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.starter-focus-action-btn {
+  min-height: var(--starter-focus-action-min);
+  min-width: 10rem;
+  flex: 1;
+}
+
+.starter-focus-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #e2e8f0;
+}
+
+.starter-focus-dot--read {
+  background: #10b981;
+}
+
+.starter-focus-dot--current {
+  background: #0ea5e9;
+  transform: scale(1.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starter-focus-sentence-animate {
+    animation: none !important;
+    transition: none !important;
+  }
+}
