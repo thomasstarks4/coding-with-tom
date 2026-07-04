@@ -1,45 +1,20 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import PageShell from "../../design-system/components/PageShell";
+import Button from "../../design-system/components/Button";
 
-const ErrorPage = () => {
+export default function ErrorPage() {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Oops! Something went wrong.</h1>
-      <p style={styles.message}>
-        We couldn't find the page you're looking for.
-      </p>
-      <button style={styles.button}>
-        <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
-          Go Home
-        </Link>
-      </button>
-    </div>
+    <PageShell>
+      <div className="mx-auto max-w-md text-center">
+        <p className="mb-2 text-sm font-medium uppercase tracking-widest text-zinc-500">
+          404
+        </p>
+        <h1 className="mb-4 text-3xl font-bold text-white">Page not found</h1>
+        <p className="mb-8 text-zinc-400">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+        <Button to="/">Back to home</Button>
+      </div>
+    </PageShell>
   );
-};
-
-const styles = {
-  container: {
-    textAlign: "center",
-    padding: "2rem",
-  },
-  title: {
-    fontSize: "2rem",
-    color: "#333",
-  },
-  message: {
-    fontSize: "1rem",
-    color: "#666",
-    marginBottom: "1.5rem",
-  },
-  button: {
-    padding: "0.5rem 1rem",
-    fontSize: "1rem",
-    color: "#fff",
-    backgroundColor: "#007bff",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-};
-
-export default ErrorPage;
+}

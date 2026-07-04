@@ -1,3 +1,13 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+
+# Hidden apps — routes exist but are not promoted
+Disallow: /meal-tracker
+Disallow: /simplydo
+Disallow: /birthday-invitation-maker
+Disallow: /osrs-wilderness
+Disallow: /grow-app
+Disallow: /store
+
+Sitemap: https://codingwithtom.com/sitemap.xml

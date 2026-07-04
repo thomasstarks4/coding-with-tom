@@ -1,148 +1,75 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 
 const Home = () => {
   return (
-    <motion.div
-      className="relative min-h-screen overflow-auto bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 text-gray-800"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-    >
-      {/* Decorative Elements */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <motion.div
-          className="absolute left-[12%] top-[18%] h-[120px] w-[120px] rounded-full bg-blue-500/30 sm:h-[150px] sm:w-[150px]"
-          animate={{ y: [0, -30, 0], rotate: [0, 180, 360] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute right-[12%] top-1/3 h-[120px] w-[120px] bg-purple-500/30 sm:h-[150px] sm:w-[150px]"
-          animate={{ y: [0, 40, 0], rotate: [0, -180, -360] }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center px-4 py-16 sm:py-20 lg:py-24">
-        <motion.header
-          className="text-center"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-transparent bg-clip-text">
-            Welcome to Tom&apos;s Learning Hub
+    <div className="relative min-h-screen overflow-auto bg-slate-50 text-slate-800">
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center px-4 py-12 sm:py-16">
+        <header className="text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+            Tom&apos;s Learning Hub
           </h1>
-          <p className="mt-3 max-w-3xl text-base text-gray-600 sm:text-lg lg:text-xl">
-            I believe that learning to read should be a fun and engaging
-            experience for children. This educational software is designed to
-            help young readers build their confidence and skills by using{" "}
-            <strong>sentence starters</strong> and{" "}
-            <strong>common, everyday words</strong>.
+          <p className="mt-3 max-w-2xl text-base text-slate-600 sm:text-lg">
+            Reading and writing tools for Grades 1–2. Sentence starters, guided
+            writing, and word practice — designed to be simple and engaging.
           </p>
-        </motion.header>
+        </header>
 
-        {/* Section 1 */}
-        <motion.section
-          className="mt-10 w-full rounded-2xl bg-white shadow-xl p-5 backdrop-blur-sm border border-gray-200 sm:p-6 lg:p-8"
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          whileHover={{ scale: 1.02, y: -5 }}
-        >
-          <h2 className="text-xl font-semibold sm:text-2xl mb-4 text-blue-700">
-            How It Works:
-          </h2>
-          <ul className="mt-4 space-y-4 text-sm leading-6 text-gray-700 sm:text-base">
+        <section className="mt-10 w-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="mb-4 text-xl font-semibold text-sky-800">How it works</h2>
+          <ul className="space-y-4 text-sm leading-6 text-slate-700 sm:text-base">
             <li>
-              <strong>Sentence Starters:</strong> A wide variety of sentence
-              starters that form the base of a sentence. These starters are
-              crafted to be simple and meaningful, helping children understand
-              the context and structure of sentences.
+              <strong>Sentence starters</strong> — simple prompts that help
+              children understand sentence structure.
             </li>
             <li>
-              <strong>Common Words and Phrases:</strong> Introduces children to
-              frequently used words in a fun way, reinforcing their recognition
-              and understanding. By reading these common words in different
-              contexts, children can start to form their own sentences and
-              improve their reading fluency.
+              <strong>Common words</strong> — everyday vocabulary reinforced in
+              different contexts.
             </li>
             <li>
-              <strong>Interactive Learning:</strong> Encourages children to
-              interact with the content, helping them stay engaged and
-              interested. The goal is to make reading not just a learning
-              process but an adventure they can enjoy!
+              <strong>Interactive tools</strong> — tuners, writers, and
+              highlighters to keep practice engaging.
             </li>
           </ul>
-        </motion.section>
+        </section>
 
-        {/* Section 2 */}
-        <motion.section
-          className="mt-6 w-full rounded-2xl bg-white shadow-xl p-5 backdrop-blur-sm border border-gray-200 sm:mt-8 sm:p-6 lg:mt-10 lg:p-8"
-          initial={{ x: 50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          whileHover={{ scale: 1.02, y: -5 }}
-        >
-          <h2 className="text-xl font-semibold sm:text-2xl mb-4 text-purple-700">
-            Why Use This?
-          </h2>
-          <ul className="mt-4 space-y-4 text-sm leading-6 text-gray-700 sm:text-base">
+        <section className="mt-6 w-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:mt-8 sm:p-8">
+          <h2 className="mb-4 text-xl font-semibold text-sky-800">Why use this</h2>
+          <ul className="space-y-4 text-sm leading-6 text-slate-700 sm:text-base">
             <li>
-              <strong>Designed for Kids:</strong> Tailored and tested
-              specifically for young readers. It's colorful, easy to use, and
-              packed with fun animations that keep children motivated and eager
-              to learn.
+              <strong>Built for young readers</strong> — clear layout, large
+              text, kid-friendly interactions.
             </li>
             <li>
-              <strong>Builds Confidence:</strong> By gradually introducing
-              children to new words and sentence structures, we help them build
-              confidence in their reading abilities.
+              <strong>Builds confidence</strong> — gradual introduction of words
+              and sentence patterns.
             </li>
             <li>
-              <strong>Perfect for Nightly Homework:</strong> Print out material
-              straight from the site and bring it to the dinner table, or
-              wherever your learner can best grow.
+              <strong>Printable homework</strong> — generate worksheets for
+              practice at home or in class.
             </li>
             <li>
-              <strong>Supports Parents and Educators:</strong> Whether you're a
-              parent looking to supplement your child's learning at home or an
-              educator searching for new tools to engage students, this platform
-              offers valuable resources to support literacy development.
+              <strong>For parents and teachers</strong> — supplemental literacy
+              resources for Grades 1–2.
             </li>
           </ul>
-        </motion.section>
+        </section>
 
-        {/* CTA */}
-        <motion.div
-          className="mt-8 sm:mt-10"
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-        >
-          <Link to="/starter" className="inline-block">
-            <motion.button
-              type="button"
-              className="relative inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4 text-sm font-bold text-white shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 sm:text-base"
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.2 }}
-            >
-              🎯 Start Learning Now!
-            </motion.button>
+        <div className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-10">
+          <Link
+            to="/starter"
+            className="inline-flex items-center justify-center rounded-lg bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sky-500"
+          >
+            Start learning
           </Link>
-        </motion.div>
+          <Link
+            to="/math"
+            className="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+          >
+            Math worksheets
+          </Link>
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

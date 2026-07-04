@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Coding With Tom
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Portfolio site for **Thomas Starks** — full-stack software engineer, Navy veteran, and builder of web apps, education tools, and games.
 
-## Available Scripts
+## Stack
 
-In the project directory, you can run:
+- **React 18** + **Vite 6**
+- **React Router 6** with lazy-loaded routes
+- **Tailwind CSS** + shared design-system components
+- **Vitest** for tests
 
-### `npm start`
+## Development
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # output → dist/
+npm run preview    # preview production build
+npm test           # run tests
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project visibility
 
-### `npm test`
+Public-facing projects are defined in [`src/config/project-registry.js`](src/config/project-registry.js):
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Tier | Meaning |
+|------|---------|
+| `featured` | Shown on Home + top of Projects |
+| `listed` | Shown in Projects grid |
+| `hidden` | Route works via direct URL but not linked or indexed |
 
-### `npm run build`
+**Hidden for now:** store, Grow App, OSRS Helper, Meal Tracker, SimplyDo, Birthday Invitation Maker.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Update `public/robots.txt` and `public/sitemap.xml` when changing visibility.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+src/
+  app/                  # App shell + route modules
+  config/               # Project visibility registry
+  design-system/        # Shared UI primitives + usePageTitle
+  features/portfolio/     # Home, About, Contact, Projects
+  components/           # App implementations (games, learning hub, etc.)
+```
 
-### `npm run eject`
+## Deploy (Hostinger)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. `npm run build` — outputs to `dist/` (includes `public/.htaccess`, `robots.txt`, `sitemap.xml`)
+2. Upload **contents of `dist/`** to `public_html/`
+3. PHP APIs (e.g. progress-tracker) use rules in `public/.htaccess` to bypass SPA rewrite
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Store:** PHP backend may exist in `deploy/hostinger/store/` but has no public UI or routes until re-enabled in `project-registry.js`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Route map
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Path | App |
+|------|-----|
+| `/`, `/about`, `/contact`, `/projects` | Portfolio shell |
+| `/sentence-starters`, `/starter`, `/tuner`, `/writer`, `/highlighter`, `/math` | Tom's Learning Hub |
+| `/JavaScriptIDE`, `/label-maker`, `/progress-tracker` | Utility apps |
+| `/games/spirit-quest`, `/games/forest-platformer` | Games |
+| `/tpc/home`, `/tpc/chat`, `/tpc/about` | Truly Private Chat |
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Hidden routes (unlisted): `/meal-tracker`, `/simplydo`, `/birthday-invitation-maker`, `/osrs-wilderness`, `/grow-app`

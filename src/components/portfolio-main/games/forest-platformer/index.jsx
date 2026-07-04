@@ -825,8 +825,8 @@ export default function ForestPlatformer() {
                 aria-label="Music volume"
               />
             </div>
-            <Link to="/apps" className="forest-platformer-back">
-              Back to Apps
+            <Link to="/projects" className="forest-platformer-back">
+              Back to Projects
             </Link>
           </div>
         </header>
