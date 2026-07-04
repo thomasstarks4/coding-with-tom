@@ -8,6 +8,21 @@ const defaultProgress = {
     lastSentence: "",
     wordsCompleted: 0,
   },
+  math: {
+    level: 1,
+    numProblems: "10",
+    includeAnswerKey: false,
+    worksheetsGenerated: 0,
+    focusSessionsCompleted: 0,
+  },
+  mathQuiz: {
+    attemptMode: "oneMoreChance",
+    customLevel: 1,
+    customCount: 10,
+    lastPresetId: null,
+    quizzesCompleted: 0,
+    bestScores: {},
+  },
 };
 
 export function loadHubProgress() {
@@ -26,6 +41,14 @@ export function loadHubProgress() {
       highlighter: {
         ...defaultProgress.highlighter,
         ...(parsed.highlighter ?? {}),
+      },
+      math: {
+        ...defaultProgress.math,
+        ...(parsed.math ?? {}),
+      },
+      mathQuiz: {
+        ...defaultProgress.mathQuiz,
+        ...(parsed.mathQuiz ?? {}),
       },
     };
   } catch {

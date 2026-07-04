@@ -1,0 +1,105 @@
+.math-quiz-input {
+  width: min(100%, 12rem);
+  border-radius: 0.75rem;
+  border: 2px solid #cbd5e1;
+  padding: 0.85rem 1rem;
+  text-align: center;
+  font-size: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  font-weight: 700;
+  color: #0f172a;
+  background: #fff;
+}
+
+.math-quiz-input:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgb(14 165 233 / 0.15);
+}
+
+.math-quiz-input--success {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgb(16 185 129 / 0.15);
+}
+
+.math-quiz-input--error {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgb(245 158 11 / 0.15);
+}
+
+.math-quiz-success-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: #ecfdf5;
+  color: #047857;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.math-quiz-error-banner {
+  border-radius: 0.75rem;
+  background: #fffbeb;
+  color: #b45309;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.math-quiz-explanation {
+  max-width: 32rem;
+  border-radius: 0.75rem;
+  border: 1px solid #bae6fd;
+  background: #f0f9ff;
+  color: #0c4a6e;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.math-quiz-problem {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(1.75rem, 1rem + 3vw, 4rem);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  white-space: pre;
+  color: #0f172a;
+}
+
+.math-quiz-score-hero {
+  font-size: clamp(2rem, 1rem + 4vw, 3.5rem);
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.math-quiz-preset-card {
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.math-quiz-preset-card:hover {
+  border-color: #7dd3fc;
+  box-shadow: 0 4px 14px rgb(14 165 233 / 0.08);
+}
+
+.math-quiz-progress-track {
+  height: 0.5rem;
+  width: 100%;
+  max-width: 28rem;
+  border-radius: 9999px;
+  background: #e2e8f0;
+  overflow: hidden;
+}
+
+.math-quiz-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #0ea5e9, #10b981);
+  transition: width 0.25s ease;
+}

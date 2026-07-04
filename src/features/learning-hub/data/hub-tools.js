@@ -24,11 +24,19 @@ export const hubTools = [
     bestFor: "Slowing down and building word-level confidence",
   },
   {
+    to: "/math/quiz",
+    title: "Math Quiz",
+    summary: "Interactive addition and subtraction with typed answers and a score.",
+    detail:
+      "Pick a predefined test or build your own quiz, choose how wrong answers work, then let your learner type answers for instant feedback. Results show first-try and final scores.",
+    bestFor: "Screen practice with instant feedback",
+  },
+  {
     to: "/math",
     title: "Math Worksheets",
-    summary: "Printable addition and subtraction worksheets.",
+    summary: "Screen practice and printable addition/subtraction worksheets.",
     detail:
-      "Pick a level (numbers 1–10, 1–20, or 1–50), choose how many problems, and generate a sheet. Subtraction never goes below zero. Add an answer key when printing for easy checking.",
-    bestFor: "Quick math homework or warm-ups",
+      "Pick a level, then run a ten-problem focus session on a large screen or generate a printable worksheet. Subtraction never goes below zero. Reveal answers during practice or add an answer key when printing.",
+    bestFor: "Quick math warm-ups or homework",
   },
 ];

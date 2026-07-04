@@ -1,3 +1,5 @@
+export const MATH_PRACTICE_SET_SIZE = 10;
+
 export const MATH_LEVELS = [
   {
     level: 1,

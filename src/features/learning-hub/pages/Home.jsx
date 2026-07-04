@@ -57,8 +57,9 @@ export default function Home() {
             Might for prompts and printable lined pages.
           </li>
           <li>
-            <strong className="text-slate-800">Math path:</strong> Math
-            Worksheets for leveled addition and subtraction printouts.
+            <strong className="text-slate-800">Math path:</strong> Math Quiz
+            for typed answers and instant feedback, or Math Worksheets for
+            printable practice.
           </li>
         </ul>
       </section>

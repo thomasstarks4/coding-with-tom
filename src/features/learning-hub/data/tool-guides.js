@@ -5,6 +5,7 @@ const ROUTE_TO_ID = {
   "/writer": "writer",
   "/highlighter": "highlighter",
   "/math": "math",
+  "/math/quiz": "math-quiz",
 };
 
 const toolSteps = {
@@ -33,9 +34,19 @@ const toolSteps = {
   ],
   math: [
     "Choose a level that matches your learner (1–10, 1–20, or 1–50).",
-    "Enter how many problems you want on the worksheet.",
-    "Optionally check Include answer key for printing.",
-    "Click Generate worksheet, preview the problems, then Print.",
+    "Click Start focus session to practice ten problems together on screen.",
+    "Have your learner solve each problem aloud, then tap Next or Reveal answer to check.",
+    "Use New practice set to shuffle fresh problems at the same level.",
+    "For homework, enter a worksheet size, generate, preview, and Print.",
+    "Optionally include an answer key on the printout.",
+  ],
+  "math-quiz": [
+    "Choose an attempt mode that fits your learner before starting.",
+    "Pick a predefined test or build a custom quiz with your own level and count.",
+    "Have your learner type an answer and tap Check answer.",
+    "Use Reveal-style feedback: correct answers celebrate; One more chance shows a tip.",
+    "Review the final score and first-try score when the quiz ends.",
+    "Try again with the same problems or start a new test.",
   ],
 };
 
@@ -43,7 +54,8 @@ const toolSubtitles = {
   starter: "Choose patterns, then read sentences together with your learner.",
   writer: "Choose topics to print, then practice writing with your learner.",
   highlighter: "Build reading fluency one word at a time.",
-  math: "Generate printable addition and subtraction worksheets for Grades 1–2.",
+  math: "Practice on screen or print worksheets for Grades 1–2.",
+  "math-quiz": "Type answers, get instant feedback, and see a score at the end.",
 };
 
 export const toolGuides = hubTools.reduce((guides, tool) => {

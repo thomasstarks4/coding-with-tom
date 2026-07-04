@@ -173,3 +173,19 @@
   color: #475569;
   max-width: 36rem;
 }
+
+.hub-focus-math-problem {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: var(--hub-focus-hero);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  white-space: pre;
+  color: #0f172a;
+}
+
+.hub-focus-math-answer {
+  font-size: var(--hub-focus-meta-size);
+  font-weight: 600;
+  color: #0369a1;
+}

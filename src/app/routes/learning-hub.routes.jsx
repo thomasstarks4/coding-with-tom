@@ -15,6 +15,9 @@ const WordHighlighter = lazy(
 const MathGenerator = lazy(
   () => import("../../features/learning-hub/tools/math/MathGenerator"),
 );
+const MathQuizPage = lazy(
+  () => import("../../features/learning-hub/tools/math/quiz/MathQuizPage"),
+);
 const SentenceStarterPage = lazy(
   () => import("../../features/learning-hub/tools/starter/SentenceStarterPage"),
 );
@@ -33,6 +36,7 @@ const LazyHome = withSuspense(LearningHubHome);
 const LazyWriter = withSuspense(Writer);
 const LazyHighlighter = withSuspense(WordHighlighter);
 const LazyMath = withSuspense(MathGenerator);
+const LazyMathQuiz = withSuspense(MathQuizPage);
 const LazySentenceStarter = withSuspense(SentenceStarterPage);
 
 export const learningHubRoutes = [
@@ -40,6 +44,7 @@ export const learningHubRoutes = [
     element: <LearningHubLayout />,
     children: [
       { path: "/math", element: <LazyMath /> },
+      { path: "/math/quiz", element: <LazyMathQuiz /> },
       { path: "/highlighter", element: <LazyHighlighter /> },
       { path: "/sentence-starters", element: <LazyHome /> },
       { path: "/starter", element: <LazySentenceStarter /> },
