@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
+import HubToolPageHeader from "../../layout/HubToolPageHeader";
 import { useHubProgress } from "../../hooks/useHubProgress";
 import {
   PACE_OPTIONS,
@@ -103,23 +104,7 @@ export default function WordHighlighter() {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-1 sm:px-0">
-      <header className="mb-6 max-w-2xl sm:mb-8">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-          Word Highlighter
-        </h1>
-        <p className="mt-2 text-base leading-relaxed text-slate-600 sm:text-lg">
-          Build reading fluency one word at a time. Have your learner read each
-          highlighted word aloud before moving on.
-        </p>
-      </header>
-
-      <div className="mb-6 rounded-xl border border-sky-200 bg-sky-50 px-4 py-4">
-        <p className="text-sm font-semibold text-sky-900">For educators</p>
-        <p className="mt-1 text-sm leading-relaxed text-sky-800">
-          Point to the highlighted word and ask your learner to read it aloud.
-          Use Next when they succeed, or Repeat to try the same word again.
-        </p>
-      </div>
+      <HubToolPageHeader toolId="highlighter" />
 
       <section className="mb-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
         <label

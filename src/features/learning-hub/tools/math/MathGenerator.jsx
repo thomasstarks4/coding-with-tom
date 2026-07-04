@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Info, Printer } from "lucide-react";
 import HubModal from "../../layout/HubModal";
+import HubToolPageHeader from "../../layout/HubToolPageHeader";
 import {
   MATH_LEVELS,
   formatProblem,
@@ -36,14 +37,18 @@ export default function MathGenerator() {
   return (
     <>
       <div className="hub-no-print mx-auto w-full max-w-5xl px-1 sm:px-0">
-        <header className="mb-6 max-w-2xl sm:mb-8">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            Math Worksheets
-          </h1>
-          <p className="mt-2 text-base leading-relaxed text-slate-600 sm:text-lg">
-            Generate printable addition and subtraction worksheets for Grades 1–2.
-          </p>
-        </header>
+        <HubToolPageHeader
+          toolId="math"
+          guideFooter={
+            <button
+              type="button"
+              onClick={() => setShowLevelGuide(true)}
+              className="text-sm font-semibold text-sky-700 underline hover:text-sky-800"
+            >
+              See level details
+            </button>
+          }
+        />
 
         <form onSubmit={handleGenerate} className="space-y-6">
           <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, CheckCircle2, CircleDashed } from "lucide-react";
+import { CheckCircle2, CircleDashed } from "lucide-react";
 
 export default function StarterDeckContainer({
   title,
@@ -111,18 +111,5 @@ export function StarterReadCard({ card }) {
         Read successfully
       </p>
     </motion.div>
-  );
-}
-
-export function StarterHintBanner() {
-  return (
-    <div className="flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 px-4 py-4 shadow-sm sm:items-center sm:px-5">
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-100 text-sky-700">
-        <BookOpen size={18} />
-      </span>
-      <p className="text-base font-medium leading-relaxed text-sky-950 sm:text-lg">
-        Tap/click a sentence and try it out!
-      </p>
-    </div>
   );
 }

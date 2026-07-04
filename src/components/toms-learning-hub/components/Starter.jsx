@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion, LayoutGroup } from "framer-motion";
+import { LayoutGroup } from "framer-motion";
 import { RefreshCw } from "lucide-react";
 import HubModal from "../../../features/learning-hub/layout/HubModal";
+import HubToolPageHeader from "../../../features/learning-hub/layout/HubToolPageHeader";
 import {
   buildSentenceDeck,
   getShownStarterFingerprint,
@@ -12,7 +13,6 @@ import {
   moveCardLaterInNotReadOrder,
 } from "../../../features/learning-hub/tools/starter/partitionDeck";
 import StarterDeckContainer, {
-  StarterHintBanner,
   StarterReadCard,
   StarterSentenceCard,
 } from "../../../features/learning-hub/tools/starter/StarterDeckContainers";
@@ -41,7 +41,6 @@ const Starter = ({ startersSelected }) => {
 
   const selectedCard = deck.find((card) => card.id === selectedCardId);
   const sessionComplete = deck.length > 0 && read.length === deck.length;
-  const showHint = deck.length > 0 && !sessionComplete;
 
   useEffect(() => {
     setCardStates({});
@@ -93,25 +92,19 @@ const Starter = ({ startersSelected }) => {
 
   return (
     <div className="mx-auto w-full max-w-5xl px-1 sm:px-0">
-      <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
-        <header className="max-w-2xl">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-            Sentence Starter
-          </h1>
-          <p className="mt-2 text-base leading-relaxed text-slate-600 sm:text-lg">
-            Work through the Not read container first. When your learner finishes
-            a sentence, move it to Read.
-          </p>
-        </header>
-        <button
-          type="button"
-          onClick={handleNewSet}
-          className="inline-flex min-h-[var(--hub-touch-min)] shrink-0 items-center justify-center gap-2 self-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 sm:self-start"
-        >
-          <RefreshCw size={16} />
-          New set
-        </button>
-      </div>
+      <HubToolPageHeader
+        toolId="starter"
+        actions={
+          <button
+            type="button"
+            onClick={handleNewSet}
+            className="inline-flex min-h-[var(--hub-touch-min)] items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800"
+          >
+            <RefreshCw size={16} />
+            New set
+          </button>
+        }
+      />
 
       {deck.length > 0 ? (
         <div className="mb-6 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
@@ -136,12 +129,6 @@ const Starter = ({ startersSelected }) => {
               }}
             />
           </div>
-        </div>
-      ) : null}
-
-      {showHint ? (
-        <div className="mb-6">
-          <StarterHintBanner />
         </div>
       ) : null}
 

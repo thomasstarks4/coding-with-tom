@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { motion } from "framer-motion";
+import HubToolPageHeader from "../../../features/learning-hub/layout/HubToolPageHeader";
 
 const Tuner = ({ startersSelected, setStartersSelected, lastSaved }) => {
   const entries = useMemo(
@@ -36,132 +36,84 @@ const Tuner = ({ startersSelected, setStartersSelected, lastSaved }) => {
   };
 
   return (
-    <motion.div
-      className="min-h-screen bg-gradient-to-br from-green-50 via-teal-50 to-blue-50 py-8 px-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="mx-auto max-w-4xl">
-        <motion.div
-          className="bg-gradient-to-r from-green-600 via-teal-600 to-blue-600 p-8 rounded-2xl shadow-xl mb-8"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <h1 className="text-4xl font-bold text-white text-center mb-2">
-            Sentence Tuner
-          </h1>
-          <p className="text-white/90 text-center text-lg">
-            Choose which sentence starters appear in Sentence Starter. Changes
-            save automatically.
-          </p>
-        </motion.div>
+    <div className="mx-auto w-full max-w-4xl px-1 sm:px-0">
+      <HubToolPageHeader toolId="tuner" />
 
-        <motion.div
-          className="rounded-2xl bg-white shadow-xl p-6 sm:p-8 border border-gray-200"
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-200">
-            <motion.div
-              className="text-center sm:text-left"
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.6 }}
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="mb-6 flex flex-col items-center justify-between gap-4 border-b border-slate-200 pb-6 sm:flex-row">
+          <div className="text-center sm:text-left">
+            <div className="mb-1 text-sm text-slate-600">Selection progress</div>
+            <div className="text-2xl font-bold">
+              <span className="text-sky-600">{selected}</span>
+              <span className="text-slate-400"> / {total}</span>
+            </div>
+            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100">
+              <div
+                className="h-full rounded-full bg-sky-500 transition-all duration-300"
+                style={{ width: `${(selected / total) * 100}%` }}
+              />
+            </div>
+            {lastSaved ? (
+              <p className="mt-2 text-xs text-emerald-700" aria-live="polite">
+                Saved
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={selectAll}
+              className="rounded-lg border border-sky-300 px-4 py-2 text-sm font-semibold text-sky-700 transition-colors hover:bg-sky-50"
             >
-              <div className="text-sm text-gray-600 mb-1">
-                Selection Progress
-              </div>
-              <div className="text-2xl font-bold">
-                <span className="text-green-600">{selected}</span>
-                <span className="text-gray-400"> / {total}</span>
-              </div>
-              <div className="mt-2 w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                <motion.div
-                  className="bg-gradient-to-r from-green-500 to-teal-500 h-full rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${(selected / total) * 100}%` }}
-                  transition={{ duration: 0.5 }}
+              Select All
+            </button>
+            <button
+              type="button"
+              onClick={clearAll}
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+            >
+              Clear All
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-stretch gap-3">
+          {entries.map(([key, starter]) => (
+            <div
+              key={key}
+              className={`flex w-full cursor-pointer items-center justify-between gap-4 rounded-xl border-2 p-4 transition-colors ${
+                starter.isShown
+                  ? "border-sky-200 bg-sky-50 hover:border-sky-300"
+                  : "border-slate-200 bg-slate-50 hover:border-slate-300"
+              }`}
+              onClick={() => handleCheckboxChange(key)}
+            >
+              <div className="flex w-full flex-1 items-center gap-3 md:gap-4">
+                <input
+                  id={`checkbox-${key}`}
+                  type="checkbox"
+                  checked={starter.isShown}
+                  onChange={() => handleCheckboxChange(key)}
+                  className="h-6 w-6 cursor-pointer rounded accent-sky-600"
+                  onClick={(event) => event.stopPropagation()}
                 />
+                <label
+                  htmlFor={`checkbox-${key}`}
+                  className="flex-1 cursor-pointer text-left text-base font-medium text-slate-800 sm:text-lg"
+                >
+                  {starter.text}
+                </label>
               </div>
-              {lastSaved ? (
-                <p className="mt-2 text-xs text-green-700" aria-live="polite">
-                  Saved
-                </p>
-              ) : null}
-            </motion.div>
 
-            <motion.div
-              className="flex flex-wrap items-center gap-2"
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              <motion.button
-                type="button"
-                onClick={selectAll}
-                className="rounded-lg border-2 border-green-500 px-4 py-2 text-sm font-semibold text-green-600 hover:bg-green-50 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Select All
-              </motion.button>
-              <motion.button
-                type="button"
-                onClick={clearAll}
-                className="rounded-lg border-2 border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Clear All
-              </motion.button>
-            </motion.div>
-          </div>
-
-          <div className="flex flex-col items-stretch gap-3">
-            {entries.map(([key, starter], index) => (
-              <motion.div
-                key={key}
-                className={`flex w-full items-center justify-between gap-4 rounded-xl p-4 border-2 transition-all duration-300 cursor-pointer ${
-                  starter.isShown
-                    ? "bg-gradient-to-r from-green-50 to-teal-50 border-green-300 hover:border-green-400"
-                    : "bg-gray-50 border-gray-200 hover:border-gray-300"
-                }`}
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.8 + index * 0.03 }}
-                whileHover={{ scale: 1.02, x: 5 }}
-                onClick={() => handleCheckboxChange(key)}
-              >
-                <div className="flex w-full flex-1 items-center gap-3 md:gap-4">
-                  <motion.input
-                    id={`checkbox-${key}`}
-                    type="checkbox"
-                    checked={starter.isShown}
-                    onChange={() => handleCheckboxChange(key)}
-                    className="h-6 w-6 rounded accent-green-600 cursor-pointer"
-                    whileTap={{ scale: 0.9 }}
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                  <label
-                    htmlFor={`checkbox-${key}`}
-                    className="flex-1 text-left text-base font-medium text-gray-800 cursor-pointer sm:text-lg"
-                  >
-                    {starter.text}
-                  </label>
-                </div>
-
-                <span className="shrink-0 text-xs sm:text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold">
-                  {starter.partnerType}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              <span className="shrink-0 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 sm:text-sm">
+                {starter.partnerType}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

@@ -1,70 +1,79 @@
 import { Link } from "react-router-dom";
 import HubPageHeader from "../layout/HubPageHeader";
+import HubToolCard from "../layout/HubToolCard";
+import { hubTools } from "../data/hub-tools";
 
-const Home = () => {
+export default function Home() {
   return (
-    <div className="mx-auto w-full max-w-4xl px-4">
+    <div className="mx-auto w-full max-w-5xl px-4">
       <HubPageHeader
         title="Tom's Learning Hub"
-        subtitle="Reading and writing tools for Grades 1–2. Sentence starters, guided writing, and word practice — designed to be simple and engaging."
+        subtitle="Reading and writing tools for Grades 1–2 — built for parents and teachers running short, focused practice sessions."
       />
 
-      <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-        <h2 className="mb-4 text-xl font-semibold text-sky-800">How it works</h2>
-        <ul className="space-y-4 text-sm leading-6 text-slate-700 sm:text-base">
+      <section className="rounded-xl border border-sky-200 bg-sky-50 p-5 shadow-sm sm:p-6">
+        <h2 className="text-lg font-semibold text-sky-900">
+          Recommended first session
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-sky-800 sm:text-base">
+          For reading practice, start in{" "}
+          <Link to="/tuner" className="font-semibold underline">
+            Sentence Tuner
+          </Link>{" "}
+          and pick a handful of starters that fit your learner. Then open{" "}
+          <Link to="/starter" className="font-semibold underline">
+            Sentence Starter
+          </Link>{" "}
+          and work through the set together for about 10 minutes.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link
+            to="/tuner"
+            className="inline-flex min-h-[var(--hub-touch-min)] items-center rounded-lg bg-sky-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-500"
+          >
+            Open Sentence Tuner
+          </Link>
+          <Link
+            to="/starter"
+            className="inline-flex min-h-[var(--hub-touch-min)] items-center rounded-lg border border-sky-300 bg-white px-4 py-2.5 text-sm font-semibold text-sky-800 transition-colors hover:bg-sky-100"
+          >
+            Open Sentence Starter
+          </Link>
+        </div>
+      </section>
+
+      <section className="mt-8">
+        <h2 className="mb-1 text-xl font-semibold text-slate-900">Tools</h2>
+        <p className="mb-4 text-sm text-slate-600 sm:text-base">
+          Each tool below includes a short guide for parents and teachers. Pick
+          one, work with your learner, and keep sessions to about 5–15 minutes.
+        </p>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {hubTools.map((tool) => (
+            <HubToolCard key={tool.to} {...tool} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-8 rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <h2 className="mb-3 text-lg font-semibold text-slate-900">
+          For educators
+        </h2>
+        <ul className="space-y-3 text-sm leading-6 text-slate-600 sm:text-base">
           <li>
-            <strong>Sentence starters</strong> — simple prompts that help children
-            understand sentence structure.
+            <strong className="text-slate-800">Reading path:</strong> Sentence
+            Tuner → Sentence Starter → Word Highlighter for harder words.
           </li>
           <li>
-            <strong>Common words</strong> — everyday vocabulary reinforced in
-            different contexts.
+            <strong className="text-slate-800">Writing path:</strong> Writer&apos;s
+            Might for prompts and printable lined pages.
           </li>
           <li>
-            <strong>Interactive tools</strong> — tuners, writers, and highlighters
-            to keep practice engaging.
+            <strong className="text-slate-800">Math path:</strong> Math
+            Worksheets for leveled addition and subtraction printouts.
           </li>
         </ul>
       </section>
-
-      <section className="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:mt-8 sm:p-8">
-        <h2 className="mb-4 text-xl font-semibold text-sky-800">Why use this</h2>
-        <ul className="space-y-4 text-sm leading-6 text-slate-700 sm:text-base">
-          <li>
-            <strong>Built for young readers</strong> — clear layout, large text,
-            kid-friendly interactions.
-          </li>
-          <li>
-            <strong>Builds confidence</strong> — gradual introduction of words and
-            sentence patterns.
-          </li>
-          <li>
-            <strong>Printable homework</strong> — generate worksheets for practice
-            at home or in class.
-          </li>
-          <li>
-            <strong>For parents and teachers</strong> — supplemental literacy
-            resources for Grades 1–2.
-          </li>
-        </ul>
-      </section>
-
-      <div className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-10">
-        <Link
-          to="/starter"
-          className="inline-flex min-h-[var(--hub-touch-min)] items-center justify-center rounded-lg bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-sky-500"
-        >
-          Start learning
-        </Link>
-        <Link
-          to="/math"
-          className="inline-flex min-h-[var(--hub-touch-min)] items-center justify-center rounded-lg border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-        >
-          Math worksheets
-        </Link>
-      </div>
     </div>
   );
-};
-
-export default Home;
+}
