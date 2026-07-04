@@ -54,11 +54,11 @@ export default function StarterFocusOverlay({
           >
             <h2
               id="focus-complete-title"
-              className="text-3xl font-bold text-emerald-800 sm:text-4xl"
+              className="hub-focus-complete-title"
             >
               Session complete!
             </h2>
-            <p className="mt-3 max-w-md text-base text-slate-600 sm:text-lg">
+            <p className="hub-focus-complete-body mt-3">
               Every sentence was read successfully. Nice work.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -95,7 +95,7 @@ export default function StarterFocusOverlay({
               {currentCard?.sentence}
             </p>
 
-            <p className="mt-6 text-sm font-medium text-slate-500">
+            <p className="hub-focus-meta mt-6">
               {Math.min(progress.current, progress.total)} of {progress.total}
             </p>
 

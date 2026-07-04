@@ -116,11 +116,11 @@ export default function WordHighlighterFocusOverlay({
           >
             <h2
               id="highlighter-complete-title"
-              className="text-3xl font-bold text-emerald-800 sm:text-4xl"
+              className="hub-focus-complete-title"
             >
               Session complete!
             </h2>
-            <p className="mt-3 max-w-md text-base text-slate-600 sm:text-lg">
+            <p className="hub-focus-complete-body mt-3">
               You read all {progress.sentence.total} sentences. Nice work.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -149,7 +149,7 @@ export default function WordHighlighterFocusOverlay({
             exit={{ opacity: 0 }}
             className="flex w-full flex-col items-center"
           >
-            <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-sky-700">
+            <p className="hub-focus-label mb-4">
               Sentence {progress.sentence.current} of {progress.sentence.total}
             </p>
 
@@ -161,7 +161,7 @@ export default function WordHighlighterFocusOverlay({
               />
             </AnimatePresence>
 
-            <p className="mt-8 text-sm font-medium text-slate-500">
+            <p className="hub-focus-meta mt-8">
               Word {progress.word.current} of {progress.word.total}
             </p>
 
