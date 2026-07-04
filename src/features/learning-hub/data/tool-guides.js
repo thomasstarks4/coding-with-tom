@@ -23,10 +23,12 @@ const toolSteps = {
     "Click Print selected to generate worksheets for checked topics.",
   ],
   highlighter: [
-    "Pick a sample sentence or type your own in the practice field.",
+    "Pick a sample sentence or type your own.",
     "Choose a pacing mode: Manual, 2 seconds, or 4 seconds.",
-    "Click Start fluency practice and have your learner read the highlighted word aloud.",
-    "Use Next to advance, Repeat to stay on the same word, or Reset to start over.",
+    "Click Start focus session for a fullscreen word-by-word view.",
+    "Have your learner read the highlighted word aloud.",
+    "Use Next, Repeat, or Previous — or let auto-pace advance.",
+    "Use the lock icon if accidental taps are a concern.",
   ],
   math: [
     "Choose a level that matches your learner (1–10, 1–20, or 1–50).",

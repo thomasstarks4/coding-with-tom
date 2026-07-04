@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import {
   loadFocusLockPreference,
   saveFocusLockPreference,
-} from "./useStarterFocusSession.storage";
+} from "../../hooks/useFocusLock.storage";
+import { FOCUS_LOCK_KEY } from "./useStarterFocusSession.storage";
 
 export {
   FOCUS_LOCK_KEY,
@@ -18,7 +19,9 @@ export function useStarterFocusSession({
   onTryAgainLater,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLocked, setIsLocked] = useState(() => loadFocusLockPreference());
+  const [isLocked, setIsLocked] = useState(() =>
+    loadFocusLockPreference(FOCUS_LOCK_KEY),
+  );
   const [showComplete, setShowComplete] = useState(false);
 
   const currentCard = notRead[0] ?? null;
@@ -52,7 +55,7 @@ export function useStarterFocusSession({
   const toggleLock = useCallback(() => {
     setIsLocked((locked) => {
       const next = !locked;
-      saveFocusLockPreference(next);
+      saveFocusLockPreference(FOCUS_LOCK_KEY, next);
       return next;
     });
   }, []);

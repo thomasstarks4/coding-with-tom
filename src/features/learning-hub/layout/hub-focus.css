@@ -1,9 +1,9 @@
 :root {
-  --starter-focus-sentence: clamp(2rem, 7vw, 4.5rem);
-  --starter-focus-action-min: 56px;
+  --hub-focus-hero: clamp(2rem, 7vw, 4.5rem);
+  --hub-focus-action-min: 56px;
 }
 
-.starter-focus-overlay {
+.hub-focus-overlay {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -12,14 +12,14 @@
   background: #fff;
 }
 
-.starter-focus-backdrop {
+.hub-focus-backdrop {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-height: 0;
 }
 
-.starter-focus-content {
+.hub-focus-content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -31,8 +31,8 @@
   margin-inline: auto;
 }
 
-.starter-focus-sentence {
-  font-size: var(--starter-focus-sentence);
+.hub-focus-hero {
+  font-size: var(--hub-focus-hero);
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.02em;
@@ -40,7 +40,7 @@
   text-align: center;
 }
 
-.starter-focus-toolbar {
+.hub-focus-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,7 +48,7 @@
   border-bottom: 1px solid #f1f5f9;
 }
 
-.starter-focus-actions {
+.hub-focus-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -58,30 +58,30 @@
   border-top: 1px solid #f1f5f9;
 }
 
-.starter-focus-action-btn {
-  min-height: var(--starter-focus-action-min);
+.hub-focus-action-btn {
+  min-height: var(--hub-focus-action-min);
   min-width: 10rem;
   flex: 1;
 }
 
-.starter-focus-dot {
+.hub-focus-dot {
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 9999px;
   background: #e2e8f0;
 }
 
-.starter-focus-dot--read {
+.hub-focus-dot--done {
   background: #10b981;
 }
 
-.starter-focus-dot--current {
+.hub-focus-dot--current {
   background: #0ea5e9;
   transform: scale(1.25);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .starter-focus-sentence-animate {
+  .hub-focus-hero-animate {
     animation: none !important;
     transition: none !important;
   }
