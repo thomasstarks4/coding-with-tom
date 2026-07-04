@@ -1,58 +1,59 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import HubToolPageHeader from "../../layout/HubToolPageHeader";
 import { useHubProgress } from "../../hooks/useHubProgress";
 import { sampleSentences } from "../../data/fluency-samples";
-import { tokenizeText } from "./tokenizeText";
+import { buildPracticeSet } from "./buildPracticeSet";
 import { useHighlighterFocusSession } from "./useHighlighterFocusSession";
 import WordHighlighterDashboard from "./WordHighlighterDashboard";
 import WordHighlighterFocusOverlay from "./WordHighlighterFocusOverlay";
 
+function createPracticeSet(customSentence) {
+  return buildPracticeSet({
+    customSentence,
+    pool: sampleSentences,
+  });
+}
+
 export default function WordHighlighter() {
   const { progress, updateProgress } = useHubProgress();
-  const [text, setText] = useState(
-    progress.highlighter.lastSentence || sampleSentences[0],
+  const [customText, setCustomText] = useState(
+    progress.highlighter.lastSentence || "",
   );
   const [paceKey, setPaceKey] = useState("manual");
-
-  const words = useMemo(() => tokenizeText(text), [text]);
-
-  const handleComplete = useCallback(
-    (wordCount) => {
-      updateProgress({
-        highlighter: {
-          ...progress.highlighter,
-          lastSentence: text,
-          wordsCompleted: wordCount,
-        },
-      });
-    },
-    [progress.highlighter, text, updateProgress],
+  const [practiceSet, setPracticeSet] = useState(() =>
+    createPracticeSet(progress.highlighter.lastSentence || ""),
   );
+
+  const handleSessionComplete = useCallback(() => {
+    updateProgress({
+      highlighter: {
+        ...progress.highlighter,
+        lastSentence: customText.trim() || practiceSet[0] || "",
+        wordsCompleted: practiceSet.length,
+      },
+    });
+  }, [customText, practiceSet, progress.highlighter, updateProgress]);
 
   const focus = useHighlighterFocusSession({
-    words,
-    text,
+    sentences: practiceSet,
     paceKey,
-    onComplete: handleComplete,
+    onSessionComplete: handleSessionComplete,
   });
 
-  const persistSentence = useCallback(
-    (sentence) => {
-      updateProgress({
-        highlighter: {
-          ...progress.highlighter,
-          lastSentence: sentence,
-          wordsCompleted: 0,
-        },
-      });
-    },
-    [progress.highlighter, updateProgress],
-  );
+  const regeneratePracticeSet = useCallback(() => {
+    setPracticeSet(createPracticeSet(customText));
+    focus.resetForNewSet();
+  }, [customText, focus]);
 
-  const handleTextChange = (value) => {
-    setText(value);
-    persistSentence(value);
-    focus.resetForNewText();
+  const handleCustomTextChange = (value) => {
+    setCustomText(value);
+    updateProgress({
+      highlighter: {
+        ...progress.highlighter,
+        lastSentence: value,
+        wordsCompleted: 0,
+      },
+    });
   };
 
   const handlePracticeAgain = () => {
@@ -64,14 +65,15 @@ export default function WordHighlighter() {
       <HubToolPageHeader toolId="highlighter" />
 
       <WordHighlighterDashboard
-        text={text}
-        onTextChange={handleTextChange}
+        customText={customText}
+        onCustomTextChange={handleCustomTextChange}
+        practiceSet={practiceSet}
         paceKey={paceKey}
         onPaceChange={setPaceKey}
-        wordCount={words.length}
         canOpenFocus={focus.canOpen}
         hasStarted={focus.hasStarted}
         onStartFocus={focus.open}
+        onNewPracticeSet={regeneratePracticeSet}
       />
 
       <WordHighlighterFocusOverlay

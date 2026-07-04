@@ -20,7 +20,7 @@ export const hubTools = [
     title: "Word Highlighter",
     summary: "Fluency practice — one word at a time.",
     detail:
-      "Type a sentence or pick a sample, then launch a fullscreen focus session that highlights each word in order. Your learner reads the highlighted word aloud before you move on. Pacing can be manual or auto-advance.",
+      "Load a ten-sentence practice set, then launch a fullscreen focus session. Each sentence stays on screen with the current word highlighted and enlarged. Pacing can be manual or auto-advance.",
     bestFor: "Slowing down and building word-level confidence",
   },
   {

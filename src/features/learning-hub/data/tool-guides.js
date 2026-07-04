@@ -23,11 +23,12 @@ const toolSteps = {
     "Click Print selected to generate worksheets for checked topics.",
   ],
   highlighter: [
-    "Pick a sample sentence or type your own.",
+    "Optionally add your own sentence, then click New practice set to load ten sentences.",
     "Choose a pacing mode: Manual, 2 seconds, or 4 seconds.",
-    "Click Start focus session for a fullscreen word-by-word view.",
-    "Have your learner read the highlighted word aloud.",
-    "Use Next, Repeat, or Previous — or let auto-pace advance.",
+    "Click Start focus session for a fullscreen view with the full sentence visible.",
+    "The current word is highlighted and enlarged — have your learner read it aloud.",
+    "Use Next, Repeat, or Previous, or let auto-pace advance through each sentence.",
+    "After all ten sentences, celebrate session complete or practice again.",
     "Use the lock icon if accidental taps are a concern.",
   ],
   math: [

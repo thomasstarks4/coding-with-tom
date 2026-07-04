@@ -3,18 +3,68 @@ import { ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
 import HubFocusShell from "../../layout/HubFocusShell";
 import HubFocusProgressDots from "../../layout/HubFocusProgressDots";
 
+function FocusSentence({ words, currentIndex, sentenceKey }) {
+  return (
+    <motion.p
+      key={sentenceKey}
+      id="highlighter-sentence"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.2 }}
+      className="hub-focus-sentence hub-focus-hero-animate px-2"
+    >
+      {words.map((word, index) => {
+        const isCurrent = index === currentIndex;
+        const isRead = index < currentIndex;
+
+        let className = "hub-focus-word";
+        if (isCurrent) {
+          className += " hub-focus-word--current";
+        } else if (isRead) {
+          className += " hub-focus-word--read";
+        }
+
+        return (
+          <motion.span
+            key={`${index}-${word}`}
+            layout
+            aria-current={isCurrent ? "true" : undefined}
+            animate={{
+              scale: isCurrent ? 1.28 : 1,
+              y: isCurrent ? -2 : 0,
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 420,
+              damping: 28,
+            }}
+            className={className}
+          >
+            {word}
+          </motion.span>
+        );
+      })}
+    </motion.p>
+  );
+}
+
 export default function WordHighlighterFocusOverlay({
   isOpen,
   close,
   isLocked,
   toggleLock,
-  currentWord,
+  words,
+  currentIndex,
+  sentenceIndex,
+  currentSentence,
   showComplete,
   progress,
   goNext,
   goPrev,
   repeatWord,
   practiceAgain,
+  isAtStart,
 }) {
   return (
     <HubFocusShell
@@ -22,14 +72,14 @@ export default function WordHighlighterFocusOverlay({
       isLocked={isLocked}
       onClose={close}
       onToggleLock={toggleLock}
-      labelledBy={showComplete ? "highlighter-complete-title" : "highlighter-word"}
+      labelledBy={showComplete ? "highlighter-complete-title" : "highlighter-sentence"}
       actions={
         !showComplete ? (
           <>
             <button
               type="button"
               onClick={goPrev}
-              disabled={progress.current <= 1}
+              disabled={isAtStart}
               className="hub-focus-action-btn inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <ChevronLeft size={16} />
@@ -68,10 +118,10 @@ export default function WordHighlighterFocusOverlay({
               id="highlighter-complete-title"
               className="text-3xl font-bold text-emerald-800 sm:text-4xl"
             >
-              Sentence complete!
+              Session complete!
             </h2>
             <p className="mt-3 max-w-md text-base text-slate-600 sm:text-lg">
-              Nice reading. Try another sentence or practice this one again.
+              You read all {progress.sentence.total} sentences. Nice work.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <button
@@ -93,25 +143,32 @@ export default function WordHighlighterFocusOverlay({
           </motion.div>
         ) : (
           <motion.div
-            key={`${currentWord}-${progress.current}`}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.2 }}
-            className="hub-focus-hero-animate flex w-full flex-col items-center"
+            key={`sentence-${sentenceIndex}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="flex w-full flex-col items-center"
           >
-            <p id="highlighter-word" className="hub-focus-hero px-2">
-              {currentWord}
+            <p className="mb-4 text-xs font-semibold uppercase tracking-wide text-sky-700">
+              Sentence {progress.sentence.current} of {progress.sentence.total}
             </p>
 
-            <p className="mt-6 text-sm font-medium text-slate-500">
-              {progress.current} of {progress.total}
+            <AnimatePresence mode="wait">
+              <FocusSentence
+                words={words}
+                currentIndex={currentIndex}
+                sentenceKey={`${sentenceIndex}-${currentSentence}`}
+              />
+            </AnimatePresence>
+
+            <p className="mt-8 text-sm font-medium text-slate-500">
+              Word {progress.word.current} of {progress.word.total}
             </p>
 
             <HubFocusProgressDots
-              total={progress.total}
-              doneCount={progress.current - 1}
-              hasCurrent={Boolean(currentWord)}
+              total={progress.word.total}
+              doneCount={progress.word.current - 1}
+              hasCurrent={words.length > 0}
             />
           </motion.div>
         )}

@@ -85,4 +85,41 @@
     animation: none !important;
     transition: none !important;
   }
+
+  .hub-focus-word {
+    transition: none !important;
+  }
+}
+
+.hub-focus-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.35em 0.55em;
+  max-width: 56rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.hub-focus-word {
+  display: inline-block;
+  transform-origin: center bottom;
+  border-radius: 0.35rem;
+  padding: 0.08em 0.18em;
+  font-size: clamp(1.25rem, 3.5vw, 1.875rem);
+  font-weight: 500;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.hub-focus-word--read {
+  color: #059669;
+}
+
+.hub-focus-word--current {
+  background: linear-gradient(to bottom, #e0f2fe, #bae6fd);
+  color: #0c4a6e;
+  font-weight: 700;
+  box-shadow: 0 2px 12px rgb(14 165 233 / 0.2);
 }
