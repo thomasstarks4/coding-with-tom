@@ -287,7 +287,7 @@ const GardenLabelMaker: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }}>
               <Link
-                to="/apps"
+                to="/projects"
                 className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors"
               >
                 <span aria-hidden>←</span> Back to apps

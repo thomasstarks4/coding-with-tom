@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --color-bg: #09090b;
+  --color-surface: #18181b;
+  --color-surface-elevated: #27272a;
+  --color-border: #3f3f46;
+  --color-text: #fafafa;
+  --color-muted: #a1a1aa;
+  --color-accent: #0284c7;
+  --color-accent-hover: #0369a1;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --radius-card: 0.75rem;
+  --content-max: 72rem;
+}
+
+.app-shell {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+}
+
+.bg-site {
+  background: var(--color-bg);
+}
+
+.bg-learning-hub {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}

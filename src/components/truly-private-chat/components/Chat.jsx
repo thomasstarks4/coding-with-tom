@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Peer from "peerjs";
+import { toast } from "react-toastify";
+import { Copy } from "lucide-react";
+import TpcLayout from "../../../design-system/components/TpcLayout";
+import Card from "../../../design-system/components/Card";
+import Button from "../../../design-system/components/Button";
 
 const Chat = () => {
   const [peer, setPeer] = useState(null);
@@ -7,27 +12,25 @@ const Chat = () => {
   const [remotePeerId, setRemotePeerId] = useState("");
   const [conn, setConn] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
-  // Initialize PeerJS object and set up event listeners
   useEffect(() => {
     const newPeer = new Peer({
       host: "0.peerjs.com",
       port: 443,
       secure: true,
       config: {
-        iceServers: [{ urls: "stun:stun.l.google.com:19302" }], // STUN server to find public IP
+        iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
       },
     });
 
     newPeer.on("open", (id) => {
-      // When the peer is open, set the peer ID
       setPeerId(id);
       setPeer(newPeer);
     });
 
     newPeer.on("connection", (connection) => {
-      // When a connection is made, set the connection and listen for incoming messages
-      alert("Connected to a friend!");
+      toast.success("Connected to a friend!");
       setConn(connection);
       connection.on("data", (data) => {
         setMessages((prev) => [...prev, `Friend: ${data}`]);
@@ -35,138 +38,124 @@ const Chat = () => {
     });
 
     return () => {
-      newPeer.destroy(); // Clean up the PeerJS instance when the component unmounts
+      newPeer.destroy();
       setPeer(null);
     };
   }, []);
 
-  // Connect to another peer
   const connectToPeer = () => {
-    // Check if the peer ID is valid and establish a connection
     if (!remotePeerId) {
-      alert("Please enter a friend’s ID.");
+      toast.warn("Please enter a friend's ID.");
       return;
     }
     const connection = peer.connect(remotePeerId);
     setConn(connection);
     connection.on("open", () => {
-      // When the connection is open, listen for incoming messages
+      toast.success("Connected to your friend!");
       connection.on("data", (data) => {
         setMessages((prev) => [...prev, `Friend: ${data}`]);
       });
     });
-    alert("Connected to your friend!");
   };
 
-  // Send message
   const sendMessage = () => {
     if (!conn || !conn.open) {
-      alert("Not connected to a peer. Please connect first.");
+      toast.warn("Not connected. Please connect first.");
       return;
     }
-    if (!message) {
-      return;
-    }
-    conn.send(message); // Send the message to the connected peer
-    setMessages((prev) => [...prev, `You: ${message}`]); // Add the message to the local messages array
-    setMessage(""); // Clear the input field
+    if (!message) return;
+    conn.send(message);
+    setMessages((prev) => [...prev, `You: ${message}`]);
+    setMessage("");
   };
 
-  const [message, setMessage] = useState("");
-
-  // Add beforeunload event to warn about losing chat
   useEffect(() => {
-    // Only trigger if there are messages or an active connection
     const handleBeforeUnload = (event) => {
       if (messages.length > 0 || conn) {
-        // Standard way to trigger the browser's confirmation dialog
         event.preventDefault();
-        event.returnValue = ""; // Required for modern browsers to show the dialog
+        event.returnValue = "";
       }
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [messages, conn]); // Re-run if messages or connection changes
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [messages, conn]);
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
-      <div className="max-w-2xl w-full bg-gray-800 rounded-xl shadow-lg p-6">
-        <h1 className="text-3xl font-bold text-teal-400 mb-4 text-center">
-          Truly Private Messenger
-        </h1>
+    <TpcLayout title="Chat">
+      <Card>
         <div
-          className={`${
-            peerId.length < 1 ? "opacity-0" : "opacity-100"
-          } flex flex-row gap-2 mb-2 items-center justify-center transition-all duration-300`}
+          className={`mb-4 flex flex-wrap items-center justify-center gap-2 transition-opacity ${
+            peerId ? "opacity-100" : "opacity-0"
+          }`}
         >
-          <p className="text-gray-300">Your ID: {peerId}</p>
+          <p className="text-sm text-zinc-400">
+            Your ID: <span className="font-mono text-zinc-200">{peerId}</span>
+          </p>
           <button
+            type="button"
             onClick={() => {
               navigator.clipboard.writeText(peerId);
-              alert("ID copied to clipboard!");
+              toast.info("ID copied to clipboard");
             }}
-            className="text-white p-0.5 bg-gray-500 rounded border border-black hover:bg-gray-600 hover:p-1 transition-all duration-300"
+            className="inline-flex items-center gap-1 rounded-md border border-zinc-700 bg-zinc-800 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-700"
           >
+            <Copy size={12} />
             Copy
           </button>
         </div>
-        <p className="text-sm italic text-red-400 mb-4">
-          Note: This app uses a public signaling server (0.peerjs.com) and STUN
-          only. Some connections may fail without a TURN server, and metadata
-          may be visible to third parties.
+
+        <p className="mb-4 text-sm text-amber-400/90">
+          Uses public signaling (0.peerjs.com) and STUN only. Some networks may
+          block connections; metadata may be visible to third parties.
         </p>
-        <div className={`text-white`}>
-          Status:{` ${peerId.length < 1 ? "Loading" : "Ready"} `}
-        </div>
+
+        <p className="mb-4 text-sm text-zinc-500">
+          Status: {peerId ? "Ready" : "Loading…"}
+        </p>
+
         <input
           value={remotePeerId}
           onChange={(e) => setRemotePeerId(e.target.value)}
           placeholder="Enter friend's ID"
-          className="w-full bg-gray-700 text-gray-200 rounded-md p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-teal-500"
+          className="mb-4 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-zinc-100 placeholder:text-zinc-600 focus:border-sky-600 focus:outline-none focus:ring-1 focus:ring-sky-600"
         />
-        <button
-          onClick={connectToPeer}
-          className="w-full bg-teal-600 text-white font-semibold py-2 rounded-md mb-6 hover:bg-teal-700 transition"
-        >
+
+        <Button onClick={connectToPeer} className="mb-6 w-full">
           Connect
-        </button>
-        <div className="flex gap-2 mb-4">
+        </Button>
+
+        <div className="mb-4 flex gap-2">
           <input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type a message"
-            className="flex-1 bg-gray-700 text-gray-200 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
-            onKeyPress={(e) => {
+            className="flex-1 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-zinc-100 placeholder:text-zinc-600 focus:border-sky-600 focus:outline-none focus:ring-1 focus:ring-sky-600"
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
                 sendMessage();
               }
             }}
           />
-          <button
-            onClick={sendMessage}
-            className="bg-teal-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-teal-700 transition"
-          >
-            Send
-          </button>
+          <Button onClick={sendMessage}>Send</Button>
         </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-md p-4 max-h-80 overflow-y-auto">
-          {messages.map((msg, index) => (
-            <p
-              key={index}
-              className="text-gray-200 p-2 odd:bg-gray-900 rounded-md"
-            >
-              {msg}
-            </p>
-          ))}
+
+        <div className="max-h-80 overflow-y-auto rounded-lg border border-zinc-800 bg-zinc-950 p-3">
+          {messages.length === 0 ? (
+            <p className="text-center text-sm text-zinc-600">No messages yet</p>
+          ) : (
+            messages.map((msg, index) => (
+              <p
+                key={index}
+                className="rounded-md px-2 py-1.5 text-sm text-zinc-300 odd:bg-zinc-900"
+              >
+                {msg}
+              </p>
+            ))
+          )}
         </div>
-      </div>
-    </div>
+      </Card>
+    </TpcLayout>
   );
 };
 
