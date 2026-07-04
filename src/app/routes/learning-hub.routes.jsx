@@ -10,7 +10,7 @@ const Writer = lazy(
   () => import("../../features/learning-hub/tools/writer/Writer"),
 );
 const WordHighlighter = lazy(
-  () => import("../../components/toms-learning-hub/components/WordHighLighter"),
+  () => import("../../features/learning-hub/tools/word-highlighter/WordHighlighter"),
 );
 const MathGenerator = lazy(
   () => import("../../components/toms-learning-hub/components/MathGenerator"),
