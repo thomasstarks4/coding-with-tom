@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import usePageTitle from "../../design-system/hooks/usePageTitle";
 import { Calendar, ExternalLink, MessageCircle } from "lucide-react";
 import PageShell from "../../design-system/components/PageShell";
 import Card from "../../design-system/components/Card";
@@ -29,9 +29,10 @@ const links = [
 ];
 
 export default function Contact() {
-  useEffect(() => {
-    document.title = "Contact — Thomas Starks";
-  }, []);
+  usePageTitle(
+    "Contact — Thomas Starks",
+    "Get in touch with Thomas Starks for freelance, collaboration, or full-time opportunities.",
+  );
 
   return (
     <PageShell>

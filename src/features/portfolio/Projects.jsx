@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Search } from "lucide-react";
+import usePageTitle from "../../design-system/hooks/usePageTitle";
 import PageShell from "../../design-system/components/PageShell";
 import ProjectCard from "../../design-system/components/ProjectCard";
+import EmptyState from "../../design-system/components/EmptyState";
 import {
   getFeaturedProjects,
   getListedProjects,
@@ -18,9 +20,10 @@ export default function Projects() {
   const [query, setQuery] = useState("");
   const [tab, setTab] = useState("all");
 
-  useEffect(() => {
-    document.title = "Projects — Thomas Starks";
-  }, []);
+  usePageTitle(
+    "Projects — Thomas Starks",
+    "Web applications, education tools, games, and utilities built by Thomas Starks.",
+  );
 
   const featured = getFeaturedProjects();
   const listed = getListedProjects();
@@ -109,7 +112,10 @@ export default function Projects() {
       {!showFeatured && !showListed && (
         <section>
           {filtered.length === 0 ? (
-            <p className="text-center text-zinc-500">No projects match your search.</p>
+            <EmptyState
+              title="No matches"
+              description="Try a different search term or browse all projects."
+            />
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((project) => (

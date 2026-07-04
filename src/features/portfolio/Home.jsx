@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import usePageTitle from "../../design-system/hooks/usePageTitle";
 import PageShell from "../../design-system/components/PageShell";
 import Button from "../../design-system/components/Button";
 import ProjectCard from "../../design-system/components/ProjectCard";
+import Section from "../../design-system/components/Section";
 import { getFeaturedProjects } from "../../config/project-registry";
 
 export default function Home() {
-  useEffect(() => {
-    document.title = "Thomas Starks — Software Developer";
-  }, []);
+  usePageTitle(
+    "Thomas Starks — Software Developer",
+    "Portfolio of Thomas Starks — full-stack engineer building web apps, education tools, and games.",
+  );
 
   const featured = getFeaturedProjects().slice(0, 4);
 
@@ -34,24 +36,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-20">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold text-white">Featured work</h2>
-            <p className="mt-1 text-sm text-zinc-500">
-              Selected projects from my portfolio
-            </p>
-          </div>
-          <Button to="/projects" variant="ghost" size="sm" className="hidden sm:inline-flex">
-            View all
-          </Button>
-        </div>
+      <Section
+        title="Featured work"
+        subtitle="Selected projects from my portfolio"
+        className="mt-20"
+      >
         <div className="grid gap-4 sm:grid-cols-2">
           {featured.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </div>
-      </section>
+        <div className="mt-6 text-center sm:hidden">
+          <Button to="/projects" variant="ghost" size="sm">
+            View all projects
+          </Button>
+        </div>
+      </Section>
     </PageShell>
   );
 }

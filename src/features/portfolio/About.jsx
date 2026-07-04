@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import usePageTitle from "../../design-system/hooks/usePageTitle";
 import PageShell from "../../design-system/components/PageShell";
 import Card from "../../design-system/components/Card";
 import Tag from "../../design-system/components/Tag";
@@ -11,9 +11,10 @@ const skills = {
 };
 
 export default function About() {
-  useEffect(() => {
-    document.title = "About — Thomas Starks";
-  }, []);
+  usePageTitle(
+    "About — Thomas Starks",
+    "About Thomas Starks — Navy veteran and full-stack software engineer.",
+  );
 
   return (
     <PageShell>

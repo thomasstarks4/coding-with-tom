@@ -46,9 +46,8 @@ background: white;
   };
 
   useEffect(() => {
-    // Run code when the component mounts
     runCode();
-  });
+  }, [runCode]);
 
   return (
     <div
