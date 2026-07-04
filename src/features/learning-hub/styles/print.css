@@ -1,10 +1,16 @@
 @media print {
-  .hub-no-print {
+  .hub-no-print,
+  .noprint {
     display: none !important;
   }
 
-  .hub-print-only {
+  .hub-print-only,
+  .onlyPrint {
     display: block !important;
+  }
+
+  .bg-learning-hub button {
+    display: none !important;
   }
 
   .hub-content {

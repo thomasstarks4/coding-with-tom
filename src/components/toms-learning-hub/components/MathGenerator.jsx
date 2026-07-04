@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import HubModal from "../../../features/learning-hub/layout/HubModal";
 
 function MathGenerator() {
   const [numProblems, setNumProblems] = useState("10");
@@ -243,64 +244,38 @@ function MathGenerator() {
             </div>
           </form>
 
-          {/* Complexity Descriptions Modal */}
-          <AnimatePresence>
-            {showComplexityDescriptions && (
-              <>
-                <motion.div
-                  className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={() => setShowComplexityDescriptions(false)}
+          <HubModal
+            open={showComplexityDescriptions}
+            onClose={() => setShowComplexityDescriptions(false)}
+            maxWidth="max-w-2xl"
+            labelledBy="math-complexity-title"
+          >
+            <h2
+              id="math-complexity-title"
+              className="mb-6 text-center text-2xl font-bold text-slate-900 sm:text-3xl"
+            >
+              Complexity Levels Guide
+            </h2>
+
+            <div className="space-y-4">
+              {complexityInfo.map((info) => (
+                <div
+                  key={info.level}
+                  className={`rounded-xl bg-gradient-to-r p-4 text-white ${info.color}`}
                 >
-                  <motion.div
-                    className="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-                    initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                    animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                    transition={{ type: "spring", damping: 25 }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-                      📊 Complexity Levels Guide
-                    </h2>
-
-                    <div className="space-y-4">
-                      {complexityInfo.map((info, index) => (
-                        <motion.div
-                          key={info.level}
-                          className={`p-4 rounded-xl bg-gradient-to-r ${info.color} text-white`}
-                          initial={{ x: -20, opacity: 0 }}
-                          animate={{ x: 0, opacity: 1 }}
-                          transition={{ delay: index * 0.1 }}
-                        >
-                          <div className="font-bold text-lg mb-2">
-                            Level {info.level}
-                          </div>
-                          <div className="text-sm opacity-90">
-                            • Number range: {info.range}
-                            <br />• Negative results:{" "}
-                            {info.negatives ? "Allowed" : "Not allowed"}
-                            <br />• Operations: Addition and Subtraction
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    <motion.button
-                      className="mt-6 w-full bg-gray-800 hover:bg-gray-900 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300"
-                      onClick={() => setShowComplexityDescriptions(false)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Got it! 👍
-                    </motion.button>
-                  </motion.div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+                  <div className="mb-2 text-lg font-bold">
+                    Level {info.level}
+                  </div>
+                  <div className="text-sm opacity-90">
+                    • Number range: {info.range}
+                    <br />• Negative results:{" "}
+                    {info.negatives ? "Allowed" : "Not allowed"}
+                    <br />• Operations: Addition and Subtraction
+                  </div>
+                </div>
+              ))}
+            </div>
+          </HubModal>
         </div>
 
         {/* Print-only header */}

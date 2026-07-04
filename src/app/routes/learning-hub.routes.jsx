@@ -7,7 +7,7 @@ const LearningHubHome = lazy(
   () => import("../../features/learning-hub/pages/Home"),
 );
 const Writer = lazy(
-  () => import("../../components/toms-learning-hub/components/Writer"),
+  () => import("../../features/learning-hub/tools/writer/Writer"),
 );
 const WordHighlighter = lazy(
   () => import("../../components/toms-learning-hub/components/WordHighLighter"),

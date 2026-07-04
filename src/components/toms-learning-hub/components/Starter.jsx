@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, LayoutGroup } from "framer-motion";
 import { RefreshCw } from "lucide-react";
+import HubModal from "../../../features/learning-hub/layout/HubModal";
 import {
   buildSentenceDeck,
   getShownStarterFingerprint,
@@ -66,6 +67,11 @@ const Starter = ({ startersSelected }) => {
     }
     setCardStates((prev) => ({ ...prev, [selectedCardId]: "success" }));
     setNotReadOrder((order) => order.filter((id) => id !== selectedCardId));
+    setIsModalOpen(false);
+    setSelectedCardId(null);
+  };
+
+  const closeModal = () => {
     setIsModalOpen(false);
     setSelectedCardId(null);
   };
@@ -193,53 +199,38 @@ const Starter = ({ startersSelected }) => {
         </div>
       ) : null}
 
-      <AnimatePresence>
-        {isModalOpen && selectedCard && (
-          <>
-            <motion.div
-              className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-            />
-            <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.96, opacity: 0 }}
-            >
-              <div
-                className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl sm:p-8"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <h2 className="text-center text-2xl font-bold text-slate-900">
-                  Could your learner read this?
-                </h2>
-                <p className="mb-6 mt-4 rounded-xl bg-slate-50 px-4 py-4 text-center text-xl font-semibold leading-relaxed text-slate-700">
-                  &ldquo;{selectedCard.sentence}&rdquo;
-                </p>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <button
-                    type="button"
-                    className="flex-1 rounded-xl bg-emerald-600 px-5 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500"
-                    onClick={handleConfirm}
-                  >
-                    Yes — move to Read
-                  </button>
-                  <button
-                    type="button"
-                    className="flex-1 rounded-xl border border-sky-300 bg-sky-50 px-5 py-3.5 text-sm font-semibold text-sky-800 transition-colors hover:bg-sky-100"
-                    onClick={handleCancel}
-                  >
-                    Try again — practice later
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      <HubModal
+        open={isModalOpen && !!selectedCard}
+        onClose={closeModal}
+        maxWidth="max-w-md"
+        labelledBy="starter-modal-title"
+      >
+        <h2
+          id="starter-modal-title"
+          className="text-center text-2xl font-bold text-slate-900"
+        >
+          Could your learner read this?
+        </h2>
+        <p className="mb-6 mt-4 rounded-xl bg-slate-50 px-4 py-4 text-center text-xl font-semibold leading-relaxed text-slate-700">
+          &ldquo;{selectedCard?.sentence}&rdquo;
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            className="flex-1 rounded-xl bg-emerald-600 px-5 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500"
+            onClick={handleConfirm}
+          >
+            Yes — move to Read
+          </button>
+          <button
+            type="button"
+            className="flex-1 rounded-xl border border-sky-300 bg-sky-50 px-5 py-3.5 text-sm font-semibold text-sky-800 transition-colors hover:bg-sky-100"
+            onClick={handleCancel}
+          >
+            Try again — practice later
+          </button>
+        </div>
+      </HubModal>
     </div>
   );
 };
