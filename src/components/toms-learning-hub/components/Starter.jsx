@@ -1,334 +1,246 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { RefreshCw } from "lucide-react";
+import {
+  buildSentenceDeck,
+  getShownStarterFingerprint,
+} from "../../../features/learning-hub/tools/starter/buildSentenceDeck";
+import {
+  partitionDeckByReadState,
+  createNotReadOrder,
+  moveCardLaterInNotReadOrder,
+} from "../../../features/learning-hub/tools/starter/partitionDeck";
+import StarterDeckContainer, {
+  StarterHintBanner,
+  StarterReadCard,
+  StarterSentenceCard,
+} from "../../../features/learning-hub/tools/starter/StarterDeckContainers";
 
 const Starter = ({ startersSelected }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+  const [selectedCardId, setSelectedCardId] = useState(null);
   const [cardStates, setCardStates] = useState({});
+  const [notReadOrder, setNotReadOrder] = useState([]);
+  const [deckVersion, setDeckVersion] = useState(0);
 
-  // Enhanced word lists for better sentence construction
-  const singleNouns = [
-    "cat",
-    "dog",
-    "sun",
-    "moon",
-    "car",
-    "tree",
-    "bird",
-    "ball",
-    "hat",
-    "book",
-    "fish",
-    "flower",
-    "star",
-    "house",
-    "door",
-    "window",
-    "table",
-    "chair",
-  ];
+  const shownFingerprint = useMemo(
+    () => getShownStarterFingerprint(startersSelected),
+    [startersSelected],
+  );
 
-  const pluralNouns = [
-    "cats",
-    "dogs",
-    "trees",
-    "cars",
-    "books",
-    "birds",
-    "apples",
-    "stars",
-    "toys",
-    "hats",
-    "flowers",
-    "cookies",
-    "shoes",
-    "friends",
-    "animals",
-    "colors",
-  ];
+  const deck = useMemo(
+    () => buildSentenceDeck(startersSelected),
+    [startersSelected, shownFingerprint, deckVersion],
+  );
 
-  const adjectives = [
-    "big",
-    "small",
-    "happy",
-    "sad",
-    "fast",
-    "slow",
-    "hot",
-    "cold",
-    "red",
-    "blue",
-    "tall",
-    "short",
-    "funny",
-    "silly",
-    "brave",
-    "kind",
-    "bright",
-    "dark",
-  ];
+  const { notRead, read } = useMemo(
+    () => partitionDeckByReadState(deck, cardStates, notReadOrder),
+    [deck, cardStates, notReadOrder],
+  );
 
-  const verbs = [
-    "run",
-    "jump",
-    "play",
-    "sing",
-    "read",
-    "eat",
-    "swim",
-    "walk",
-    "sleep",
-    "dance",
-    "write",
-    "draw",
-    "laugh",
-    "talk",
-    "listen",
-    "watch",
-  ];
+  const selectedCard = deck.find((card) => card.id === selectedCardId);
+  const sessionComplete = deck.length > 0 && read.length === deck.length;
+  const showHint = deck.length > 0 && !sessionComplete;
 
-  const nounPlaces = [
-    "park",
-    "school",
-    "store",
-    "beach",
-    "zoo",
-    "farm",
-    "garden",
-    "library",
-    "playground",
-    "kitchen",
-  ];
+  useEffect(() => {
+    setCardStates({});
+    setNotReadOrder(deck.map((card) => card.id));
+  }, [shownFingerprint, deckVersion, deck]);
 
-  const bodyParts = [
-    "eyes",
-    "ears",
-    "hands",
-    "feet",
-    "nose",
-    "mouth",
-    "face",
-    "head",
-  ];
-
-  const pluralNounPlaces = [
-    "parks",
-    "schools",
-    "stores",
-    "beaches",
-    "farms",
-    "gardens",
-    "libraries",
-    "playgrounds",
-    "rooms",
-    "classrooms",
-  ];
-
-  const gamesSports = [
-    "tag",
-    "soccer",
-    "hopscotch",
-    "hide-and-seek",
-    "catch",
-    "jump rope",
-    "baseball",
-    "basketball",
-    "tennis",
-    "kickball",
-  ];
-
-  const objects = [
-    "toy",
-    "ball",
-    "book",
-    "doll",
-    "block",
-    "bike",
-    "pencil",
-    "cup",
-    "bag",
-    "crayon",
-    "picture",
-    "phone",
-    "blanket",
-    "backpack",
-  ];
-
-  // Enhanced word selection with better context awareness
-  const getRandomWord = (partnerType) => {
-    const wordMap = {
-      "single noun": singleNouns,
-      "plural noun": pluralNouns,
-      adjective: adjectives,
-      verb: verbs,
-      "noun/place": nounPlaces,
-      "body part": bodyParts,
-      "plural noun/places": pluralNounPlaces,
-      "game/sport": gamesSports,
-      object: objects,
-    };
-    const words = wordMap[partnerType] || [];
-    return words[Math.floor(Math.random() * words.length)];
+  const handleNewSet = () => {
+    setDeckVersion((version) => version + 1);
+    setCardStates({});
+    setNotReadOrder([]);
+    setIsModalOpen(false);
+    setSelectedCardId(null);
   };
 
-  // Generate sentences with improved logic
-  const generateSentences = () => {
-    if (!startersSelected || typeof startersSelected !== "object") {
-      return ["Something went wrong"];
-    }
-
-    return Object.keys(startersSelected)
-      .filter((key) => startersSelected[key]?.isShown)
-      .map((key) => {
-        const starter = startersSelected[key];
-        const randomWord = getRandomWord(starter.partnerType);
-
-        // Ensure proper capitalization and punctuation
-        let sentence = `${starter.text} ${randomWord}`;
-
-        // Capitalize first letter if not already
-        if (sentence && sentence[0] === sentence[0].toLowerCase()) {
-          sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
-        }
-
-        // Add period if sentence doesn't end with punctuation
-        if (sentence && !sentence.match(/[.!?]$/)) {
-          sentence += ".";
-        }
-
-        return sentence;
-      });
-  };
-
-  const sentences = generateSentences();
-
-  const handleCardClick = (index) => {
-    setSelectedCardIndex(index);
+  const handleCardClick = (cardId) => {
+    setSelectedCardId(cardId);
     setIsModalOpen(true);
   };
 
   const handleConfirm = () => {
-    setCardStates((prev) => ({ ...prev, [selectedCardIndex]: "success" }));
+    if (!selectedCardId) {
+      return;
+    }
+    setCardStates((prev) => ({ ...prev, [selectedCardId]: "success" }));
+    setNotReadOrder((order) => order.filter((id) => id !== selectedCardId));
     setIsModalOpen(false);
+    setSelectedCardId(null);
   };
 
   const handleCancel = () => {
-    setCardStates((prev) => ({ ...prev, [selectedCardIndex]: "retry" }));
+    if (!selectedCardId) {
+      return;
+    }
+    setNotReadOrder((order) => {
+      const activeOrder =
+        order.length > 0
+          ? order.filter((id) => cardStates[id] !== "success")
+          : createNotReadOrder(deck, cardStates);
+      return moveCardLaterInNotReadOrder(activeOrder, selectedCardId);
+    });
     setIsModalOpen(false);
+    setSelectedCardId(null);
   };
 
   return (
-    <motion.div
-      className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-pink-50 py-8 px-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <motion.div
-          className="bg-gradient-to-r from-orange-600 via-red-600 to-pink-600 p-8 rounded-2xl shadow-xl mb-8"
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <h1 className="text-4xl font-bold text-white text-center mb-2">
-            📚 Generated Sentences
+    <div className="mx-auto w-full max-w-5xl px-1 sm:px-0">
+      <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-start sm:justify-between">
+        <header className="max-w-2xl">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Sentence Starter
           </h1>
-          <p className="text-white/90 text-center text-lg">
-            Click each sentence after your learner reads it!
+          <p className="mt-2 text-base leading-relaxed text-slate-600 sm:text-lg">
+            Work through the Not read container first. When your learner finishes
+            a sentence, move it to Read.
           </p>
-        </motion.div>
-
-        {/* Sentences Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {sentences.map((sentence, index) => {
-            const state = cardStates[index];
-            const bgClass =
-              state === "success"
-                ? "from-green-400 to-emerald-500"
-                : state === "retry"
-                ? "from-blue-400 to-cyan-500"
-                : "from-yellow-300 to-orange-300";
-
-            return (
-              <motion.div
-                key={index}
-                className={`bg-gradient-to-br ${bgClass} p-6 rounded-2xl shadow-lg border-4 border-white cursor-pointer`}
-                initial={{ scale: 0, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{
-                  duration: 0.4,
-                  delay: index * 0.05,
-                  type: "spring",
-                }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleCardClick(index)}
-              >
-                <p className="text-xl font-bold text-gray-900 text-center">
-                  {sentence}
-                </p>
-                {state === "success" && (
-                  <div className="text-center mt-2 text-2xl">✅</div>
-                )}
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Modal */}
-        <AnimatePresence>
-          {isModalOpen && (
-            <>
-              <motion.div
-                className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsModalOpen(false)}
-              />
-              <motion.div
-                className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-              >
-                <div
-                  className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-                    Could your learner read this?
-                  </h2>
-                  <p className="text-xl text-center text-gray-600 mb-6 font-semibold">
-                    "{sentences[selectedCardIndex]}"
-                  </p>
-                  <div className="flex gap-3">
-                    <motion.button
-                      className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-4 px-6 rounded-xl"
-                      onClick={handleConfirm}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      ✅ Yes!
-                    </motion.button>
-                    <motion.button
-                      className="flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-4 px-6 rounded-xl"
-                      onClick={handleCancel}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      🔄 Try Again
-                    </motion.button>
-                  </div>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
+        </header>
+        <button
+          type="button"
+          onClick={handleNewSet}
+          className="inline-flex min-h-[var(--hub-touch-min)] shrink-0 items-center justify-center gap-2 self-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 sm:self-start"
+        >
+          <RefreshCw size={16} />
+          New set
+        </button>
       </div>
-    </motion.div>
+
+      {deck.length > 0 ? (
+        <div className="mb-6 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-medium text-slate-700">
+              Session progress
+            </p>
+            <p className="text-sm text-slate-600">
+              <span className="font-semibold text-emerald-700">{read.length}</span>
+              {" / "}
+              <span className="font-semibold text-slate-800">{deck.length}</span>
+              {" read"}
+            </p>
+          </div>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-sky-500 to-emerald-500 transition-all duration-300"
+              style={{
+                width: deck.length
+                  ? `${(read.length / deck.length) * 100}%`
+                  : "0%",
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
+
+      {showHint ? (
+        <div className="mb-6">
+          <StarterHintBanner />
+        </div>
+      ) : null}
+
+      {deck.length === 0 ? (
+        <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <p className="text-lg font-medium text-slate-800">
+            No sentence starters are selected.
+          </p>
+          <p className="mt-2 text-slate-600">
+            Open Sentence Tuner and choose at least one starter to practice.
+          </p>
+        </div>
+      ) : (
+        <LayoutGroup>
+          <div className="flex flex-col gap-6">
+            <StarterDeckContainer
+              title="Not read"
+              position="top"
+              count={notRead.length}
+              description="Sentences waiting for your learner."
+              emptyMessage="All sentences have been read. Start a new set or celebrate the finish!"
+            >
+              {notRead.map((card) => (
+                <StarterSentenceCard
+                  key={card.id}
+                  card={card}
+                  onClick={handleCardClick}
+                />
+              ))}
+            </StarterDeckContainer>
+
+            <StarterDeckContainer
+              title="Read"
+              position="bottom"
+              count={read.length}
+              description="Sentences your learner has read successfully."
+              emptyMessage="Sentences move here after you mark them as read."
+            >
+              {read.map((card) => (
+                <StarterReadCard key={card.id} card={card} />
+              ))}
+            </StarterDeckContainer>
+          </div>
+        </LayoutGroup>
+      )}
+
+      {sessionComplete ? (
+        <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-5 text-center">
+          <p className="text-lg font-semibold text-emerald-900">
+            Session complete!
+          </p>
+          <p className="mt-1 text-sm text-emerald-800">
+            Every sentence is in the Read container. Nice work.
+          </p>
+        </div>
+      ) : null}
+
+      <AnimatePresence>
+        {isModalOpen && selectedCard && (
+          <>
+            <motion.div
+              className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsModalOpen(false)}
+            />
+            <motion.div
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              initial={{ scale: 0.96, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.96, opacity: 0 }}
+            >
+              <div
+                className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl sm:p-8"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h2 className="text-center text-2xl font-bold text-slate-900">
+                  Could your learner read this?
+                </h2>
+                <p className="mb-6 mt-4 rounded-xl bg-slate-50 px-4 py-4 text-center text-xl font-semibold leading-relaxed text-slate-700">
+                  &ldquo;{selectedCard.sentence}&rdquo;
+                </p>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    className="flex-1 rounded-xl bg-emerald-600 px-5 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-500"
+                    onClick={handleConfirm}
+                  >
+                    Yes — move to Read
+                  </button>
+                  <button
+                    type="button"
+                    className="flex-1 rounded-xl border border-sky-300 bg-sky-50 px-5 py-3.5 text-sm font-semibold text-sky-800 transition-colors hover:bg-sky-100"
+                    onClick={handleCancel}
+                  >
+                    Try again — practice later
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 

@@ -1,43 +1,38 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { toast } from "react-toastify";
 
-const Tuner = ({ startersSelected, setStartersSelected }) => {
-  const [localStarters, setLocalStarters] = useState(startersSelected);
-
-  const entries = useMemo(() => Object.entries(localStarters), [localStarters]);
+const Tuner = ({ startersSelected, setStartersSelected, lastSaved }) => {
+  const entries = useMemo(
+    () => Object.entries(startersSelected),
+    [startersSelected],
+  );
   const total = entries.length;
   const selected = useMemo(
     () => entries.filter(([, v]) => v.isShown).length,
-    [entries]
+    [entries],
   );
 
   const handleCheckboxChange = (key) => {
-    setLocalStarters((prev) => ({
+    setStartersSelected((prev) => ({
       ...prev,
       [key]: { ...prev[key], isShown: !prev[key].isShown },
     }));
   };
 
   const selectAll = () => {
-    setLocalStarters((prev) =>
+    setStartersSelected((prev) =>
       Object.fromEntries(
-        Object.entries(prev).map(([k, v]) => [k, { ...v, isShown: true }])
-      )
+        Object.entries(prev).map(([k, v]) => [k, { ...v, isShown: true }]),
+      ),
     );
   };
 
   const clearAll = () => {
-    setLocalStarters((prev) =>
+    setStartersSelected((prev) =>
       Object.fromEntries(
-        Object.entries(prev).map(([k, v]) => [k, { ...v, isShown: false }])
-      )
+        Object.entries(prev).map(([k, v]) => [k, { ...v, isShown: false }]),
+      ),
     );
-  };
-
-  const saveChanges = () => {
-    setStartersSelected(localStarters);
-    toast.success("Tuner settings saved successfully!");
   };
 
   return (
@@ -48,7 +43,6 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
       transition={{ duration: 0.5 }}
     >
       <div className="mx-auto max-w-4xl">
-        {/* Header */}
         <motion.div
           className="bg-gradient-to-r from-green-600 via-teal-600 to-blue-600 p-8 rounded-2xl shadow-xl mb-8"
           initial={{ y: -50, opacity: 0 }}
@@ -56,10 +50,11 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h1 className="text-4xl font-bold text-white text-center mb-2">
-            🎚️ Sentence Tuner
+            Sentence Tuner
           </h1>
           <p className="text-white/90 text-center text-lg">
-            Customize which sentence starters to use!
+            Choose which sentence starters appear in Sentence Starter. Changes
+            save automatically.
           </p>
         </motion.div>
 
@@ -69,7 +64,6 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          {/* Toolbar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-200">
             <motion.div
               className="text-center sm:text-left"
@@ -92,6 +86,11 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
                   transition={{ duration: 0.5 }}
                 />
               </div>
+              {lastSaved ? (
+                <p className="mt-2 text-xs text-green-700" aria-live="polite">
+                  Saved
+                </p>
+              ) : null}
             </motion.div>
 
             <motion.div
@@ -107,7 +106,7 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                ✓ Select All
+                Select All
               </motion.button>
               <motion.button
                 type="button"
@@ -116,21 +115,11 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                ✗ Clear All
-              </motion.button>
-              <motion.button
-                type="button"
-                onClick={saveChanges}
-                className="rounded-lg bg-gradient-to-r from-green-600 to-teal-600 px-6 py-2 text-sm font-bold text-white shadow-md hover:from-green-700 hover:to-teal-700 transition-all"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                💾 Save Settings
+                Clear All
               </motion.button>
             </motion.div>
           </div>
 
-          {/* List */}
           <div className="flex flex-col items-stretch gap-3">
             {entries.map(([key, starter], index) => (
               <motion.div
@@ -146,7 +135,6 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
                 whileHover={{ scale: 1.02, x: 5 }}
                 onClick={() => handleCheckboxChange(key)}
               >
-                {/* Left side: checkbox + text */}
                 <div className="flex w-full flex-1 items-center gap-3 md:gap-4">
                   <motion.input
                     id={`checkbox-${key}`}
@@ -165,31 +153,12 @@ const Tuner = ({ startersSelected, setStartersSelected }) => {
                   </label>
                 </div>
 
-                {/* Right side: partner type badge */}
                 <span className="shrink-0 text-xs sm:text-sm px-3 py-1 rounded-full bg-blue-100 text-blue-700 font-semibold">
                   {starter.partnerType}
                 </span>
               </motion.div>
             ))}
           </div>
-
-          {/* Mobile save button (duplicated for convenience) */}
-          <motion.div
-            className="mt-6 sm:hidden"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            <motion.button
-              type="button"
-              onClick={saveChanges}
-              className="w-full rounded-lg bg-gradient-to-r from-green-600 to-teal-600 px-6 py-4 text-base font-bold text-white shadow-lg hover:from-green-700 hover:to-teal-700 transition-all"
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              💾 Save Settings
-            </motion.button>
-          </motion.div>
         </motion.div>
       </div>
     </motion.div>

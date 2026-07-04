@@ -1,9 +1,10 @@
 import { lazy, Suspense } from "react";
 import RouteFallback from "../../design-system/components/RouteFallback";
+import LearningHubLayout from "../../features/learning-hub/layout/LearningHubLayout";
 import LearningHubStarterWrapper from "./LearningHubStarterWrapper";
 
 const LearningHubHome = lazy(
-  () => import("../../components/toms-learning-hub/components/Home"),
+  () => import("../../features/learning-hub/pages/Home"),
 );
 const Writer = lazy(
   () => import("../../components/toms-learning-hub/components/Writer"),
@@ -47,10 +48,15 @@ function TunerRoute() {
 }
 
 export const learningHubRoutes = [
-  { path: "/math", element: <LazyMath /> },
-  { path: "/highlighter", element: <LazyHighlighter /> },
-  { path: "/sentence-starters", element: <LazyHome /> },
-  { path: "/starter", element: <StarterRoute /> },
-  { path: "/tuner", element: <TunerRoute /> },
-  { path: "/writer", element: <LazyWriter /> },
+  {
+    element: <LearningHubLayout />,
+    children: [
+      { path: "/math", element: <LazyMath /> },
+      { path: "/highlighter", element: <LazyHighlighter /> },
+      { path: "/sentence-starters", element: <LazyHome /> },
+      { path: "/starter", element: <StarterRoute /> },
+      { path: "/tuner", element: <TunerRoute /> },
+      { path: "/writer", element: <LazyWriter /> },
+    ],
+  },
 ];

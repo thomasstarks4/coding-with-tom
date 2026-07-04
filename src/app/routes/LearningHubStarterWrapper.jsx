@@ -1,24 +1,19 @@
-import { useState } from "react";
 import Starter from "../../components/toms-learning-hub/components/Starter";
 import Tuner from "../../components/toms-learning-hub/components/Tuner";
-import { initialStarters } from "../../features/learning-hub/data/starters";
+import { useHubSettings } from "../../features/learning-hub/hooks/useHubSettings";
 
 export default function LearningHubStarterWrapper({ tool }) {
-  const [startersSelected, setStartersSelected] = useState(initialStarters);
+  const { starters, setStarters, lastSaved } = useHubSettings();
 
   if (tool === "tuner") {
     return (
       <Tuner
-        startersSelected={startersSelected}
-        setStartersSelected={setStartersSelected}
+        startersSelected={starters}
+        setStartersSelected={setStarters}
+        lastSaved={lastSaved}
       />
     );
   }
 
-  return (
-    <Starter
-      startersSelected={startersSelected}
-      setStartersSelected={setStartersSelected}
-    />
-  );
+  return <Starter startersSelected={starters} />;
 }

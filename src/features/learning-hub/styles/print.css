@@ -1,0 +1,18 @@
+@media print {
+  .hub-no-print {
+    display: none !important;
+  }
+
+  .hub-print-only {
+    display: block !important;
+  }
+
+  .hub-content {
+    max-width: none;
+    padding: 0;
+  }
+
+  .bg-learning-hub {
+    background: #fff !important;
+  }
+}
