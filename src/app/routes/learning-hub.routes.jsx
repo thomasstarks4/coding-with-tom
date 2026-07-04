@@ -13,7 +13,7 @@ const WordHighlighter = lazy(
   () => import("../../features/learning-hub/tools/word-highlighter/WordHighlighter"),
 );
 const MathGenerator = lazy(
-  () => import("../../components/toms-learning-hub/components/MathGenerator"),
+  () => import("../../features/learning-hub/tools/math/MathGenerator"),
 );
 
 function withSuspense(Component) {
