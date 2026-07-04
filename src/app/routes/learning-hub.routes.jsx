@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
+import { Navigate } from "react-router-dom";
 import RouteFallback from "../../design-system/components/RouteFallback";
 import LearningHubLayout from "../../features/learning-hub/layout/LearningHubLayout";
-import LearningHubStarterWrapper from "./LearningHubStarterWrapper";
 
 const LearningHubHome = lazy(
   () => import("../../features/learning-hub/pages/Home"),
@@ -14,6 +14,9 @@ const WordHighlighter = lazy(
 );
 const MathGenerator = lazy(
   () => import("../../features/learning-hub/tools/math/MathGenerator"),
+);
+const SentenceStarterPage = lazy(
+  () => import("../../features/learning-hub/tools/starter/SentenceStarterPage"),
 );
 
 function withSuspense(Component) {
@@ -30,22 +33,7 @@ const LazyHome = withSuspense(LearningHubHome);
 const LazyWriter = withSuspense(Writer);
 const LazyHighlighter = withSuspense(WordHighlighter);
 const LazyMath = withSuspense(MathGenerator);
-
-function StarterRoute() {
-  return (
-    <Suspense fallback={<RouteFallback />}>
-      <LearningHubStarterWrapper tool="starter" />
-    </Suspense>
-  );
-}
-
-function TunerRoute() {
-  return (
-    <Suspense fallback={<RouteFallback />}>
-      <LearningHubStarterWrapper tool="tuner" />
-    </Suspense>
-  );
-}
+const LazySentenceStarter = withSuspense(SentenceStarterPage);
 
 export const learningHubRoutes = [
   {
@@ -54,8 +42,8 @@ export const learningHubRoutes = [
       { path: "/math", element: <LazyMath /> },
       { path: "/highlighter", element: <LazyHighlighter /> },
       { path: "/sentence-starters", element: <LazyHome /> },
-      { path: "/starter", element: <StarterRoute /> },
-      { path: "/tuner", element: <TunerRoute /> },
+      { path: "/starter", element: <LazySentenceStarter /> },
+      { path: "/tuner", element: <Navigate to="/starter#configure" replace /> },
       { path: "/writer", element: <LazyWriter /> },
     ],
   },

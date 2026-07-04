@@ -59,4 +59,17 @@ describe("useToolGuide", () => {
     expect(loadToolGuides().seen.math).toBe(true);
     expect(result.current.isExpanded).toBe(false);
   });
+
+  it("migrates legacy tuner seen flag to starter on load", () => {
+    localStorage.setItem(
+      HUB_GUIDE_KEY,
+      JSON.stringify({ seen: { tuner: true, starter: false } }),
+    );
+
+    const guides = loadToolGuides();
+
+    expect(guides.seen.starter).toBe(true);
+    expect(guides.seen.tuner).toBeUndefined();
+    expect(JSON.parse(localStorage.getItem(HUB_GUIDE_KEY)).seen.tuner).toBeUndefined();
+  });
 });

@@ -1,23 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
 import { LayoutGroup } from "framer-motion";
 import { RefreshCw } from "lucide-react";
-import HubModal from "../../../features/learning-hub/layout/HubModal";
-import HubToolPageHeader from "../../../features/learning-hub/layout/HubToolPageHeader";
+import HubModal from "../../layout/HubModal";
 import {
   buildSentenceDeck,
   getShownStarterFingerprint,
-} from "../../../features/learning-hub/tools/starter/buildSentenceDeck";
+} from "./buildSentenceDeck";
 import {
   partitionDeckByReadState,
   createNotReadOrder,
   moveCardLaterInNotReadOrder,
-} from "../../../features/learning-hub/tools/starter/partitionDeck";
+} from "./partitionDeck";
 import StarterDeckContainer, {
   StarterReadCard,
   StarterSentenceCard,
-} from "../../../features/learning-hub/tools/starter/StarterDeckContainers";
+} from "./StarterDeckContainers";
 
-const Starter = ({ startersSelected }) => {
+export default function StarterPractice({ starters, className = "" }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
   const [cardStates, setCardStates] = useState({});
@@ -25,13 +24,13 @@ const Starter = ({ startersSelected }) => {
   const [deckVersion, setDeckVersion] = useState(0);
 
   const shownFingerprint = useMemo(
-    () => getShownStarterFingerprint(startersSelected),
-    [startersSelected],
+    () => getShownStarterFingerprint(starters),
+    [starters],
   );
 
   const deck = useMemo(
-    () => buildSentenceDeck(startersSelected),
-    [startersSelected, shownFingerprint, deckVersion],
+    () => buildSentenceDeck(starters),
+    [starters, shownFingerprint, deckVersion],
   );
 
   const { notRead, read } = useMemo(
@@ -91,27 +90,25 @@ const Starter = ({ startersSelected }) => {
   };
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-1 sm:px-0">
-      <HubToolPageHeader
-        toolId="starter"
-        actions={
+    <section aria-label="Practice" className={className}>
+      <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-lg font-semibold text-slate-900">Practice</h2>
+        {deck.length > 0 ? (
           <button
             type="button"
             onClick={handleNewSet}
-            className="inline-flex min-h-[var(--hub-touch-min)] items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800"
+            className="inline-flex min-h-[var(--hub-touch-min)] items-center justify-center gap-2 self-start rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 sm:self-center"
           >
             <RefreshCw size={16} />
             New set
           </button>
-        }
-      />
+        ) : null}
+      </div>
 
       {deck.length > 0 ? (
         <div className="mb-6 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm font-medium text-slate-700">
-              Session progress
-            </p>
+            <p className="text-sm font-medium text-slate-700">Session progress</p>
             <p className="text-sm text-slate-600">
               <span className="font-semibold text-emerald-700">{read.length}</span>
               {" / "}
@@ -138,7 +135,8 @@ const Starter = ({ startersSelected }) => {
             No sentence starters are selected.
           </p>
           <p className="mt-2 text-slate-600">
-            Open Sentence Tuner and choose at least one starter to practice.
+            Select at least one sentence pattern above to generate practice
+            sentences.
           </p>
         </div>
       ) : (
@@ -177,9 +175,7 @@ const Starter = ({ startersSelected }) => {
 
       {sessionComplete ? (
         <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-5 text-center">
-          <p className="text-lg font-semibold text-emerald-900">
-            Session complete!
-          </p>
+          <p className="text-lg font-semibold text-emerald-900">Session complete!</p>
           <p className="mt-1 text-sm text-emerald-800">
             Every sentence is in the Read container. Nice work.
           </p>
@@ -218,8 +214,6 @@ const Starter = ({ startersSelected }) => {
           </button>
         </div>
       </HubModal>
-    </div>
+    </section>
   );
-};
-
-export default Starter;
+}

@@ -1,7 +1,6 @@
 import { hubTools } from "./hub-tools";
 
 const ROUTE_TO_ID = {
-  "/tuner": "tuner",
   "/starter": "starter",
   "/writer": "writer",
   "/highlighter": "highlighter",
@@ -9,18 +8,13 @@ const ROUTE_TO_ID = {
 };
 
 const toolSteps = {
-  tuner: [
-    "Review the list of sentence starter patterns and check the ones you want active.",
-    "Use Select All or Clear All for quick setup, or toggle individual starters.",
-    "Your choices save automatically — look for the Saved indicator.",
-    "Open Sentence Starter when you are ready to practice with your learner.",
-  ],
   starter: [
-    "Configure starters in Sentence Tuner first so the set matches your learner.",
-    "Click New set if you want fresh random words with the same starters.",
-    "Work through sentences in the Not read container.",
+    "In Configure starters, check the sentence patterns you want active.",
+    "Use Select All or pick a handful — your choices save automatically.",
+    "Work through sentences in the Not read container below.",
     "Tap a sentence after your learner reads it aloud.",
     "Mark Yes to move it to Read, or Try again to practice that sentence later.",
+    "Click New set for fresh random words with the same patterns.",
   ],
   writer: [
     "Check the topics you want on the printed worksheet.",
@@ -43,8 +37,7 @@ const toolSteps = {
 };
 
 const toolSubtitles = {
-  tuner: "Choose which sentence starters appear in Sentence Starter.",
-  starter: "Guided read-aloud practice with sentences from your tuned starters.",
+  starter: "Choose patterns, then read sentences together with your learner.",
   writer: "Choose topics to print, then practice writing with your learner.",
   highlighter: "Build reading fluency one word at a time.",
   math: "Generate printable addition and subtraction worksheets for Grades 1–2.",

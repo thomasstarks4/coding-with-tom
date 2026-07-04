@@ -4,6 +4,21 @@ const defaultGuides = {
   seen: {},
 };
 
+function migrateGuideSeen(seen) {
+  if (!seen || typeof seen !== "object") {
+    return {};
+  }
+
+  const next = { ...seen };
+
+  if (next.tuner) {
+    next.starter = next.starter || true;
+    delete next.tuner;
+  }
+
+  return next;
+}
+
 export function loadToolGuides() {
   try {
     const raw = localStorage.getItem(HUB_GUIDE_KEY);
@@ -11,9 +26,15 @@ export function loadToolGuides() {
       return { ...defaultGuides, seen: {} };
     }
     const parsed = JSON.parse(raw);
+    const seen = migrateGuideSeen(parsed.seen);
+
+    if (parsed.seen?.tuner) {
+      saveToolGuides({ seen });
+    }
+
     return {
       ...defaultGuides,
-      seen: typeof parsed.seen === "object" && parsed.seen !== null ? parsed.seen : {},
+      seen,
     };
   } catch {
     return { ...defaultGuides, seen: {} };

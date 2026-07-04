@@ -16,26 +16,14 @@ export default function Home() {
           Recommended first session
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-sky-800 sm:text-base">
-          For reading practice, start in{" "}
-          <Link to="/tuner" className="font-semibold underline">
-            Sentence Tuner
-          </Link>{" "}
-          and pick a handful of starters that fit your learner. Then open{" "}
-          <Link to="/starter" className="font-semibold underline">
-            Sentence Starter
-          </Link>{" "}
-          and work through the set together for about 10 minutes.
+          For reading practice, open Sentence Starter, pick a handful of sentence
+          patterns that fit your learner, then work through the generated
+          sentences together for about 10 minutes.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link
-            to="/tuner"
-            className="inline-flex min-h-[var(--hub-touch-min)] items-center rounded-lg bg-sky-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-500"
-          >
-            Open Sentence Tuner
-          </Link>
-          <Link
             to="/starter"
-            className="inline-flex min-h-[var(--hub-touch-min)] items-center rounded-lg border border-sky-300 bg-white px-4 py-2.5 text-sm font-semibold text-sky-800 transition-colors hover:bg-sky-100"
+            className="inline-flex min-h-[var(--hub-touch-min)] items-center rounded-lg bg-sky-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-500"
           >
             Open Sentence Starter
           </Link>
@@ -62,7 +50,7 @@ export default function Home() {
         <ul className="space-y-3 text-sm leading-6 text-slate-600 sm:text-base">
           <li>
             <strong className="text-slate-800">Reading path:</strong> Sentence
-            Tuner → Sentence Starter → Word Highlighter for harder words.
+            Starter → Word Highlighter for harder words.
           </li>
           <li>
             <strong className="text-slate-800">Writing path:</strong> Writer&apos;s

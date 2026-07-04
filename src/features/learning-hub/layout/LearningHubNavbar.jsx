@@ -5,7 +5,6 @@ import logo from "../../../components/toms-learning-hub/images/toms-learning-hub
 
 const navItems = [
   { to: "/sentence-starters", label: "Home" },
-  { to: "/tuner", label: "Sentence Tuner" },
   { to: "/starter", label: "Sentence Starter" },
   { to: "/writer", label: "Writer's Might" },
   { to: "/highlighter", label: "Word Highlighter" },

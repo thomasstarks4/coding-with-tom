@@ -57,7 +57,7 @@ src/
 | Path | App |
 |------|-----|
 | `/`, `/about`, `/contact`, `/projects` | Portfolio shell |
-| `/sentence-starters`, `/starter`, `/tuner`, `/writer`, `/highlighter`, `/math` | Tom's Learning Hub |
+| `/sentence-starters`, `/starter`, `/writer`, `/highlighter`, `/math` | Tom's Learning Hub (`/tuner` redirects to `/starter#configure`) |
 | `/JavaScriptIDE`, `/label-maker`, `/progress-tracker` | Utility apps |
 | `/games/spirit-quest`, `/games/forest-platformer` | Games |
 | `/tpc/home`, `/tpc/chat`, `/tpc/about` | Truly Private Chat |

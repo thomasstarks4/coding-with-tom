@@ -1,18 +1,10 @@
 export const hubTools = [
   {
-    to: "/tuner",
-    title: "Sentence Tuner",
-    summary: "Choose which sentence patterns your learner will practice.",
-    detail:
-      "Browse 28 starter prompts like “I can see the…” or “We like…” and turn them on or off. Your choices save automatically, so Sentence Starter only shows the patterns you picked.",
-    bestFor: "Setting up before a reading session",
-  },
-  {
     to: "/starter",
     title: "Sentence Starter",
-    summary: "Guided read-aloud practice with full sentences.",
+    summary: "Choose sentence patterns and practice read-aloud together.",
     detail:
-      "The hub builds sentences from your tuned starters and common vocabulary. Your learner reads each one aloud; you tap to mark it read or shuffle hard ones to try again later.",
+      "Pick which starters like “I can see the…” or “We like…” are active, then work through generated sentences. Pattern choices save automatically. Tap each sentence after your learner reads it aloud.",
     bestFor: "10-minute reading sessions with an adult",
   },
   {
