@@ -1,0 +1,191 @@
+:root {
+  --hub-focus-hero: clamp(2rem, 1rem + 4vw, 6rem);
+  --hub-focus-word: clamp(1.25rem, 0.65rem + 1.75vw, 3.5rem);
+  --hub-focus-content-max: min(92vw, 48rem);
+  --hub-focus-sentence-max: min(94vw, 56rem);
+  --hub-focus-label-size: clamp(0.75rem, 0.45rem + 0.55vw, 1.125rem);
+  --hub-focus-meta-size: clamp(0.875rem, 0.55rem + 0.65vw, 1.25rem);
+  --hub-focus-action-min: 56px;
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --hub-focus-hero: clamp(2.5rem, 1.25rem + 3.5vw, 7rem);
+    --hub-focus-word: clamp(1.5rem, 0.75rem + 1.5vw, 4rem);
+    --hub-focus-content-max: min(90vw, 72rem);
+    --hub-focus-sentence-max: min(92vw, 80rem);
+  }
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --hub-focus-hero: clamp(3rem, 1.5rem + 2.75vw, 8rem);
+    --hub-focus-word: clamp(1.75rem, 0.85rem + 1.35vw, 4.75rem);
+    --hub-focus-content-max: min(88vw, 84rem);
+    --hub-focus-sentence-max: min(90vw, 92rem);
+  }
+}
+
+.hub-focus-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.hub-focus-backdrop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.hub-focus-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 2vw, 3rem);
+  max-width: var(--hub-focus-content-max);
+  width: 100%;
+  margin-inline: auto;
+}
+
+.hub-focus-hero {
+  font-size: var(--hub-focus-hero);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  text-align: center;
+}
+
+.hub-focus-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.hub-focus-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.hub-focus-action-btn {
+  min-height: var(--hub-focus-action-min);
+  min-width: 10rem;
+  flex: 1;
+}
+
+.hub-focus-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #e2e8f0;
+}
+
+.hub-focus-dot--done {
+  background: #10b981;
+}
+
+.hub-focus-dot--current {
+  background: #0ea5e9;
+  transform: scale(1.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-focus-hero-animate {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .hub-focus-word {
+    transition: none !important;
+  }
+}
+
+.hub-focus-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.35em 0.55em;
+  max-width: var(--hub-focus-sentence-max);
+  width: 100%;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.hub-focus-word {
+  display: inline-block;
+  transform-origin: center bottom;
+  border-radius: 0.35rem;
+  padding: 0.08em 0.18em;
+  font-size: var(--hub-focus-word);
+  font-weight: 500;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.hub-focus-word--read {
+  color: #059669;
+}
+
+.hub-focus-word--current {
+  background: linear-gradient(to bottom, #e0f2fe, #bae6fd);
+  color: #0c4a6e;
+  font-weight: 700;
+  box-shadow: 0 2px 12px rgb(14 165 233 / 0.2);
+}
+
+.hub-focus-label {
+  font-size: var(--hub-focus-label-size);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #0369a1;
+}
+
+.hub-focus-meta {
+  font-size: var(--hub-focus-meta-size);
+  font-weight: 500;
+  color: #64748b;
+}
+
+.hub-focus-complete-title {
+  font-size: clamp(1.875rem, 1rem + 3vw, 4.5rem);
+  font-weight: 700;
+  color: #065f46;
+}
+
+.hub-focus-complete-body {
+  font-size: clamp(1rem, 0.65rem + 1vw, 1.5rem);
+  color: #475569;
+  max-width: 36rem;
+}
+
+.hub-focus-math-problem {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: var(--hub-focus-hero);
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  white-space: pre;
+  color: #0f172a;
+}
+
+.hub-focus-math-answer {
+  font-size: var(--hub-focus-meta-size);
+  font-weight: 600;
+  color: #0369a1;
+}

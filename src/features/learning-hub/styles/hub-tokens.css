@@ -1,0 +1,23 @@
+:root {
+  --hub-accent: #0284c7;
+  --hub-accent-hover: #0369a1;
+  --hub-text: #1e293b;
+  --hub-muted: #64748b;
+  --hub-content-max: 72rem;
+  --hub-touch-min: 44px;
+}
+
+.hub-content {
+  width: 100%;
+  max-width: var(--hub-content-max);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.hub-page-header {
+  color: var(--hub-text);
+}
+
+.hub-tool-card {
+  color: var(--hub-text);
+}

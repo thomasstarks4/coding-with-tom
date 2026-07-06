@@ -1,0 +1,72 @@
+.writer-worksheet {
+  padding: 1.5rem 0;
+  color: #0f172a;
+}
+
+.writer-worksheet-title {
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 3px solid #0f172a;
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.writer-name-field {
+  margin-bottom: 2rem;
+}
+
+.writer-label {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.writer-prompt-section {
+  margin-bottom: 2rem;
+}
+
+.writer-prompt-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.writer-lines {
+  margin-top: 0.5rem;
+}
+
+.writer-line {
+  border-bottom: 1px solid #334155;
+  min-height: 2rem;
+}
+
+.writer-line-wide {
+  min-height: 2.25rem;
+}
+
+.writer-checklist-print {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #cbd5e1;
+}
+
+.writer-checklist-print ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+@media print {
+  .writer-worksheet {
+    page-break-after: always;
+    padding: 0;
+  }
+
+  .writer-worksheet:last-child {
+    page-break-after: auto;
+  }
+
+  .writer-line {
+    min-height: 2.25rem;
+  }
+}
