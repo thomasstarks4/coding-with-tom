@@ -1,0 +1,17 @@
+<?php
+// Copy to config.local.php on Hostinger (or locally) and fill in values.
+// Never commit config.local.php.
+
+$FAMTALK_DB_HOST = 'localhost'; // Hostinger often uses localhost
+$FAMTALK_DB_PORT = '3306';
+$FAMTALK_DB_NAME = 'your_database_name';
+$FAMTALK_DB_USER = 'your_database_user';
+$FAMTALK_DB_PASS = 'your_database_password';
+
+// Browser / Expo web origins (comma-separated). Native RN usually has no Origin.
+$FAMTALK_CORS_ORIGINS = 'https://codingwithtom.com,http://localhost:3000,http://localhost:8081';
+
+$FAMTALK_TOKEN_TTL_DAYS = 90;
+
+// Optional — Expo Push security (leave empty for public Expo push endpoint)
+// $FAMTALK_EXPO_ACCESS_TOKEN = 'your_expo_access_token';

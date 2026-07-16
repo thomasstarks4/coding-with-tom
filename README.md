@@ -46,9 +46,11 @@ src/
 
 ## Deploy (Hostinger)
 
-1. `npm run build` — outputs to `dist/` (includes `public/.htaccess`, `robots.txt`, `sitemap.xml`)
+1. `npm run build` — outputs to `dist/` (includes `public/.htaccess`, `robots.txt`, `sitemap.xml`, and `public/famtalk/`)
 2. Upload **contents of `dist/`** to `public_html/`
-3. PHP APIs (e.g. progress-tracker) use rules in `public/.htaccess` to bypass SPA rewrite
+3. PHP APIs use rules in `public/.htaccess` to bypass SPA rewrite (`/famtalk/api/`, `/store/api/`, …)
+
+**FamTalk API:** `public/famtalk/api/` — MySQL pull/push + auth + Expo push notify for the family Android app. See `public/famtalk/api/DEPLOY.md`. On Hostinger: import `schema.sql` (or push-token migration), copy `config.local.php.example` → `config.local.php`, fill DB credentials.
 
 **Store:** PHP backend may exist in `deploy/hostinger/store/` but has no public UI or routes until re-enabled in `project-registry.js`.
 

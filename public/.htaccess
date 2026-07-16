@@ -1,9 +1,15 @@
 RewriteEngine On
 RewriteBase /
 
-# 1) Exclude the API from SPA rewrites
+# 1) Exclude APIs from SPA rewrites
 
 RewriteCond %{REQUEST_URI} ^/progress-tracker/api/ [NC]
+RewriteRule ^ - [L]
+
+RewriteCond %{REQUEST_URI} ^/famtalk/api/ [NC]
+RewriteRule ^ - [L]
+
+RewriteCond %{REQUEST_URI} ^/store/api/ [NC]
 RewriteRule ^ - [L]
 
 # 2) Special-case: if the request is exactly /progress-tracker or /progress-tracker/

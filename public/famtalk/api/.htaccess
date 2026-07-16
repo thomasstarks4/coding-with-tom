@@ -1,0 +1,5 @@
+# Deny directory listing; allow PHP scripts.
+Options -Indexes
+<FilesMatch "\.(sql|md|example)$">
+  Require all denied
+</FilesMatch>
