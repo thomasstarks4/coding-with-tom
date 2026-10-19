@@ -1,0 +1,28 @@
+name: Verify portfolio
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: find public/famtalk/api -name '*.php' -print0 | xargs -0 -n1 php -l
+      - run: npm run build
+      - run: npm run verify:build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hostinger-site
+          path: dist/
+          include-hidden-files: true
+          retention-days: 14

@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS ft_list_items (
   text VARCHAR(500) NOT NULL,
   checked TINYINT(1) NOT NULL DEFAULT 0,
   qty VARCHAR(64) NULL,
+  category VARCHAR(32) NULL,
   assignee_user_id BIGINT UNSIGNED NULL,
   client_id VARCHAR(64) NULL,
   created_at DATETIME(3) NOT NULL,

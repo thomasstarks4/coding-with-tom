@@ -46,6 +46,8 @@ src/
 
 ## Deploy (Hostinger)
 
+See [deployment settings and release prerequisites](docs/HOSTINGER.md). GitHub Actions verifies every master push and produces a deployable artifact.
+
 1. `npm run build` — outputs to `dist/` (includes `public/.htaccess`, `robots.txt`, `sitemap.xml`, and `public/famtalk/`)
 2. Upload **contents of `dist/`** to `public_html/`
 3. PHP APIs use rules in `public/.htaccess` to bypass SPA rewrite (`/famtalk/api/`, `/store/api/`, …)

@@ -3,7 +3,9 @@
 ## 1. Database
 
 1. In Hostinger hPanel → MySQL, create/use a database (can share the site’s existing DB).
-2. phpMyAdmin → Import `schema.sql` from this folder (fresh install), **or** if tables already exist run `migrations/2026-07-16_ft_push_tokens.sql` for Expo push tokens.
+2. phpMyAdmin → Import `schema.sql` from this folder (fresh install), **or** if tables already exist run:
+   - `migrations/2026-07-16_ft_push_tokens.sql` for Expo push tokens
+   - `migrations/2026-07-18_ft_list_items_category.sql` for grocery aisle/category
 3. Tables are prefixed `ft_` so they won’t collide with other apps.
 
 ## 2. Config

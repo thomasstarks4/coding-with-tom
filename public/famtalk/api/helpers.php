@@ -340,6 +340,14 @@ function ft_row_list(array $r): array
 
 function ft_row_list_item(array $r): array
 {
+    $category = $r['category'] ?? null;
+    if ($category !== null) {
+        $category = trim((string) $category);
+        if ($category === '') {
+            $category = null;
+        }
+    }
+
     return [
         'id' => (int) $r['id'],
         'listId' => (int) $r['list_id'],
@@ -347,12 +355,25 @@ function ft_row_list_item(array $r): array
         'text' => (string) $r['text'],
         'checked' => (bool) $r['checked'],
         'qty' => $r['qty'],
+        'category' => $category,
         'assigneeUserId' => $r['assignee_user_id'] !== null ? (int) $r['assignee_user_id'] : null,
         'clientId' => $r['client_id'],
         'createdAt' => ft_iso($r['created_at']),
         'updatedAt' => ft_iso($r['updated_at']),
         'deletedAt' => ft_iso($r['deleted_at'] ?? null),
     ];
+}
+
+function ft_normalize_list_item_category(mixed $raw): ?string
+{
+    if ($raw === null) {
+        return null;
+    }
+    $category = trim((string) $raw);
+    if ($category === '' || mb_strlen($category) > 32) {
+        return null;
+    }
+    return $category;
 }
 
 function ft_find_by_client_id(string $table, int $familyId, ?string $clientId): ?array

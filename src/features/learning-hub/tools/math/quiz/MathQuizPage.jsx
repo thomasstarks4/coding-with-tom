@@ -72,7 +72,7 @@ export default function MathQuizPage() {
       if (quizMeta.type === "preset" && quizMeta.presetId) {
         const previous = bestScores[quizMeta.presetId];
         const improved =
-          !previous || summary.finalCorrect > previous.finalCorrect;
+          !previous || summary.finalCorrect > previous.final;
         if (improved) {
           bestScores[quizMeta.presetId] = {
             firstTry: summary.firstTryCorrect,

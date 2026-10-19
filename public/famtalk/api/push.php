@@ -106,10 +106,10 @@ try {
                 if ($action === 'delete') {
                     $id = (int) ($data['id'] ?? 0);
                     $stmt = $pdo->prepare(
-                        'UPDATE ft_messages SET deleted_at = :now, updated_at = :now
+                        'UPDATE ft_messages SET deleted_at = :deleted_at, updated_at = :updated_at
                          WHERE id = :id AND family_id = :family_id AND deleted_at IS NULL'
                     );
-                    $stmt->execute([':now' => $now, ':id' => $id, ':family_id' => $familyId]);
+                    $stmt->execute([':deleted_at' => $now, ':updated_at' => $now, ':id' => $id, ':family_id' => $familyId]);
                     $sel = $pdo->prepare('SELECT * FROM ft_messages WHERE id = :id AND family_id = :family_id');
                     $sel->execute([':id' => $id, ':family_id' => $familyId]);
                     $row = $sel->fetch();
@@ -188,10 +188,10 @@ try {
                 if ($action === 'delete') {
                     $id = (int) ($data['id'] ?? 0);
                     $stmt = $pdo->prepare(
-                        'UPDATE ft_notes SET deleted_at = :now, updated_at = :now
+                        'UPDATE ft_notes SET deleted_at = :deleted_at, updated_at = :updated_at
                          WHERE id = :id AND family_id = :family_id AND deleted_at IS NULL'
                     );
-                    $stmt->execute([':now' => $now, ':id' => $id, ':family_id' => $familyId]);
+                    $stmt->execute([':deleted_at' => $now, ':updated_at' => $now, ':id' => $id, ':family_id' => $familyId]);
                     $sel = $pdo->prepare('SELECT * FROM ft_notes WHERE id = :id AND family_id = :family_id');
                     $sel->execute([':id' => $id, ':family_id' => $familyId]);
                     $row = $sel->fetch();
@@ -254,10 +254,10 @@ try {
                 if ($action === 'delete') {
                     $id = (int) ($data['id'] ?? 0);
                     $stmt = $pdo->prepare(
-                        'UPDATE ft_lists SET deleted_at = :now, updated_at = :now
+                        'UPDATE ft_lists SET deleted_at = :deleted_at, updated_at = :updated_at
                          WHERE id = :id AND family_id = :family_id AND deleted_at IS NULL'
                     );
-                    $stmt->execute([':now' => $now, ':id' => $id, ':family_id' => $familyId]);
+                    $stmt->execute([':deleted_at' => $now, ':updated_at' => $now, ':id' => $id, ':family_id' => $familyId]);
                     $sel = $pdo->prepare('SELECT * FROM ft_lists WHERE id = :id AND family_id = :family_id');
                     $sel->execute([':id' => $id, ':family_id' => $familyId]);
                     $row = $sel->fetch();
@@ -294,15 +294,16 @@ try {
                     if ($qty === '') {
                         $qty = null;
                     }
+                    $category = ft_normalize_list_item_category($data['category'] ?? null);
                     $assignee = isset($data['assigneeUserId']) ? (int) $data['assigneeUserId'] : null;
                     if ($assignee !== null && $assignee <= 0) {
                         $assignee = null;
                     }
                     $stmt = $pdo->prepare(
                         'INSERT INTO ft_list_items
-                         (list_id, family_id, text, checked, qty, assignee_user_id, client_id, created_at, updated_at, deleted_at)
+                         (list_id, family_id, text, checked, qty, category, assignee_user_id, client_id, created_at, updated_at, deleted_at)
                          VALUES
-                         (:list_id, :family_id, :text, :checked, :qty, :assignee_user_id, :client_id, :created_at, :updated_at, NULL)'
+                         (:list_id, :family_id, :text, :checked, :qty, :category, :assignee_user_id, :client_id, :created_at, :updated_at, NULL)'
                     );
                     $stmt->execute([
                         ':list_id' => $listId,
@@ -310,6 +311,7 @@ try {
                         ':text' => $text,
                         ':checked' => $checked,
                         ':qty' => $qty,
+                        ':category' => $category,
                         ':assignee_user_id' => $assignee,
                         ':client_id' => $clientId,
                         ':created_at' => $now,
@@ -341,19 +343,24 @@ try {
                     $qty = array_key_exists('qty', $data)
                         ? (trim((string) $data['qty']) ?: null)
                         : $existing['qty'];
+                    $category = array_key_exists('category', $data)
+                        ? ft_normalize_list_item_category($data['category'])
+                        : ft_normalize_list_item_category($existing['category'] ?? null);
                     $assignee = array_key_exists('assigneeUserId', $data)
                         ? (((int) $data['assigneeUserId']) > 0 ? (int) $data['assigneeUserId'] : null)
                         : ($existing['assignee_user_id'] !== null ? (int) $existing['assignee_user_id'] : null);
 
                     $upd = $pdo->prepare(
                         'UPDATE ft_list_items
-                         SET text = :text, checked = :checked, qty = :qty, assignee_user_id = :assignee, updated_at = :now
+                         SET text = :text, checked = :checked, qty = :qty, category = :category,
+                             assignee_user_id = :assignee, updated_at = :now
                          WHERE id = :id AND family_id = :family_id'
                     );
                     $upd->execute([
                         ':text' => $text,
                         ':checked' => $checked,
                         ':qty' => $qty,
+                        ':category' => $category,
                         ':assignee' => $assignee,
                         ':now' => $now,
                         ':id' => $id,
@@ -366,10 +373,10 @@ try {
                 if ($action === 'delete') {
                     $id = (int) ($data['id'] ?? 0);
                     $stmt = $pdo->prepare(
-                        'UPDATE ft_list_items SET deleted_at = :now, updated_at = :now
+                        'UPDATE ft_list_items SET deleted_at = :deleted_at, updated_at = :updated_at
                          WHERE id = :id AND family_id = :family_id AND deleted_at IS NULL'
                     );
-                    $stmt->execute([':now' => $now, ':id' => $id, ':family_id' => $familyId]);
+                    $stmt->execute([':deleted_at' => $now, ':updated_at' => $now, ':id' => $id, ':family_id' => $familyId]);
                     $sel = $pdo->prepare('SELECT * FROM ft_list_items WHERE id = :id AND family_id = :family_id');
                     $sel->execute([':id' => $id, ':family_id' => $familyId]);
                     $row = $sel->fetch();

@@ -24,7 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # api
-src/components/portfolio-main/ProgressTracker/api.js
+
 .env
 public/famtalk/api/config.local.php
 deploy/hostinger/famtalk/api/config.local.php
@@ -34,3 +34,8 @@ deploy/hostinger/store/api/config.local.php
 # forest platformer large source assets
 src/components/portfolio-main/games/forest-platformer/assets/
 src/components/portfolio-main/games/forest-platformer/music/
+
+# Local deployment snapshots, editor plans, and store runtime data
+/deploy/
+/.cursor/
+/public/store/
